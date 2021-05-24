@@ -1,0 +1,375 @@
+fileFormatVersion: 2
+guid: dcc848c2c7d2cda44a490486c1f7399f
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: Back Support
+    100002: Head
+    100004: Left Antenna
+    100006: Left Arm
+    100008: Left Arm Yaw
+    100010: Left Camera
+    100012: Left Elbow Pitch
+    100014: Left Eye
+    100016: Left Fix Finger
+    100018: Left Forearm Yaw
+    100020: Left Gripper
+    100022: Left Shoulder Cap
+    100024: Left Shoulder Pitch
+    100026: Left Shoulder Roll
+    100028: Left Wrist Pitch
+    100030: Left Wrist Roll
+    100032: Reachy
+    100034: //RootNode
+    100036: Right Antenna
+    100038: Right Arm
+    100040: Right Arm Yaw
+    100042: Right Camera
+    100044: Right Elbow Pitch
+    100046: Right Eye
+    100048: Right Fix Finger
+    100050: Right Forearm Yaw
+    100052: Right Gripper
+    100054: Right Shoulder Cap
+    100056: Right Shoulder Pitch
+    100058: Right Shoulder Roll
+    100060: Right Wrist Roll
+    100062: Rigth Wrist Pitch
+    100064: Support
+    400000: Back Support
+    400002: Head
+    400004: Left Antenna
+    400006: Left Arm
+    400008: Left Arm Yaw
+    400010: Left Camera
+    400012: Left Elbow Pitch
+    400014: Left Eye
+    400016: Left Fix Finger
+    400018: Left Forearm Yaw
+    400020: Left Gripper
+    400022: Left Shoulder Cap
+    400024: Left Shoulder Pitch
+    400026: Left Shoulder Roll
+    400028: Left Wrist Pitch
+    400030: Left Wrist Roll
+    400032: Reachy
+    400034: //RootNode
+    400036: Right Antenna
+    400038: Right Arm
+    400040: Right Arm Yaw
+    400042: Right Camera
+    400044: Right Elbow Pitch
+    400046: Right Eye
+    400048: Right Fix Finger
+    400050: Right Forearm Yaw
+    400052: Right Gripper
+    400054: Right Shoulder Cap
+    400056: Right Shoulder Pitch
+    400058: Right Shoulder Roll
+    400060: Right Wrist Roll
+    400062: Rigth Wrist Pitch
+    400064: Support
+    2000000: Left Camera
+    2000002: Right Camera
+    2100000: MJF_painted
+    2100002: plastic_black_matte
+    2100004: plastic_diffuse_white
+    2100006: Pollen_yellow_color
+    2100008: Pollen_dark_blue_color
+    2100010: Pollen_light_blue_color
+    2100012: Pollen_color
+    2100014: Pollen_red_color
+    2100016: fabric
+    2100018: Dynamixel_body
+    2100020: MJF_raw
+    2100022: metal_screw
+    2100024: Dynamixel_horn
+    2100026: aluminium
+    2100028: rubber_black
+    2100030: lens_body
+    2100032: iris_color
+    2100034: glass
+    2100036: plastic_glossy_black
+    2100038: aluminium_anodized_black
+    2100040: galvanized_steel
+    2300000: Back Support
+    2300002: Head
+    2300004: Left Antenna
+    2300006: Left Arm
+    2300008: Left Arm Yaw
+    2300010: Left Elbow Pitch
+    2300012: Left Eye
+    2300014: Left Fix Finger
+    2300016: Left Forearm Yaw
+    2300018: Left Gripper
+    2300020: Left Shoulder Cap
+    2300022: Left Shoulder Pitch
+    2300024: Left Shoulder Roll
+    2300026: Left Wrist Pitch
+    2300028: Left Wrist Roll
+    2300030: Reachy
+    2300032: Right Antenna
+    2300034: Right Arm
+    2300036: Right Arm Yaw
+    2300038: Right Elbow Pitch
+    2300040: Right Eye
+    2300042: Right Fix Finger
+    2300044: Right Forearm Yaw
+    2300046: Right Gripper
+    2300048: Right Shoulder Cap
+    2300050: Right Shoulder Pitch
+    2300052: Right Shoulder Roll
+    2300054: Right Wrist Roll
+    2300056: Rigth Wrist Pitch
+    2300058: Support
+    3300000: Back Support
+    3300002: Head
+    3300004: Left Antenna
+    3300006: Left Arm
+    3300008: Left Arm Yaw
+    3300010: Left Elbow Pitch
+    3300012: Left Eye
+    3300014: Left Fix Finger
+    3300016: Left Forearm Yaw
+    3300018: Left Gripper
+    3300020: Left Shoulder Cap
+    3300022: Left Shoulder Pitch
+    3300024: Left Shoulder Roll
+    3300026: Left Wrist Pitch
+    3300028: Left Wrist Roll
+    3300030: Reachy
+    3300032: Right Antenna
+    3300034: Right Arm
+    3300036: Right Arm Yaw
+    3300038: Right Elbow Pitch
+    3300040: Right Eye
+    3300042: Right Fix Finger
+    3300044: Right Forearm Yaw
+    3300046: Right Gripper
+    3300048: Right Shoulder Cap
+    3300050: Right Shoulder Pitch
+    3300052: Right Shoulder Roll
+    3300054: Right Wrist Roll
+    3300056: Rigth Wrist Pitch
+    3300058: Support
+    4300000: Reachy
+    4300002: Left Shoulder Cap
+    4300004: Right Shoulder Cap
+    4300006: Right Arm
+    4300008: Right Shoulder Pitch
+    4300010: Right Shoulder Roll
+    4300012: Right Arm Yaw
+    4300014: Right Elbow Pitch
+    4300016: Right Forearm Yaw
+    4300018: Rigth Wrist Pitch
+    4300020: Right Wrist Roll
+    4300022: Right Fix Finger
+    4300024: Right Gripper
+    4300026: Left Arm
+    4300028: Left Shoulder Pitch
+    4300030: Left Shoulder Roll
+    4300032: Left Arm Yaw
+    4300034: Left Elbow Pitch
+    4300036: Left Forearm Yaw
+    4300038: Left Wrist Pitch
+    4300040: Left Wrist Roll
+    4300042: Left Fix Finger
+    4300044: Left Gripper
+    4300046: Head
+    4300048: Right Eye
+    4300050: Left Eye
+    4300052: Right Antenna
+    4300054: Left Antenna
+    4300056: Support
+    4300058: Back Support
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Dynamixel_body
+    second: {fileID: 2100000, guid: 557ef2b4505cd074bab5e734fc6a9104, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Dynamixel_horn
+    second: {fileID: 2100000, guid: 361b83d044376824988054b16c169589, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MJF_painted
+    second: {fileID: 2100000, guid: 6d5199561864f594e8904ea2560b5b02, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MJF_raw
+    second: {fileID: 2100000, guid: 1538ff4cb786c4140be387f9d526085d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Pollen_color
+    second: {fileID: 2100000, guid: a97a0b3e764a2b845aec986ef702762b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Pollen_dark_blue_color
+    second: {fileID: 2100000, guid: 11de0b3565da71046abf89688e325937, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Pollen_light_blue_color
+    second: {fileID: 2100000, guid: 28396be9155e52743aa5769eb381b86e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Pollen_red_color
+    second: {fileID: 2100000, guid: 2102900d3deb79842a9b061affa01479, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Pollen_yellow_color
+    second: {fileID: 2100000, guid: 994a6aa13de72074bb5a0023e9ef262e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: aluminium
+    second: {fileID: 2100000, guid: 5ed7541a4c10914479fcd129d29d84b5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: aluminium_anodized_black
+    second: {fileID: 2100000, guid: a8d5d62cb28a62c459ce67a8e692ff90, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: fabric
+    second: {fileID: 2100000, guid: c24a0a7e9153bd8448f08b2c2197b5ff, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: galvanized_steel
+    second: {fileID: 2100000, guid: bbe08b2b00b227b49a2ed87742303ae7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: glass
+    second: {fileID: 2100000, guid: 35df62903b531994794961bd88c64576, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: iris_color
+    second: {fileID: 2100000, guid: 63f7807a93a9eca4f9718721e88da982, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lens_body
+    second: {fileID: 2100000, guid: ffc0793cc957f7e409b57508de058eb3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: metal_screw
+    second: {fileID: 2100000, guid: 7fe117caf89e0a14993f68e05893327e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: plastic_black_matte
+    second: {fileID: 2100000, guid: ebdbca02123a40e43b2f3a8856c54e34, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: plastic_diffuse_white
+    second: {fileID: 2100000, guid: 5e38b9af90b9f1e4887d6f8f755f6196, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: plastic_glossy_black
+    second: {fileID: 2100000, guid: 71a688b97f002c64bb1889f04e262940, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: rubber_black
+    second: {fileID: 2100000, guid: bb3ba3e840134324f802ffc8acb0aaaf, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
