@@ -4,6 +4,8 @@ using UnityEngine;
 using System.Text;
 using System;
 
+using Grpc.Core;
+
 using Reachy.Sdk.Joint;
 
 namespace Reachy
@@ -140,9 +142,6 @@ namespace Reachy
                     position *= -1;
                 }
                 motorsList.Add(new SerializableMotor() { name=m.name,  present_position=position});
-                Debug.Log(m.name);
-                Debug.Log(m.presentPosition);
-                Debug.Log(position);
             }
             return motorsList;
         }
