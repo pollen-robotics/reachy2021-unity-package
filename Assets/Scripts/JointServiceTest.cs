@@ -54,6 +54,8 @@ class JointServiceTest : MonoBehaviour
                 }
         });
 
+        Debug.Log(client.GetAllJointsId(new Google.Protobuf.WellKnownTypes.Empty()));
+
         Debug.Log(client.GetJointsState(new JointsStateRequest {
             Ids = { 
                 new JointId { Name = "l_shoulder_pitch" },
@@ -115,6 +117,25 @@ class JointServiceTest : MonoBehaviour
                 };
 
             return Task.FromResult(state);
+        }
+
+        public override Task<JointsId> GetAllJointsId(Google.Protobuf.WellKnownTypes.Empty empty, ServerCallContext context)
+        {
+            List<uint> ids = new List<uint>();
+            List<string> names = new List<string>();
+
+            for(int i = 0; i< reachy.motors.Length; i++)
+            {
+                ids.Add((uint)i);
+                names.Add(reachy.motors[i].name);
+            }
+
+            JointsId allIds = new JointsId {
+                Names = { names },
+                Uids = { ids },
+            };
+
+            return Task.FromResult(allIds);
         }
     }
 }
