@@ -69,6 +69,7 @@ class JointServiceTest : MonoBehaviour
 
         return reply;
     }
+    
     public class JointServiceImpl : JointService.JointServiceBase
     {
         public override Task<JointsCommandAck> SendJointsCommands(JointsCommand jointsCommand, ServerCallContext context)
