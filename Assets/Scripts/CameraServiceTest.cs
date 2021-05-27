@@ -68,5 +68,51 @@ class CameraServiceTest : MonoBehaviour
 
             return Task.FromResult(new Image { Data = Google.Protobuf.ByteString.FromBase64(image) });
         }
+
+        public override Task<ZoomCommadAck> SendZoomCommand(ZoomCommand zoomCommand, ServerCallContext context)
+        {
+            Camera eye;
+            if(zoomCommand.Camera.Id == CameraId.Left)
+            {          
+                foreach(Camera camera in Camera.allCameras)
+                {
+                    if(camera.name == "CameraLeft")
+                    {
+                        eye = camera;
+                    }
+                }
+            }
+            else
+            {
+                foreach(Camera camera in Camera.allCameras)
+                {
+                    if(camera.name == "CameraRight")
+                    {
+                        eye = camera;
+                    }
+                }
+            }
+
+            if(zoomCommand.Command.GetCaseFieldDescriptor() == ZoomLevelPossibilities)
+            {
+                if(zoomCommand.level_command == ZoomLevelPossibilities.In)
+                {
+                    eye.fieldOfView = 40.0f;
+                }
+                if(zoomCommand.level_command == ZoomLevelPossibilities.Inter)
+                {
+                    eye.fieldOfView = 60.0f;
+                }
+                if(zoomCommand.level_command == ZoomLevelPossibilities.Out)
+                {
+                    eye.fieldOfView = 80.0f;
+                }
+            }
+            
+
+            
+
+            return Task.FromResult(new Image { Data = Google.Protobuf.ByteString.FromBase64(image) });
+        }
     }
 }
