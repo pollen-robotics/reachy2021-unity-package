@@ -22,10 +22,24 @@ namespace Reachy
     }
 
     [System.Serializable]
+    public class Sensor
+    {
+        public string name;
+        public GameObject gameObject;
+    }
+
+    [System.Serializable]
     public struct SerializableMotor
     {
         public string name;
         public float present_position;
+    }
+
+    [System.Serializable]
+    public struct SerializableSensor
+    {
+        public string name;
+        public float sensor_state;
     }
 
     [System.Serializable]
@@ -55,8 +69,10 @@ namespace Reachy
     {
         public Motor[] motors;
         public Camera leftEye, rightEye;
-        public ForceSensor leftGripperForceSensor, rightGripperForceSensor;
+        public Sensor[] sensors;
+        // public ForceSensor leftGripperForceSensor, rightGripperForceSensor;
         private Dictionary<string, Motor> name2motor;
+        private Dictionary<string, Sensor> name2sensor;
         private string leftEyeFrame, rightEyeFrame;
 
         const int resWidth = 320;
@@ -68,10 +84,18 @@ namespace Reachy
         {
             name2motor = new Dictionary<string, Motor>();
 
+            name2sensor = new Dictionary<string, Sensor>();
+
             for (int i = 0; i < motors.Length; i++)
             {
                 Motor m = motors[i];
                 name2motor[m.name] = m;
+            }
+
+            for (int i = 0; i < sensors.Length; i++)
+            {
+                Sensor s = sensors[i];
+                name2sensor[s.name] = s;
             }
 
             leftEye.targetTexture = new RenderTexture(resWidth, resHeight, 0);
@@ -146,6 +170,19 @@ namespace Reachy
             return motorsList;
         }
 
+        public List<SerializableSensor> GetCurrentSensorsState(string[] request)
+        {
+            List<SerializableSensor> sensorsList = new List<SerializableSensor>();
+            // foreach(var sensor in request)
+            // {
+            //     Sensor s;
+                
+            //     float state = s.gameObject.GetComponent<ForceSensor>().currentForce;
+            //     sensorsList.Add(new SerializableSensor() { name=s.name,  sensor_state=state});
+            // }
+            return sensorsList;
+        }
+
         public SerializableState GetCurrentState()
         {
             
@@ -153,8 +190,8 @@ namespace Reachy
                 motors = new List<SerializableMotor>(), 
                 left_eye=leftEyeFrame,
                 right_eye=rightEyeFrame,
-                left_force_sensor=leftGripperForceSensor.currentForce,
-                right_force_sensor=rightGripperForceSensor.currentForce,
+                // left_force_sensor=leftGripperForceSensor.currentForce,
+                // right_force_sensor=rightGripperForceSensor.currentForce,
             };
 
             for (int i = 0; i < motors.Length; i++)
