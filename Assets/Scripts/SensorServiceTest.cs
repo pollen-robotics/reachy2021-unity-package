@@ -17,7 +17,22 @@ class SensorServiceTest : MonoBehaviour
     void Start()
     {
         reachy = GameObject.Find("Reachy").GetComponent<ReachyController>();
+        RunHelloWorld();
+    }
+
+    public static void RunHelloWorld()
+    {
+        Application.SetStackTraceLogType(LogType.Log, StackTraceLogType.None);
+
+        Debug.Log("==============================================================");
+        Debug.Log("Starting tests");
+        Debug.Log("==============================================================");
+
         gRPCServer();
+
+        Debug.Log("==============================================================");
+        Debug.Log("Tests finished successfully.");
+        Debug.Log("==============================================================");
     }
     
     public static void gRPCServer()
@@ -33,10 +48,17 @@ class SensorServiceTest : MonoBehaviour
         Channel channel = new Channel("127.0.0.1:50055", ChannelCredentials.Insecure);
 
         var client = new SensorService.SensorServiceClient(channel);
+        var reply = client.GetSensorsState(new SensorsStateRequest {
+            Ids = {
+                new SensorId { Name="l_force_gripper" },
+                new SensorId { Name="r_force_gripper" },
+                }
+        });
 
-        channel.ShutdownAsync().Wait();
+        // Debug.Log(client.GetAllForceSensorsId(new Google.Protobuf.WellKnownTypes.Empty()));
+        Debug.Log(reply);
 
-        server.ShutdownAsync().Wait();
+        // server.ShutdownAsync().Wait();
     }
     
     public class SensorServiceImpl : SensorService.SensorServiceBase
@@ -62,27 +84,16 @@ class SensorServiceTest : MonoBehaviour
 
         public override Task<SensorsState> GetSensorsState(SensorsStateRequest stateRequest, ServerCallContext context)
         {
-            List<string> sensorRequest = new List<string>();
-            // switch(stateRequest.Ids.IdCase)
-            // {
-            //     case SensorId.IdOneofCase.Name:
-            //         //sensorRequest = name2sensor[sensor.Name];
-            //     case SensorId.IdOneofCase.Uid:
-            //         //s = sensors[sensor];
-            //     default:
-            //         //s = null;
-            // }
+            var sensors = reachy.GetCurrentSensorsState(stateRequest.Ids);
 
-            // var sensors = reachy.GetCurrentSensorsState(stateRequest.Ids);
+            Debug.Log(sensors);
             
             List<SensorState> listSensorStates = new List<SensorState>();
             List<SensorId> listSensorIds = new List<SensorId>();
             foreach (var item in sensors)
             {
                 var sensorState = new SensorState();
-                sensorState.ForceSensorState.Force = item.sensor_state;
-
-
+                sensorState.ForceSensorState = new ForceSensorState{ Force = item.sensor_state };
                 listSensorStates.Add(sensorState);
                 listSensorIds.Add(new SensorId { Name = item.name });
             };
