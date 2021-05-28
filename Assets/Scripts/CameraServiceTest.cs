@@ -17,7 +17,7 @@ class CameraServiceTest : MonoBehaviour
     void Start()
     {
         reachy = GameObject.Find("Reachy").GetComponent<ReachyController>();
-        RunHelloWorld();
+        gRPCServer();
     }
     public static void RunHelloWorld()
     {
@@ -43,14 +43,7 @@ class CameraServiceTest : MonoBehaviour
         };
         server.Start();
 
-        Channel channel = new Channel("127.0.0.1:50055", ChannelCredentials.Insecure);
-
-        var client = new CameraService.CameraServiceClient(channel);
-
-
-        channel.ShutdownAsync().Wait();
-
-        server.ShutdownAsync().Wait();
+        // server.ShutdownAsync().Wait();
     }
     public class CameraServiceImpl : CameraService.CameraServiceBase
     {
@@ -59,7 +52,7 @@ class CameraServiceTest : MonoBehaviour
         private ZoomLevel zoomLevelRight = new ZoomLevel{ Level = ZoomLevelPossibilities.Out };
         public override Task<Image> GetImage(ImageRequest request, ServerCallContext context)
         {
-            var state = reachy.GetCurrentState();
+            var state = reachy.GetCurrentView();
             string image;
             if(request.Camera.Id == CameraId.Left)
             {
