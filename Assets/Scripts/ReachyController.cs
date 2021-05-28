@@ -25,7 +25,8 @@ namespace Reachy
     public class Sensor
     {
         public string name;
-        public GameObject gameObject;
+        public GameObject sensorObject;
+        public float currentState;
     }
 
     [System.Serializable]
@@ -43,13 +44,10 @@ namespace Reachy
     }
 
     [System.Serializable]
-    public struct SerializableState
+    public struct SerializableView
     {
-        public List<SerializableMotor> motors;
         public string left_eye;
         public string right_eye;
-        public float left_force_sensor;
-        public float right_force_sensor;
     }
 
     [System.Serializable]
@@ -115,6 +113,14 @@ namespace Reachy
 
                 m.presentPosition = joint.GetPresentPosition();
             }
+
+            for (int i = 0; i < sensors.Length; i++)
+            {
+                Sensor s = sensors[i];
+
+                ForceSensor fSensor = s.sensorObject.GetComponent<ForceSensor>();
+                s.currentState = fSensor.currentForce;
+            }
         }
 
         IEnumerator UpdateCameraData()
@@ -146,61 +152,103 @@ namespace Reachy
             name2motor[motorName].targetPosition = targetPosition;
         }
 
-        public void HandleCommand(Dictionary<string, float> commands)
+        public void HandleCommand(Dictionary<JointId, float> commands)
         {
-            foreach(KeyValuePair<string, float> kvp in commands )
+            foreach(KeyValuePair<JointId, float> kvp in commands )
             {
-                SetMotorTargetPosition(kvp.Key, kvp.Value);
+                string motorName;
+                switch(kvp.Key.IdCase)
+                {
+                    case JointId.IdOneofCase.Name:
+                        motorName = kvp.Key.Name;
+                        break;
+                    case JointId.IdOneofCase.Uid:
+                        motorName = motors[kvp.Key.Uid].name;
+                        break;
+                    default:
+                        motorName = kvp.Key.Name;
+                        break;
+                }
+                SetMotorTargetPosition(motorName, kvp.Value);
             }
         }
 
-        public List<SerializableMotor> GetCurrentMotorsState(Dictionary<string, JointField> request)
+        public List<SerializableMotor> GetCurrentMotorsState(Dictionary<JointId, JointField> request)
         {
             List<SerializableMotor> motorsList = new List<SerializableMotor>();
-            foreach(KeyValuePair<string, JointField> kvp in request )
+            foreach(KeyValuePair<JointId, JointField> kvp in request )
             {
-                Motor m = name2motor[kvp.Key];
-                float position = m.presentPosition - name2motor[kvp.Key].offset;
-                if(!name2motor[kvp.Key].isDirect)
+                Motor m;
+                float position;
+                switch(kvp.Key.IdCase)
                 {
-                    position *= -1;
+                    case JointId.IdOneofCase.Name:
+                        m = name2motor[kvp.Key.Name];
+                        position = m.presentPosition - name2motor[kvp.Key.Name].offset;
+                        if(!name2motor[kvp.Key.Name].isDirect)
+                        {
+                            position *= -1;
+                        }
+                        break;
+                    case JointId.IdOneofCase.Uid:
+                        m = motors[kvp.Key.Uid];
+                        position = m.presentPosition - motors[kvp.Key.Uid].offset;
+                        if(!motors[kvp.Key.Uid].isDirect)
+                        {
+                            position *= -1;
+                        }
+                        break;
+                    default:
+                        m = name2motor[kvp.Key.Name];
+                        position = m.presentPosition - name2motor[kvp.Key.Name].offset;
+                        if(!name2motor[kvp.Key.Name].isDirect)
+                        {
+                            position *= -1;
+                        }
+                        break;
                 }
                 motorsList.Add(new SerializableMotor() { name=m.name,  present_position=position});
             }
             return motorsList;
         }
 
-        public List<SerializableSensor> GetCurrentSensorsState(string[] request)
+        public List<SerializableSensor> GetCurrentSensorsState(Google.Protobuf.Collections.RepeatedField<Reachy.Sdk.Joint.SensorId> request)
         {
+            List<Sensor> sensorRequest = new List<Sensor>();
+
+            foreach(var sensor in request)
+            {
+                switch(sensor.IdCase)
+                {
+                    case SensorId.IdOneofCase.Name:
+                        sensorRequest.Add(name2sensor[sensor.Name]);
+                        break;
+                    case SensorId.IdOneofCase.Uid:
+                        sensorRequest.Add(sensors[sensor.Uid]);
+                        break;
+                }
+            }
+
             List<SerializableSensor> sensorsList = new List<SerializableSensor>();
-            // foreach(var sensor in request)
-            // {
-            //     Sensor s;
-                
-            //     float state = s.gameObject.GetComponent<ForceSensor>().currentForce;
-            //     sensorsList.Add(new SerializableSensor() { name=s.name,  sensor_state=state});
-            // }
+
+            foreach(var sensor in sensorRequest)
+            {
+                float state = sensor.currentState;
+                sensorsList.Add(new SerializableSensor() { name=sensor.name,  sensor_state=state});
+            }
+
             return sensorsList;
         }
 
-        public SerializableState GetCurrentState()
+        public SerializableView GetCurrentView()
         {
             
-            SerializableState currentState = new SerializableState() { 
-                motors = new List<SerializableMotor>(), 
+            SerializableView currentView = new SerializableView() { 
                 left_eye=leftEyeFrame,
                 right_eye=rightEyeFrame,
-                // left_force_sensor=leftGripperForceSensor.currentForce,
-                // right_force_sensor=rightGripperForceSensor.currentForce,
             };
 
-            for (int i = 0; i < motors.Length; i++)
-            {
-                Motor m = motors[i];
-                currentState.motors.Add(new SerializableMotor() { name=m.name,  present_position=m.presentPosition});
-            }
-
-            return currentState;
+            return currentView;
         }
     }
 }
