@@ -26,48 +26,27 @@ class JointServiceTest : MonoBehaviour
         Debug.Log("Starting tests");
         Debug.Log("==============================================================");
 
-        var reply = gRPCServer();
-        Debug.Log(reply.Success);
+        gRPCServer();
 
         Debug.Log("==============================================================");
         Debug.Log("Tests finished successfully.");
         Debug.Log("==============================================================");
     }
-    public static JointsCommandAck gRPCServer()
+    public static void gRPCServer()
     {
         const int PortJoint = 50055;
         Server server = new Server
         {
-            Services = { JointService.BindService(new JointServiceImpl()) },
+            Services = { JointService.BindService(new JointServiceImpl()), SensorService.BindService(new SensorServiceImpl()) },
             Ports = { new ServerPort("localhost", PortJoint, ServerCredentials.Insecure) }
         };
         server.Start();
 
-        Channel channel = new Channel("127.0.0.1:50055", ChannelCredentials.Insecure);
+        // Channel channel = new Channel("127.0.0.1:50055", ChannelCredentials.Insecure);
 
-        var client = new JointService.JointServiceClient(channel);
-
-        var reply = client.SendJointsCommands(new JointsCommand {
-            Commands = {
-                new JointCommand { Id=new JointId { Name = "l_shoulder_pitch" }, GoalPosition=Mathf.Deg2Rad*(70) },
-                new JointCommand { Id=new JointId { Name = "l_elbow_pitch" }, GoalPosition=Mathf.Deg2Rad*(-90) },
-                }
-        });
-
-        Debug.Log(client.GetAllJointsId(new Google.Protobuf.WellKnownTypes.Empty()));
-
-        Debug.Log(client.GetJointsState(new JointsStateRequest {
-            Ids = { 
-                new JointId { Name = "l_shoulder_pitch" },
-                new JointId { Name = "l_elbow_pitch" },
-                }
-        }));
-
-        channel.ShutdownAsync().Wait();
-
-        server.ShutdownAsync().Wait();
-
-        return reply;
+        // var client = new JointService.JointServiceClient(channel);
+        // Debug.Log(client.GetAllJointsId(new Google.Protobuf.WellKnownTypes.Empty()));
+        // server.ShutdownAsync().Wait();
     }
     
     public class JointServiceImpl : JointService.JointServiceBase
@@ -76,11 +55,11 @@ class JointServiceTest : MonoBehaviour
         {
             try
             {
-                Dictionary<string, float> commands = new Dictionary<string, float>();
+                Dictionary<JointId, float> commands = new Dictionary<JointId, float>();
                 for(int i=0; i<jointsCommand.Commands.Count; i++)
                 {
                     float command = Mathf.Rad2Deg * (float)jointsCommand.Commands[i].GoalPosition;
-                    commands.Add(jointsCommand.Commands[i].Id.Name, command);
+                    commands.Add(jointsCommand.Commands[i].Id, command);
                 }
                 reachy.HandleCommand(commands);
                 return Task.FromResult(new JointsCommandAck { Success = true });
@@ -93,10 +72,10 @@ class JointServiceTest : MonoBehaviour
 
         public override Task<JointsState> GetJointsState(JointsStateRequest jointRequest, ServerCallContext context)
         {
-            Dictionary<string, JointField> request = new Dictionary<string, JointField>();
+            Dictionary<JointId, JointField> request = new Dictionary<JointId, JointField>();
             for(int i=0; i<jointRequest.Ids.Count; i++)
             {
-                request.Add(jointRequest.Ids[i].Name, JointField.PresentPosition);
+                request.Add(jointRequest.Ids[i], JointField.PresentPosition);
             }
             var motors = reachy.GetCurrentMotorsState(request);
             
@@ -138,5 +117,57 @@ class JointServiceTest : MonoBehaviour
 
             return Task.FromResult(allIds);
         }
+    }
+
+    public class SensorServiceImpl : SensorService.SensorServiceBase
+    {
+        public override Task<SensorsId> GetAllForceSensorsId(Google.Protobuf.WellKnownTypes.Empty empty, ServerCallContext context)
+        {
+            List<uint> ids = new List<uint>();
+            List<string> names = new List<string>();
+
+            for(int i = 0; i< reachy.sensors.Length; i++)
+            {
+                ids.Add((uint)i);
+                names.Add(reachy.sensors[i].name);
+            }
+
+            SensorsId allIds = new SensorsId {
+                Names = { names },
+                Uids = { ids },
+            };
+
+            return Task.FromResult(allIds);
+        }
+
+        public override Task<SensorsState> GetSensorsState(SensorsStateRequest stateRequest, ServerCallContext context)
+        {
+            var sensors = reachy.GetCurrentSensorsState(stateRequest.Ids);
+
+            Debug.Log(sensors);
+            
+            List<SensorState> listSensorStates = new List<SensorState>();
+            List<SensorId> listSensorIds = new List<SensorId>();
+            foreach (var item in sensors)
+            {
+                var sensorState = new SensorState();
+                sensorState.ForceSensorState = new ForceSensorState{ Force = item.sensor_state };
+                listSensorStates.Add(sensorState);
+                listSensorIds.Add(new SensorId { Name = item.name });
+            };
+
+            SensorsState state = new SensorsState {
+                Ids = { listSensorIds },
+                States = { listSensorStates },
+            };
+
+            return Task.FromResult(state);
+        }
+
+        // public override async Task StreamSensorStates(StreamSensorsStateRequest stateRequest, IServerStreamWriter<SensorsState> responseStream, ServerCallContext context)
+        // {
+        //     var responses = 
+        //     await responseStream.WriteAsync(response);
+        // }
     }
 }
