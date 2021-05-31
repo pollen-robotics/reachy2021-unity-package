@@ -14,6 +14,7 @@ namespace Reachy
     public class Motor
     {
         public string name;
+        public int uid;
         public GameObject gameObject;
         public float targetPosition;
         public float presentPosition;
@@ -33,6 +34,7 @@ namespace Reachy
     public struct SerializableMotor
     {
         public string name;
+        public int uid;
         public float present_position;
     }
 
@@ -87,6 +89,7 @@ namespace Reachy
             for (int i = 0; i < motors.Length; i++)
             {
                 Motor m = motors[i];
+                m.uid = i;
                 name2motor[m.name] = m;
             }
 
