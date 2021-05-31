@@ -170,4 +170,36 @@ class JointServiceTest : MonoBehaviour
         //     await responseStream.WriteAsync(response);
         // }
     }
+
+    public class FanControllerServiceImpl : FanControllerService.FanControllerServiceBase
+    {
+        public override Task<FansId> GetAllFansId(Google.Protobuf.WellKnownTypes.Empty empty, ServerCallContext context)
+        {
+            FansId allIds = new FansId {
+                Names = { },
+                Uids = { },
+            };
+
+            return Task.FromResult(allIds);
+        }
+
+        public override Task<FansState> GetFansState(FansStateRequest request, ServerCallContext context)
+        {
+            FansState state = new FansState {
+                Ids = { },
+                States = { },
+            };
+
+            return Task.FromResult(state);
+        }
+
+        public override Task<FansCommandAck> SendFansCommands(FansCommand command, ServerCallContext context)
+        {
+            FansCommandAck ack = new FansCommandAck {
+                Success = false,
+            };
+
+            return Task.FromResult(ack);
+        }
+    }
 }
