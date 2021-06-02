@@ -74,24 +74,21 @@ class JointServiceTest : MonoBehaviour
             }
         }
 
-        // public override Task<JointsCommandAck> StreamJointsCommands(IAsyncStreamReader<JointsCommand> requestStream, ServerCallContext context)
-        // {
-        //     await foreach (var message in requestStream.ReadAllAsync())
-        //     {
-        //         Dictionary<JointId, float> commands = new Dictionary<JointId, float>();
-        //         for(int i=0; i<jointsCommand.Commands.Count; i++)
-        //         {
-        //             float command = Mathf.Rad2Deg * (float)jointsCommand.Commands[i].GoalPosition;
-        //             commands.Add(jointsCommand.Commands[i].Id, command);
-        //         }
-        //         reachy.HandleCommand(commands);
-        //     }
-        //     return (new JointsCommandAck { Success = false });
-        // }
+        public override async Task<JointsCommandAck> StreamJointsCommands(IAsyncStreamReader<JointsCommand> requestStream, ServerCallContext context)
+        {
+            while (await requestStream.MoveNext())
+            {
+                var jointsCommand = requestStream.Current;
+                await SendJointsCommands(jointsCommand, context);
+            }
+            return (new JointsCommandAck { Success = true });
+        }
+
 
         public override Task<JointsState> GetJointsState(JointsStateRequest jointRequest, ServerCallContext context)
         {
             Dictionary<JointId, JointField> request = new Dictionary<JointId, JointField>();
+
             for(int i=0; i<jointRequest.Ids.Count; i++)
             {
                 request.Add(jointRequest.Ids[i], JointField.PresentPosition);
@@ -310,11 +307,30 @@ class JointServiceTest : MonoBehaviour
             return Task.FromResult(state);
         }
 
-        // public override async Task StreamSensorStates(StreamSensorsStateRequest stateRequest, IServerStreamWriter<SensorsState> responseStream, ServerCallContext context)
-        // {
-        //     var responses = 
-        //     await responseStream.WriteAsync(response);
-        // }
+        public override async Task StreamSensorStates(StreamSensorsStateRequest stateRequest, IServerStreamWriter<SensorsState> responseStream, ServerCallContext context)
+        {
+            while (!context.CancellationToken.IsCancellationRequested)
+            {
+                var sensors = reachy.GetCurrentSensorsState(stateRequest.Request.Ids);
+            
+                List<SensorState> listSensorStates = new List<SensorState>();
+                List<SensorId> listSensorIds = new List<SensorId>();
+                foreach (var item in sensors)
+                {
+                    var sensorState = new SensorState();
+                    sensorState.ForceSensorState = new ForceSensorState{ Force = item.sensor_state };
+                    listSensorStates.Add(sensorState);
+                    listSensorIds.Add(new SensorId { Name = item.name });
+                };
+
+                SensorsState state = new SensorsState {
+                    Ids = { listSensorIds },
+                    States = { listSensorStates },
+                };
+                await responseStream.WriteAsync(state);
+                await Task.Delay(TimeSpan.FromSeconds(1/stateRequest.PublishFrequency), context.CancellationToken);
+            }
+        }
     }
 
     public class FanControllerServiceImpl : FanControllerService.FanControllerServiceBase
