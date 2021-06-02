@@ -36,6 +36,7 @@ namespace Reachy
         public string name;
         public int uid;
         public float present_position;
+        public float goal_position;
     }
 
     [System.Serializable]
@@ -183,11 +184,13 @@ namespace Reachy
             {
                 Motor m;
                 float position;
+                float target_position;
                 switch(kvp.Key.IdCase)
                 {
                     case JointId.IdOneofCase.Name:
                         m = name2motor[kvp.Key.Name];
                         position = m.presentPosition - name2motor[kvp.Key.Name].offset;
+                        target_position = m.targetPosition - name2motor[kvp.Key.Name].offset;
                         if(!name2motor[kvp.Key.Name].isDirect)
                         {
                             position *= -1;
@@ -196,21 +199,25 @@ namespace Reachy
                     case JointId.IdOneofCase.Uid:
                         m = motors[kvp.Key.Uid];
                         position = m.presentPosition - motors[kvp.Key.Uid].offset;
+                        target_position = m.targetPosition - motors[kvp.Key.Uid].offset;
                         if(!motors[kvp.Key.Uid].isDirect)
                         {
                             position *= -1;
+                            target_position *= -1;
                         }
                         break;
                     default:
                         m = name2motor[kvp.Key.Name];
                         position = m.presentPosition - name2motor[kvp.Key.Name].offset;
+                        target_position = m.targetPosition - name2motor[kvp.Key.Name].offset;
                         if(!name2motor[kvp.Key.Name].isDirect)
                         {
                             position *= -1;
+                            target_position *= -1;
                         }
                         break;
                 }
-                motorsList.Add(new SerializableMotor() { name=m.name,  present_position=position});
+                motorsList.Add(new SerializableMotor() { name=m.name, uid = m.uid, present_position=Mathf.Deg2Rad*position, goal_position=Mathf.Deg2Rad*target_position});
             }
             return motorsList;
         }

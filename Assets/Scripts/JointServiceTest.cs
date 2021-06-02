@@ -105,7 +105,54 @@ class JointServiceTest : MonoBehaviour
                 var jointState = new JointState();
                 jointState.Name = item.name;
                 jointState.Uid = (uint?)item.uid;
-                jointState.PresentPosition = item.present_position;
+                if(jointRequest.RequestedFields.Contains(JointField.PresentPosition))
+                {
+                    jointState.PresentPosition = item.present_position;
+                }
+                if(jointRequest.RequestedFields.Contains(JointField.PresentSpeed))
+                {
+                    jointState.PresentSpeed = 0;
+                }
+                if(jointRequest.RequestedFields.Contains(JointField.PresentLoad))
+                {
+                    jointState.PresentLoad = 0;
+                }
+                if(jointRequest.RequestedFields.Contains(JointField.Temperature))
+                {
+                    jointState.Temperature = 0;
+                }
+                if(jointRequest.RequestedFields.Contains(JointField.Compliant))
+                {
+                    jointState.Compliant = false;
+                }
+                if(jointRequest.RequestedFields.Contains(JointField.GoalPosition))
+                {
+                    jointState.GoalPosition = item.goal_position;
+                }
+                if(jointRequest.RequestedFields.Contains(JointField.SpeedLimit))
+                {
+                    jointState.SpeedLimit = 0;
+                }
+                if(jointRequest.RequestedFields.Contains(JointField.TorqueLimit))
+                {
+                    jointState.TorqueLimit = 0;
+                }
+                if(jointRequest.RequestedFields.Contains(JointField.Pid))
+                {
+                    jointState.Pid = new PIDValue { Pid = new PIDGains { P = 0, I = 0, D = 0 }};
+                }
+                if(jointRequest.RequestedFields.Contains(JointField.All))
+                {
+                    jointState.PresentPosition = item.present_position;
+                    jointState.PresentSpeed = 0;
+                    jointState.PresentLoad = 0;
+                    jointState.Temperature = 0;
+                    jointState.Compliant = false;
+                    jointState.GoalPosition = item.goal_position;
+                    jointState.SpeedLimit = 0;
+                    jointState.TorqueLimit = 0;
+                    jointState.Pid = new PIDValue { Pid = new PIDGains { P = 0, I = 0, D = 0 }};
+                }
 
                 listJointStates.Add(jointState);
                 listJointIds.Add(new JointId { Name = item.name });
@@ -121,22 +168,71 @@ class JointServiceTest : MonoBehaviour
 
         public override async Task StreamJointsState(StreamJointsRequest jointRequest, Grpc.Core.IServerStreamWriter<JointsState> responseStream, ServerCallContext context)
         {
+            Dictionary<JointId, JointField> request = new Dictionary<JointId, JointField>();
+            for(int i=0; i<jointRequest.Request.Ids.Count; i++)
+            {
+                request.Add(jointRequest.Request.Ids[i], JointField.PresentPosition);
+            }
+
             while (!context.CancellationToken.IsCancellationRequested)
             {
-                Dictionary<JointId, JointField> request = new Dictionary<JointId, JointField>();
-                for(int i=0; i<jointRequest.Request.Ids.Count; i++)
-                {
-                    request.Add(jointRequest.Request.Ids[i], JointField.PresentPosition);
-                }
                 var motors = reachy.GetCurrentMotorsState(request);
-                
+            
                 List<JointState> listJointStates = new List<JointState>();
                 List<JointId> listJointIds = new List<JointId>();
                 foreach (var item in motors)
                 {
                     var jointState = new JointState();
                     jointState.Name = item.name;
-                    jointState.PresentPosition = item.present_position;
+                    jointState.Uid = (uint?)item.uid;
+                    if(jointRequest.Request.RequestedFields.Contains(JointField.PresentPosition))
+                    {
+                        jointState.PresentPosition = item.present_position;
+                    }
+                    if(jointRequest.Request.RequestedFields.Contains(JointField.PresentSpeed))
+                    {
+                        jointState.PresentSpeed = 0;
+                    }
+                    if(jointRequest.Request.RequestedFields.Contains(JointField.PresentLoad))
+                    {
+                        jointState.PresentLoad = 0;
+                    }
+                    if(jointRequest.Request.RequestedFields.Contains(JointField.Temperature))
+                    {
+                        jointState.Temperature = 0;
+                    }
+                    if(jointRequest.Request.RequestedFields.Contains(JointField.Compliant))
+                    {
+                        jointState.Compliant = false;
+                    }
+                    if(jointRequest.Request.RequestedFields.Contains(JointField.GoalPosition))
+                    {
+                        jointState.GoalPosition = item.goal_position;
+                    }
+                    if(jointRequest.Request.RequestedFields.Contains(JointField.SpeedLimit))
+                    {
+                        jointState.SpeedLimit = 0;
+                    }
+                    if(jointRequest.Request.RequestedFields.Contains(JointField.TorqueLimit))
+                    {
+                        jointState.TorqueLimit = 0;
+                    }
+                    if(jointRequest.Request.RequestedFields.Contains(JointField.Pid))
+                    {
+                        jointState.Pid = new PIDValue { Pid = new PIDGains { P = 0, I = 0, D = 0 }};
+                    }
+                    if(jointRequest.Request.RequestedFields.Contains(JointField.All))
+                    {
+                        jointState.PresentPosition = item.present_position;
+                        jointState.PresentSpeed = 0;
+                        jointState.PresentLoad = 0;
+                        jointState.Temperature = 0;
+                        jointState.Compliant = false;
+                        jointState.GoalPosition = item.goal_position;
+                        jointState.SpeedLimit = 0;
+                        jointState.TorqueLimit = 0;
+                        jointState.Pid = new PIDValue { Pid = new PIDGains { P = 0, I = 0, D = 0 }};
+                    }
 
                     listJointStates.Add(jointState);
                     listJointIds.Add(new JointId { Name = item.name });
@@ -147,7 +243,7 @@ class JointServiceTest : MonoBehaviour
                     States = { listJointStates },
                 };
                 await responseStream.WriteAsync(state);
-                await Task.Delay(TimeSpan.FromSeconds(1), context.CancellationToken);
+                await Task.Delay(TimeSpan.FromSeconds(1/jointRequest.PublishFrequency), context.CancellationToken);
             }
         }
 
