@@ -19,6 +19,11 @@ class JointServiceTest : MonoBehaviour
         reachy = GameObject.Find("Reachy").GetComponent<ReachyController>();
         RunHelloWorld();
     }
+
+    void Update()
+    {
+     //   Debug.Log("update");
+    }
     public static void RunHelloWorld()
     {
         Application.SetStackTraceLogType(LogType.Log, StackTraceLogType.None);
@@ -49,8 +54,59 @@ class JointServiceTest : MonoBehaviour
         // Channel channel = new Channel("127.0.0.1:50055", ChannelCredentials.Insecure);
 
         // var client = new JointService.JointServiceClient(channel);
-        // Debug.Log(client.GetAllJointsId(new Google.Protobuf.WellKnownTypes.Empty()));
+
+        // SendJointsPositions(client);
+        
+        // StreamJointsRequest req = new StreamJointsRequest{
+        //     Request = new JointsStateRequest { 
+        //         Ids = { new JointId { Name = "l_arm_yaw"}},
+        //         RequestedFields = { JointField.PresentPosition },
+        //     },
+        //     PublishFrequency = 1f,
+        // };
+
+        // AsyncServerStreamingCall<JointsState> call = client.StreamJointsState(req);
+        // GetJointsPositions(call);
+
+        //Debug.Log(client.GetAllJointsId(new Google.Protobuf.WellKnownTypes.Empty()));
+        
         // server.ShutdownAsync().Wait();
+    }
+
+    public static async void GetJointsPositions(AsyncServerStreamingCall<JointsState> call)
+    {
+        
+        while(await call.ResponseStream.MoveNext())
+        {
+            var reply = call.ResponseStream.Current;
+            Debug.Log("I've got an answer");
+            Debug.Log(reply.States[0].PresentPosition);
+            await Task.Delay(1000);
+        }
+    }
+
+    public static async void SendJointsPositions(JointService.JointServiceClient client)
+    {
+        while(true)
+        {
+            using (var call = client.StreamJointsCommands())
+            {
+                JointsCommand bodyCommand = new JointsCommand {
+                    Commands = { 
+                        new JointCommand { 
+                            Id = new JointId { Name="l_arm_yaw" },
+                            GoalPosition = 0.5f,
+                            }
+                        }
+                };
+
+                await call.RequestStream.WriteAsync(bodyCommand);
+                await call.RequestStream.CompleteAsync();
+
+                JointsCommandAck success = await call.ResponseAsync;
+                Debug.Log(success.Success);
+            }
+        }
     }
     
     public class JointServiceImpl : JointService.JointServiceBase
