@@ -71,7 +71,12 @@ namespace Reachy
         public Motor[] motors;
         public Camera leftEye, rightEye;
         public Sensor[] sensors;
-        // public ForceSensor leftGripperForceSensor, rightGripperForceSensor;
+        public GameObject head;
+        private Quaternion baseHeadRot;
+        private Quaternion[] forwardOrbita;
+        private int forwardRange;
+        public float diskTopRot, diskMidRot, diskLowRot;
+
         private Dictionary<string, Motor> name2motor;
         private Dictionary<string, Sensor> name2sensor;
         private string leftEyeFrame, rightEyeFrame;
@@ -104,6 +109,24 @@ namespace Reachy
             rightEye.targetTexture = new RenderTexture(resWidth, resHeight, 0);
             texture = new Texture2D(resWidth, resHeight, TextureFormat.RGB24, false);
             StartCoroutine("UpdateCameraData");
+
+            baseHeadRot = head.transform.rotation;
+            
+            TextAsset s = Resources.Load("forward-orbita") as TextAsset;
+            byte[] bytes = s.bytes;
+
+            forwardOrbita = new Quaternion[bytes.Length / 16];
+            int j = 0;
+            for (int i=0; i<bytes.Length; i+=16)
+            {
+                float qx = System.BitConverter.ToSingle(bytes, i + 0);
+                float qy = System.BitConverter.ToSingle(bytes, i + 4);
+                float qz = System.BitConverter.ToSingle(bytes, i + 8);
+                float qw = System.BitConverter.ToSingle(bytes, i + 12);
+
+                forwardOrbita[j++] = new Quaternion(qx, qy, qz, qw);
+            }
+            forwardRange = (int)Mathf.Pow(forwardOrbita.Length, 1.0f / 3.0f);
         }
 
         void Update()
@@ -125,6 +148,8 @@ namespace Reachy
                 ForceSensor fSensor = s.sensorObject.GetComponent<ForceSensor>();
                 s.currentState = fSensor.currentForce;
             }
+
+            UpdateHeadRotation();
         }
 
         IEnumerator UpdateCameraData()
@@ -260,5 +285,26 @@ namespace Reachy
 
             return currentView;
         }
+
+        void UpdateHeadOrientation()
+        {
+            Quaternion q = forwardOrbitaActuator(diskTopRot, diskMidRot, diskLowRot);
+            head.transform.rotation = q * baseHeadRot;
+        }
+
+        Quaternion forwardOrbitaActuator(float diskTopRot, float diskMidRot, float diskLowRot)
+        {
+            float q1 = (int)Mathf.Clamp(diskTopRot, -150, 30);
+            float q2 = (int)Mathf.Clamp(diskMidRot, -150, 30);
+            float q3 = (int)Mathf.Clamp(diskLowRot, -150, 30);
+
+            int i = (int)((q1 + 150) / 180 * (forwardRange - 1));
+            int j = (int)((q2 + 150) / 180 * (forwardRange - 1));
+            int k = (int)((q3 + 150) / 180 * (forwardRange - 1));
+
+            int offset = i * (forwardRange * forwardRange) + j * forwardRange + k;
+            Quaternion q = forwardOrbita[offset];
+            return Quaternion.Euler(q.eulerAngles.x, -q.eulerAngles.z, q.eulerAngles.y);
+        }   
     }
 }
