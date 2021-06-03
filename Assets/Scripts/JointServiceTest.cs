@@ -10,6 +10,7 @@ using Grpc.Core;
 using Grpc.Core.Utils;
 using Reachy.Sdk.Joint;
 using Reachy.Sdk.Fan;
+using Reachy.Sdk.Kinematics;
 
 class JointServiceTest : MonoBehaviour
 {
@@ -419,5 +420,28 @@ class JointServiceTest : MonoBehaviour
 
             return Task.FromResult(ack);
         }
+    }
+
+    public class OrbitaKinematicsImpl : OrbitaKinematics.OrbitaKinematicsBase
+    {
+        // public override Task<OrbitaIKSolution> ComputeOrbitaIK(OrbitaIKRequest ik_request, ServerCallContext context)
+        // {
+        //     FansId allIds = new FansId {
+        //         Names = { },
+        //         Uids = { },
+        //     };
+
+        //     return Task.FromResult(allIds);
+        // }
+
+        // public override Task<Reachy.Sdk.Kinematics.Quaternion> GetQuaternionTransform(LookVector look_at_request, ServerCallContext context)
+        // {
+        //     FansState state = new FansState {
+        //         Ids = { },
+        //         States = { },
+        //     };
+
+        //     return Task.FromResult(state);
+        // }
     }
 }

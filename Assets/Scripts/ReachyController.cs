@@ -112,8 +112,8 @@ namespace Reachy
 
             baseHeadRot = head.transform.rotation;
             
-            TextAsset s = Resources.Load("forward-orbita") as TextAsset;
-            byte[] bytes = s.bytes;
+            TextAsset forward_orbita = Resources.Load("forward-orbita") as TextAsset;
+            byte[] bytes = forward_orbita.bytes;
 
             forwardOrbita = new Quaternion[bytes.Length / 16];
             int j = 0;
@@ -149,7 +149,7 @@ namespace Reachy
                 s.currentState = fSensor.currentForce;
             }
 
-            UpdateHeadRotation();
+            UpdateHeadOrientation();
         }
 
         IEnumerator UpdateCameraData()
