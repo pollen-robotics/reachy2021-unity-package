@@ -434,14 +434,33 @@ class JointServiceTest : MonoBehaviour
         //     return Task.FromResult(allIds);
         // }
 
-        // public override Task<Reachy.Sdk.Kinematics.Quaternion> GetQuaternionTransform(LookVector look_at_request, ServerCallContext context)
-        // {
-        //     FansState state = new FansState {
-        //         Ids = { },
-        //         States = { },
-        //     };
+        public override Task<Reachy.Sdk.Kinematics.Quaternion> GetQuaternionTransform(LookVector look_at_request, ServerCallContext context)
+        {
+            Vector3 vo = new Vector3(1, 0, 0);
+            Vector3 vt = new Vector3((float)look_at_request.X, (float)look_at_request.Y, (float)look_at_request.Z);
+            vt = vt.normalized;
 
-        //     return Task.FromResult(state);
-        // }
+            Vector3 v = Vector3.Cross(vo, vt);
+            v = v.normalized;
+
+            float alpha = Mthf.Acos(Vector3.Dot(vo, vt));
+            if(float.IsNaN(alpha) || (alpha < 0.000001f))
+            {
+                Reachy.Sdk.Kinematics.Quaternion q = new Reachy.Sdk.Kinematics.Quaternion{
+                    W = 0,
+                    X = 1,
+                    Y = 0,
+                    Z = 0,
+                };
+                return Task.FromResult(q);
+            }
+            Reachy.Sdk.Kinematics.Quaternion q = new Reachy.Sdk.Kinematics.Quaternion{
+                W = 0,
+                X = 1,
+                Y = 0,
+                Z = 0,
+            };
+            return Task.FromResult(q);
+        }
     }
 }
