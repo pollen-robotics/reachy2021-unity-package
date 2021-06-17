@@ -71,7 +71,7 @@ namespace Reachy
         public Motor[] motors;
         public Camera leftEye, rightEye;
         public Sensor[] sensors;
-        // public GameObject head;
+        public GameObject head;
         // private Quaternion baseHeadRot;
         // private Quaternion[] forwardOrbita;
         // private int forwardRange;
@@ -85,6 +85,8 @@ namespace Reachy
         const int resHeight = 240;
 
         Texture2D texture;
+
+        Quaternion headRot;
 
         void Awake()
         {
@@ -109,6 +111,8 @@ namespace Reachy
             rightEye.targetTexture = new RenderTexture(resWidth, resHeight, 0);
             texture = new Texture2D(resWidth, resHeight, TextureFormat.RGB24, false);
             StartCoroutine("UpdateCameraData");
+
+            headRot = head.transform.localRotation;
 
             // baseHeadRot = head.transform.rotation;
             
@@ -135,10 +139,13 @@ namespace Reachy
             {
                 Motor m = motors[i];
 
-                JointController joint = m.gameObject.GetComponent<JointController>();
-                joint.RotateTo(m.targetPosition);
+                if(!m.name.StartsWith("neck") && !m.name.Contains("antenna"))
+                {
+                    JointController joint = m.gameObject.GetComponent<JointController>();
+                    joint.RotateTo(m.targetPosition);
 
-                m.presentPosition = joint.GetPresentPosition();
+                    m.presentPosition = joint.GetPresentPosition();
+                }
             }
 
             for (int i = 0; i < sensors.Length; i++)
@@ -149,7 +156,7 @@ namespace Reachy
                 s.currentState = fSensor.currentForce;
             }
 
-            // UpdateHeadOrientation();
+            UpdateHeadOrientation();
         }
 
         IEnumerator UpdateCameraData()
@@ -286,11 +293,15 @@ namespace Reachy
             return currentView;
         }
 
-        // void UpdateHeadOrientation()
-        // {
-        //     Quaternion q = forwardOrbitaActuator(diskTopRot, diskMidRot, diskLowRot);
-        //     head.transform.rotation = q * baseHeadRot;
-        // }
+        public void HandleHeadOrientation(Quaternion q)
+        {
+            headRot = q;
+        }
+
+        void UpdateHeadOrientation()
+        {
+            head.transform.localRotation = headRot;
+        }
 
         // Quaternion forwardOrbitaActuator(float diskTopRot, float diskMidRot, float diskLowRot)
         // {

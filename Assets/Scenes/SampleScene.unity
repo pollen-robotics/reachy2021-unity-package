@@ -187,8 +187,20 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 665823195, guid: 14675acd9f33a0a45a4d38745c7489b8, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 665823195, guid: 14675acd9f33a0a45a4d38745c7489b8, type: 3}
+      propertyPath: m_ParentAnchorPosition.x
+      value: 0.0005715161
+      objectReference: {fileID: 0}
+    - target: {fileID: 665823195, guid: 14675acd9f33a0a45a4d38745c7489b8, type: 3}
       propertyPath: m_ParentAnchorPosition.y
       value: 0.00021593572
+      objectReference: {fileID: 0}
+    - target: {fileID: 665823195, guid: 14675acd9f33a0a45a4d38745c7489b8, type: 3}
+      propertyPath: m_ParentAnchorPosition.z
+      value: 0.0018950555
       objectReference: {fileID: 0}
     - target: {fileID: 665823196, guid: 14675acd9f33a0a45a4d38745c7489b8, type: 3}
       propertyPath: m_ParentAnchorPosition.y
@@ -201,6 +213,10 @@ PrefabInstance:
     - target: {fileID: 1371486727, guid: 14675acd9f33a0a45a4d38745c7489b8, type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1371486727, guid: 14675acd9f33a0a45a4d38745c7489b8, type: 3}
+      propertyPath: motors.Array.size
+      value: 21
       objectReference: {fileID: 0}
     - target: {fileID: 1371486727, guid: 14675acd9f33a0a45a4d38745c7489b8, type: 3}
       propertyPath: sensors.Array.size
@@ -279,6 +295,18 @@ PrefabInstance:
       value: r_gripper
       objectReference: {fileID: 0}
     - target: {fileID: 1371486727, guid: 14675acd9f33a0a45a4d38745c7489b8, type: 3}
+      propertyPath: motors.Array.data[18].name
+      value: neck_disk_top
+      objectReference: {fileID: 0}
+    - target: {fileID: 1371486727, guid: 14675acd9f33a0a45a4d38745c7489b8, type: 3}
+      propertyPath: motors.Array.data[19].name
+      value: neck_disk_middle
+      objectReference: {fileID: 0}
+    - target: {fileID: 1371486727, guid: 14675acd9f33a0a45a4d38745c7489b8, type: 3}
+      propertyPath: motors.Array.data[20].name
+      value: neck_disk_bottom
+      objectReference: {fileID: 0}
+    - target: {fileID: 1371486727, guid: 14675acd9f33a0a45a4d38745c7489b8, type: 3}
       propertyPath: sensors.Array.data[0].name
       value: l_force_gripper
       objectReference: {fileID: 0}
@@ -323,6 +351,30 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1371486727, guid: 14675acd9f33a0a45a4d38745c7489b8, type: 3}
+      propertyPath: motors.Array.data[18].isDirect
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1371486727, guid: 14675acd9f33a0a45a4d38745c7489b8, type: 3}
+      propertyPath: motors.Array.data[19].isDirect
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1371486727, guid: 14675acd9f33a0a45a4d38745c7489b8, type: 3}
+      propertyPath: motors.Array.data[20].isDirect
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1371486727, guid: 14675acd9f33a0a45a4d38745c7489b8, type: 3}
+      propertyPath: motors.Array.data[18].gameObject
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1371486727, guid: 14675acd9f33a0a45a4d38745c7489b8, type: 3}
+      propertyPath: motors.Array.data[19].gameObject
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1371486727, guid: 14675acd9f33a0a45a4d38745c7489b8, type: 3}
+      propertyPath: motors.Array.data[20].gameObject
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1371486727, guid: 14675acd9f33a0a45a4d38745c7489b8, type: 3}
       propertyPath: sensors.Array.data[0].gameObject
       value: 
       objectReference: {fileID: 364391410}
@@ -338,6 +390,10 @@ PrefabInstance:
       propertyPath: sensors.Array.data[1].sensorObject
       value: 
       objectReference: {fileID: 364391409}
+    - target: {fileID: 1371486730, guid: 14675acd9f33a0a45a4d38745c7489b8, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2146183443, guid: 14675acd9f33a0a45a4d38745c7489b8, type: 3}
       propertyPath: m_ParentAnchorPosition.x
       value: -5.1833654e-10
