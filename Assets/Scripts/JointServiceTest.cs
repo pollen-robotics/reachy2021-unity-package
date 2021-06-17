@@ -15,9 +15,12 @@ using Reachy.Sdk.Kinematics;
 class JointServiceTest : MonoBehaviour
 {
     public static ReachyController reachy;
+    private UnityEngine.Quaternion initialHeadRotation;
+
     void Start()
     {
         reachy = GameObject.Find("Reachy").GetComponent<ReachyController>();
+        initialHeadRotation = reachy.transform.GetChild(0).transform.rotation;
         RunHelloWorld();
     }
 
@@ -454,11 +457,15 @@ class JointServiceTest : MonoBehaviour
                 };
                 return Task.FromResult(q);
             }
+
+            UnityEngine.Quaternion quat = UnityEngine.Quaternion.AngleAxis(Mathf.Rad2Deg * alpha, v);
+
+            reachy.transform.GetChild(0).transform.rotation = quat;
             Reachy.Sdk.Kinematics.Quaternion q = new Reachy.Sdk.Kinematics.Quaternion{
-                W = 0,
-                X = 1,
-                Y = 0,
-                Z = 0,
+                W = quat.w,
+                X = quat.x,
+                Y = quat.y,
+                Z = quat.z,
             };
             return Task.FromResult(q);
         }
