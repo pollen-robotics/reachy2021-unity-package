@@ -66,6 +66,26 @@ class CameraServiceTest : MonoBehaviour
             return Task.FromResult(new Image { Data = Google.Protobuf.ByteString.FromBase64(image) });
         }
 
+        public override async Task StreamImage(StreamImageRequest imageRequest, Grpc.Core.IServerStreamWriter<Image> responseStream, ServerCallContext context)
+        {
+            while (!context.CancellationToken.IsCancellationRequested)
+            {
+                var state = reachy.GetCurrentView();
+                string image;
+                if(request.Camera.Id == CameraId.Left)
+                {
+                    image = state.left_eye;
+                }
+                else
+                {
+                    image = state.right_eye;
+                }
+
+                await responseStream.WriteAsync(image);
+                await Task.Delay(TimeSpan.FromSeconds(1/30), context.CancellationToken);
+            }
+        }
+
         public override Task<ZoomCommandAck> SendZoomCommand(ZoomCommand zoomCommand, ServerCallContext context)
         {
             UnityEngine.Camera eye;
