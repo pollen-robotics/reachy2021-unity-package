@@ -86,7 +86,8 @@ namespace Reachy
 
         Texture2D texture;
 
-        Quaternion headRot;
+        Quaternion baseHeadRot;
+        Quaternion targetHeadRot;
 
         void Awake()
         {
@@ -111,26 +112,6 @@ namespace Reachy
             rightEye.targetTexture = new RenderTexture(resWidth, resHeight, 0);
             texture = new Texture2D(resWidth, resHeight, TextureFormat.RGB24, false);
             StartCoroutine("UpdateCameraData");
-
-            headRot = head.transform.localRotation;
-
-            // baseHeadRot = head.transform.rotation;
-            
-            // TextAsset forward_orbita = Resources.Load("forward-orbita") as TextAsset;
-            // byte[] bytes = forward_orbita.bytes;
-
-            // forwardOrbita = new Quaternion[bytes.Length / 16];
-            // int j = 0;
-            // for (int i=0; i<bytes.Length; i+=16)
-            // {
-            //     float qx = System.BitConverter.ToSingle(bytes, i + 0);
-            //     float qy = System.BitConverter.ToSingle(bytes, i + 4);
-            //     float qz = System.BitConverter.ToSingle(bytes, i + 8);
-            //     float qw = System.BitConverter.ToSingle(bytes, i + 12);
-
-            //     forwardOrbita[j++] = new Quaternion(qx, qy, qz, qw);
-            // }
-            // forwardRange = (int)Mathf.Pow(forwardOrbita.Length, 1.0f / 3.0f);
         }
 
         void Update()
@@ -139,7 +120,7 @@ namespace Reachy
             {
                 Motor m = motors[i];
 
-                if(!m.name.StartsWith("neck") && !m.name.Contains("antenna"))
+                if(!m.name.StartsWith("neck"))
                 {
                     JointController joint = m.gameObject.GetComponent<JointController>();
                     joint.RotateTo(m.targetPosition);
@@ -295,27 +276,16 @@ namespace Reachy
 
         public void HandleHeadOrientation(Quaternion q)
         {
-            headRot = q;
+            /// baseHeadRot = head.transform.localRotation;
+            targetHeadRot = q;
         }
 
         void UpdateHeadOrientation()
         {
-            head.transform.localRotation = headRot;
+            // float speed = 0.1f;
+            // head.transform.localRotation = Quaternion.Lerp(baseHeadRot, targetHeadRot, Time.time * speed);
+
+            head.transform.localRotation = targetHeadRot;
         }
-
-        // Quaternion forwardOrbitaActuator(float diskTopRot, float diskMidRot, float diskLowRot)
-        // {
-        //     float q1 = (int)Mathf.Clamp(diskTopRot, -150, 30);
-        //     float q2 = (int)Mathf.Clamp(diskMidRot, -150, 30);
-        //     float q3 = (int)Mathf.Clamp(diskLowRot, -150, 30);
-
-        //     int i = (int)((q1 + 150) / 180 * (forwardRange - 1));
-        //     int j = (int)((q2 + 150) / 180 * (forwardRange - 1));
-        //     int k = (int)((q3 + 150) / 180 * (forwardRange - 1));
-
-        //     int offset = i * (forwardRange * forwardRange) + j * forwardRange + k;
-        //     Quaternion q = forwardOrbita[offset];
-        //     return Quaternion.Euler(q.eulerAngles.x, -q.eulerAngles.z, q.eulerAngles.y);
-        // }   
     }
 }

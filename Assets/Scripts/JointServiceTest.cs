@@ -119,6 +119,7 @@ class JointServiceTest : MonoBehaviour
     {
         public override Task<JointsCommandAck> SendJointsCommands(JointsCommand jointsCommand, ServerCallContext context)
         {
+            Debug.Log("SendJointsCommands");
             try
             {
                 Dictionary<JointId, float> commands = new Dictionary<JointId, float>();
@@ -433,6 +434,7 @@ class JointServiceTest : MonoBehaviour
     {
         public override Task<OrbitaIKSolution> ComputeOrbitaIK(OrbitaIKRequest ik_request, ServerCallContext context)
         {
+            Debug.Log("ComputeOrbitaIK");
             OrbitaIKSolution ikSol = new OrbitaIKSolution {
                 Success = true,
                 DiskPosition = new JointPosition {
@@ -441,9 +443,10 @@ class JointServiceTest : MonoBehaviour
                         new JointId { Name = "neck_disk_middle"},
                         new JointId { Name = "neck_disk_bottom"},
                     },
-                    Positions = { 0.0, 0.0, 0.0 },
+                    Positions = { ik_request.Q.W, ik_request.Q.X, ik_request.Q.Z },
                 },
             };
+            Debug.Log(ik_request);
 
             return Task.FromResult(ikSol);
         }
@@ -458,35 +461,27 @@ class JointServiceTest : MonoBehaviour
             Vector3 v = Vector3.Cross(vo, vt);
             v = v.normalized;
 
-            Debug.Log("v : " + v);
-
             float alpha = Mathf.Acos(Vector3.Dot(vo, vt));
-
-            Debug.Log("alpha : " + alpha);
 
             if(float.IsNaN(alpha) || (alpha < 0.000001f))
             {
-                Debug.Log("NaN");
                 UnityEngine.Quaternion null_quat = new UnityEngine.Quaternion(0.0f, 0.0f, 0.0f, 1.0f);
                 reachy.HandleHeadOrientation(null_quat * initialHeadRotation);
 
-                Debug.Log("Move Head");
-
                 Reachy.Sdk.Kinematics.Quaternion null_q = new Reachy.Sdk.Kinematics.Quaternion{
-                    W = 0,
-                    X = 1,
+                    W = 1,
+                    X = 0,
                     Y = 0,
                     Z = 0,
                 };
                 return Task.FromResult(null_q);
             }
 
-            Debug.Log("To Unity Quaternion");
             UnityEngine.Quaternion quat = UnityEngine.Quaternion.AngleAxis(Mathf.Rad2Deg * alpha, v);
             quat = new UnityEngine.Quaternion(quat.y, quat.x, quat.z, quat.w);
-            Debug.Log("quat : " + quat);
+
             reachy.HandleHeadOrientation(quat * initialHeadRotation);
-            Debug.Log("Move head");
+
             Reachy.Sdk.Kinematics.Quaternion q = new Reachy.Sdk.Kinematics.Quaternion{
                 W = quat.w,
                 X = quat.x,
