@@ -36,7 +36,10 @@ class CameraServiceTest : MonoBehaviour
     public static void gRPCServer()
     {
         const int PortJoint = 50057;
-        Server server = new Server
+        Server server = new Server(new List<ChannelOption>
+        {
+            new ChannelOption(ChannelOptions.MaxSendMessageLength, 250000),
+        })
         {
             Services = { CameraService.BindService(new CameraServiceImpl()) },
             Ports = { new ServerPort("localhost", PortJoint, ServerCredentials.Insecure) }
