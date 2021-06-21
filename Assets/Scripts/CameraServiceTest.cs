@@ -72,7 +72,7 @@ class CameraServiceTest : MonoBehaviour
             {
                 var state = reachy.GetCurrentView();
                 string image;
-                if(request.Camera.Id == CameraId.Left)
+                if(imageRequest.Request.Camera.Id == CameraId.Left)
                 {
                     image = state.left_eye;
                 }
@@ -81,7 +81,7 @@ class CameraServiceTest : MonoBehaviour
                     image = state.right_eye;
                 }
 
-                await responseStream.WriteAsync(image);
+                await responseStream.WriteAsync(new Image { Data = Google.Protobuf.ByteString.FromBase64(image) });
                 await Task.Delay(TimeSpan.FromSeconds(1/30), context.CancellationToken);
             }
         }
