@@ -137,7 +137,7 @@ namespace Reachy
                 s.currentState = fSensor.currentForce;
             }
 
-            UpdateHeadOrientation();
+           UpdateHeadOrientation();
         }
 
         IEnumerator UpdateCameraData()
@@ -202,32 +202,39 @@ namespace Reachy
                 {
                     case JointId.IdOneofCase.Name:
                         m = name2motor[kvp.Key.Name];
-                        position = m.presentPosition - name2motor[kvp.Key.Name].offset;
-                        target_position = m.targetPosition - name2motor[kvp.Key.Name].offset;
+                        position = m.presentPosition;
+                        target_position = m.targetPosition;
                         if(!name2motor[kvp.Key.Name].isDirect)
                         {
                             position *= -1;
+                            target_position *= -1;
                         }
+                        position -= name2motor[kvp.Key.Name].offset;
+                        target_position -= name2motor[kvp.Key.Name].offset;
                         break;
                     case JointId.IdOneofCase.Uid:
                         m = motors[kvp.Key.Uid];
-                        position = m.presentPosition - motors[kvp.Key.Uid].offset;
-                        target_position = m.targetPosition - motors[kvp.Key.Uid].offset;
+                        position = m.presentPosition;
+                        target_position = m.targetPosition;
                         if(!motors[kvp.Key.Uid].isDirect)
                         {
                             position *= -1;
                             target_position *= -1;
                         }
+                        position -= motors[kvp.Key.Uid].offset;
+                        target_position -= motors[kvp.Key.Uid].offset;
                         break;
                     default:
                         m = name2motor[kvp.Key.Name];
-                        position = m.presentPosition - name2motor[kvp.Key.Name].offset;
-                        target_position = m.targetPosition - name2motor[kvp.Key.Name].offset;
+                        position = m.presentPosition;
+                        target_position = m.targetPosition;
                         if(!name2motor[kvp.Key.Name].isDirect)
                         {
                             position *= -1;
                             target_position *= -1;
                         }
+                        position -= name2motor[kvp.Key.Name].offset;
+                        target_position -= name2motor[kvp.Key.Name].offset;
                         break;
                 }
                 motorsList.Add(new SerializableMotor() { name=m.name, uid = m.uid, present_position=Mathf.Deg2Rad*position, goal_position=Mathf.Deg2Rad*target_position});
