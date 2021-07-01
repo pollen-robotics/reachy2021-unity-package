@@ -119,7 +119,6 @@ class JointServiceTest : MonoBehaviour
     {
         public override Task<JointsCommandAck> SendJointsCommands(JointsCommand jointsCommand, ServerCallContext context)
         {
-            Debug.Log("SendJointsCommands");
             try
             {
                 Dictionary<JointId, float> commands = new Dictionary<JointId, float>();
@@ -322,8 +321,6 @@ class JointServiceTest : MonoBehaviour
                 Names = { names },
                 Uids = { ids },
             };
-
-            Debug.Log(allIds);
 
             return Task.FromResult(allIds);
         }
