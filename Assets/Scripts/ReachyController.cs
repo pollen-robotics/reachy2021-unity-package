@@ -73,6 +73,8 @@ namespace Reachy
         public UnityEngine.Camera leftEye, rightEye;
         public Sensor[] sensors;
         public GameObject head;
+
+        float _timeElapsed;
         // private Quaternion baseHeadRot;
         // private Quaternion[] forwardOrbita;
         // private int forwardRange;
@@ -89,6 +91,9 @@ namespace Reachy
 
         Quaternion baseHeadRot;
         Quaternion targetHeadRot;
+        float headRotDuration;
+        bool needUpdateHeadRot;
+        bool headMovementInProgress;
 
         private ZoomLevel zoomLevelLeft;
         private ZoomLevel zoomLevelRight;
@@ -117,6 +122,9 @@ namespace Reachy
             rightEye.targetTexture = new RenderTexture(resWidth, resHeight, 0);
             zoomLevelLeft = new ZoomLevel{ Level = ZoomLevelPossibilities.Out };
             zoomLevelRight = new ZoomLevel{ Level = ZoomLevelPossibilities.Out };
+            needUpdateHeadRot = false;
+            headMovementInProgress = false;
+            _timeElapsed = 0.0f;
             texture = new Texture2D(resWidth, resHeight, TextureFormat.RGB24, false);
             StartCoroutine("UpdateCameraData");
         }
@@ -175,6 +183,12 @@ namespace Reachy
                 targetPosition *= -1;
             }
             name2motor[motorName].targetPosition = targetPosition;
+
+            if(motorName == "neck_disk_top")
+            {
+                headRotDuration = name2motor[motorName].targetPosition;
+                needUpdateHeadRot = true;
+            }
         }
 
         public void HandleCommand(Dictionary<JointId, float> commands)
@@ -291,16 +305,34 @@ namespace Reachy
 
         public void HandleHeadOrientation(Quaternion q)
         {
-            /// baseHeadRot = head.transform.localRotation;
             targetHeadRot = q;
         }
 
         void UpdateHeadOrientation()
         {
-            // float speed = 0.1f;
-            // head.transform.localRotation = Quaternion.Lerp(baseHeadRot, targetHeadRot, Time.time * speed);
+            if(needUpdateHeadRot)
+            {
+                baseHeadRot = head.transform.localRotation;
+                needUpdateHeadRot = false;
+                headMovementInProgress = true;
+            }
+            if(headMovementInProgress)
+            {
+                _timeElapsed += Time.deltaTime;
+                Debug.Log(_timeElapsed);
+                if(_timeElapsed >= headRotDuration)
+                {
+                    Debug.Log("finished head movement");
+                    headMovementInProgress = false;
+                    head.transform.localRotation = targetHeadRot;
 
-            head.transform.localRotation = targetHeadRot;
+                    _timeElapsed = 0;
+                    return;
+                }
+
+                float fTime = _timeElapsed / headRotDuration;
+                head.transform.localRotation = Quaternion.Lerp(baseHeadRot, targetHeadRot, fTime);
+            }
         }
 
         public void HandleCameraZoom(CameraId id, ZoomLevelPossibilities zoomLevel)
