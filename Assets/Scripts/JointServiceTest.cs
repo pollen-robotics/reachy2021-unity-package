@@ -194,7 +194,7 @@ class JointServiceTest : MonoBehaviour
                 }
                 if(jointRequest.RequestedFields.Contains(JointField.TorqueLimit))
                 {
-                    jointState.TorqueLimit = 0;
+                    jointState.TorqueLimit = 100;
                 }
                 if(jointRequest.RequestedFields.Contains(JointField.Pid))
                 {
@@ -209,7 +209,7 @@ class JointServiceTest : MonoBehaviour
                     jointState.Compliant = false;
                     jointState.GoalPosition = item.goal_position;
                     jointState.SpeedLimit = 0;
-                    jointState.TorqueLimit = 0;
+                    jointState.TorqueLimit = 100;
                     jointState.Pid = new PIDValue { Pid = new PIDGains { P = 0, I = 0, D = 0 }};
                 }
 
