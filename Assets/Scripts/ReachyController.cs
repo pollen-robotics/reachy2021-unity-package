@@ -75,10 +75,6 @@ namespace Reachy
         public GameObject head;
 
         float _timeElapsed;
-        // private Quaternion baseHeadRot;
-        // private Quaternion[] forwardOrbita;
-        // private int forwardRange;
-        // public float diskTopRot, diskMidRot, diskLowRot;
 
         private Dictionary<string, Motor> name2motor;
         private Dictionary<string, Sensor> name2sensor;
@@ -312,7 +308,6 @@ namespace Reachy
             if(needUpdateHeadRot)
             {
                 _timeElapsed += Time.deltaTime;
-                Debug.Log(_timeElapsed);
                 if(_timeElapsed >= headRotDuration)
                 {
                     needUpdateHeadRot = false;
