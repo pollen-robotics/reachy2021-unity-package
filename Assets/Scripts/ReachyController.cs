@@ -7,6 +7,7 @@ using System;
 using Grpc.Core;
 
 using Reachy.Sdk.Joint;
+using Reachy.Sdk.Camera;
 
 namespace Reachy
 {
@@ -69,7 +70,7 @@ namespace Reachy
     public class ReachyController : MonoBehaviour
     {
         public Motor[] motors;
-        public Camera leftEye, rightEye;
+        public UnityEngine.Camera leftEye, rightEye;
         public Sensor[] sensors;
         public GameObject head;
         // private Quaternion baseHeadRot;
@@ -88,6 +89,10 @@ namespace Reachy
 
         Quaternion baseHeadRot;
         Quaternion targetHeadRot;
+
+        private ZoomLevel zoomLevelLeft;
+        private ZoomLevel zoomLevelRight;
+        private float[] zoomArray = new float[]{1.0f, 40.0f, 70.0f, 100.0f};
 
         void Awake()
         {
@@ -110,6 +115,8 @@ namespace Reachy
 
             leftEye.targetTexture = new RenderTexture(resWidth, resHeight, 0);
             rightEye.targetTexture = new RenderTexture(resWidth, resHeight, 0);
+            zoomLevelLeft = new ZoomLevel{ Level = ZoomLevelPossibilities.Out };
+            zoomLevelRight = new ZoomLevel{ Level = ZoomLevelPossibilities.Out };
             texture = new Texture2D(resWidth, resHeight, TextureFormat.RGB24, false);
             StartCoroutine("UpdateCameraData");
         }
@@ -138,6 +145,7 @@ namespace Reachy
             }
 
            UpdateHeadOrientation();
+           UpdateCameraZoom();
         }
 
         IEnumerator UpdateCameraData()
@@ -150,7 +158,7 @@ namespace Reachy
             }
         }
 
-        string GetEyeRawTextureData(Camera camera)
+        string GetEyeRawTextureData(UnityEngine.Camera camera)
         {
             RenderTexture.active = camera.targetTexture;
             texture.ReadPixels(new Rect(0, 0, resWidth, resHeight), 0, 0);
@@ -293,6 +301,46 @@ namespace Reachy
             // head.transform.localRotation = Quaternion.Lerp(baseHeadRot, targetHeadRot, Time.time * speed);
 
             head.transform.localRotation = targetHeadRot;
+        }
+
+        public void HandleCameraZoom(CameraId id, ZoomLevelPossibilities zoomLevel)
+        {
+            if(id == CameraId.Left)
+            {
+                zoomLevelLeft.Level = zoomLevel;
+            }
+            else
+            {
+                zoomLevelRight.Level = zoomLevel;
+            }
+        }
+
+        public ZoomLevel GetCameraZoom(CameraId id)
+        {
+             if(id == CameraId.Left)
+            {
+                return zoomLevelLeft;
+            }
+            else
+            {
+                return zoomLevelRight;
+            }
+        }
+
+        void UpdateCameraZoom()
+        {
+            foreach(UnityEngine.Camera camera in UnityEngine.Camera.allCameras)
+            {
+                if(camera.name == "Right Camera")
+                {
+                    camera.fieldOfView = zoomArray[(int)zoomLevelRight.Level];
+                }
+
+                if(camera.name == "Left Camera")
+                {
+                    camera.fieldOfView = zoomArray[(int)zoomLevelLeft.Level];
+                }
+            }
         }
     }
 }

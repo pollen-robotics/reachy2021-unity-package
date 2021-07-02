@@ -19,20 +19,7 @@ class CameraServiceTest : MonoBehaviour
         reachy = GameObject.Find("Reachy").GetComponent<ReachyController>();
         gRPCServer();
     }
-    public static void RunHelloWorld()
-    {
-        Application.SetStackTraceLogType(LogType.Log, StackTraceLogType.None);
 
-        Debug.Log("==============================================================");
-        Debug.Log("Starting tests");
-        Debug.Log("==============================================================");
-
-        gRPCServer();
-
-        Debug.Log("==============================================================");
-        Debug.Log("Tests finished successfully.");
-        Debug.Log("==============================================================");
-    }
     public static void gRPCServer()
     {
         const int PortJoint = 50057;
@@ -91,7 +78,6 @@ class CameraServiceTest : MonoBehaviour
 
         public override Task<ZoomCommandAck> SendZoomCommand(ZoomCommand zoomCommand, ServerCallContext context)
         {
-            UnityEngine.Camera eye;
             switch(zoomCommand.CommandCase)
             {
                 case ZoomCommand.CommandOneofCase.None:
@@ -101,58 +87,7 @@ class CameraServiceTest : MonoBehaviour
                 case ZoomCommand.CommandOneofCase.SpeedCommand:
                     return Task.FromResult(new ZoomCommandAck { Success = false });
                 case ZoomCommand.CommandOneofCase.LevelCommand:
-                    if(zoomCommand.Camera.Id == CameraId.Left)
-                    {          
-                        foreach(UnityEngine.Camera camera in UnityEngine.Camera.allCameras)
-                        {
-                            if(camera.name == "Left Camera")
-                            {
-                                eye = camera;
-
-                                if(zoomCommand.LevelCommand.Level == ZoomLevelPossibilities.In)
-                                {
-                                    eye.fieldOfView = 40.0f;
-                                    this.zoomLevelLeft.Level = ZoomLevelPossibilities.In;
-                                }
-                                if(zoomCommand.LevelCommand.Level == ZoomLevelPossibilities.Inter)
-                                {
-                                    eye.fieldOfView = 70.0f;
-                                    zoomLevelLeft.Level = ZoomLevelPossibilities.Inter;
-                                }
-                                if(zoomCommand.LevelCommand.Level == ZoomLevelPossibilities.Out)
-                                {
-                                    eye.fieldOfView = 100.0f;
-                                    zoomLevelLeft.Level = ZoomLevelPossibilities.Out;
-                                }
-                            }                        
-                        }
-                    }
-                    else
-                    {
-                        foreach(UnityEngine.Camera camera in UnityEngine.Camera.allCameras)
-                        {
-                            if(camera.name == "Right Camera")
-                            {
-                                eye = camera;
-
-                                if(zoomCommand.LevelCommand.Level == ZoomLevelPossibilities.In)
-                                {
-                                    eye.fieldOfView = 40.0f;
-                                    zoomLevelRight.Level = ZoomLevelPossibilities.In;
-                                }
-                                if(zoomCommand.LevelCommand.Level == ZoomLevelPossibilities.Inter)
-                                {
-                                    eye.fieldOfView = 70.0f;
-                                    zoomLevelRight.Level = ZoomLevelPossibilities.Inter;
-                                }
-                                if(zoomCommand.LevelCommand.Level == ZoomLevelPossibilities.Out)
-                                {
-                                    eye.fieldOfView = 100.0f;
-                                    zoomLevelRight.Level = ZoomLevelPossibilities.Out;
-                                }
-                            }
-                        }
-                    }
+                    reachy.HandleCameraZoom(zoomCommand.Camera.Id, zoomCommand.LevelCommand.Level);
                     return Task.FromResult(new ZoomCommandAck { Success = true });
                 default:
                     return Task.FromResult(new ZoomCommandAck { Success = false });
@@ -161,24 +96,8 @@ class CameraServiceTest : MonoBehaviour
 
         public override Task<ZoomLevel> GetZoomLevel(Reachy.Sdk.Camera.Camera camera, ServerCallContext context)
         {
-            if(camera.Id == CameraId.Left)
-            {
-                foreach(UnityEngine.Camera cam in UnityEngine.Camera.allCameras)
-                {
-                    if(cam.name == "Left Camera")
-                    {
-                        return Task.FromResult(zoomLevelLeft);
-                    }
-                }
-                foreach(UnityEngine.Camera cam in UnityEngine.Camera.allCameras)
-                {
-                    if(cam.name == "Right Camera")
-                    {
-                        return Task.FromResult(zoomLevelRight);
-                    }
-                }
-            }
-            return Task.FromResult(new ZoomLevel { Level = ZoomLevelPossibilities.Zero });
+            ZoomLevel zoomLevel = reachy.GetCameraZoom(camera.Id);
+            return Task.FromResult(zoomLevel);
         }
 
         public override Task<ZoomSpeed> GetZoomSpeed(Reachy.Sdk.Camera.Camera camera, ServerCallContext context)
