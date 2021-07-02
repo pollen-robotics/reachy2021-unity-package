@@ -119,6 +119,8 @@ class JointServiceTest : MonoBehaviour
     {
         public override Task<JointsCommandAck> SendJointsCommands(JointsCommand jointsCommand, ServerCallContext context)
         {
+            Debug.Log("in Send Joints Commands");
+            Debug.Log(jointsCommand);
             try
             {
                 Dictionary<JointId, float> commands = new Dictionary<JointId, float>();
@@ -440,7 +442,7 @@ class JointServiceTest : MonoBehaviour
                         new JointId { Name = "neck_disk_middle"},
                         new JointId { Name = "neck_disk_bottom"},
                     },
-                    Positions = { ik_request.Q.W, ik_request.Q.X, ik_request.Q.Z },
+                    Positions = { float.NaN, float.NaN, float.NaN },
                 },
             };
             Debug.Log(ik_request);
