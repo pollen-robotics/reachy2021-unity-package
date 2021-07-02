@@ -511,6 +511,10 @@ PrefabInstance:
       value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 1371486727, guid: 14675acd9f33a0a45a4d38745c7489b8, type: 3}
+      propertyPath: motors.Array.data[1].isDirect
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1371486727, guid: 14675acd9f33a0a45a4d38745c7489b8, type: 3}
       propertyPath: motors.Array.data[2].isDirect
       value: 1
       objectReference: {fileID: 0}
