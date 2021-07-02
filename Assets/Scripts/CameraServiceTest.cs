@@ -13,6 +13,7 @@ using Reachy.Sdk.Camera;
 class CameraServiceTest : MonoBehaviour
 {
     public static ReachyController reachy;
+    static Server server;
 
     void Start()
     {
@@ -23,7 +24,7 @@ class CameraServiceTest : MonoBehaviour
     public static void gRPCServer()
     {
         const int PortJoint = 50057;
-        Server server = new Server(new List<ChannelOption>
+        server = new Server(new List<ChannelOption>
         {
             new ChannelOption(ChannelOptions.MaxSendMessageLength, 250000),
         })
@@ -32,9 +33,13 @@ class CameraServiceTest : MonoBehaviour
             Ports = { new ServerPort("localhost", PortJoint, ServerCredentials.Insecure) }
         };
         server.Start();
-
-        // server.ShutdownAsync().Wait();
     }
+
+    void OnDestroy()
+    {
+        server.ShutdownAsync().Wait();
+    }
+
     public class CameraServiceImpl : CameraService.CameraServiceBase
     {
 
