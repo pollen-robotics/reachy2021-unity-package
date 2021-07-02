@@ -330,31 +330,61 @@ class JointServiceTest : MonoBehaviour
     {
         public override Task<FansId> GetAllFansId(Google.Protobuf.WellKnownTypes.Empty empty, ServerCallContext context)
         {
+            List<uint> ids = new List<uint>();
+            List<string> names = new List<string>();
+
+            for(int i = 0; i< reachy.fans.Length; i++)
+            {
+                ids.Add((uint)i);
+                names.Add(reachy.fans[i].name);
+            }
+
             FansId allIds = new FansId {
-                Names = { },
-                Uids = { },
+                Names = { names },
+                Uids = { ids },
             };
 
             return Task.FromResult(allIds);
         }
 
-        public override Task<FansState> GetFansState(FansStateRequest request, ServerCallContext context)
+        public override Task<FansState> GetFansState(FansStateRequest fanRequest, ServerCallContext context)
         {
+            var fans = reachy.GetCurrentFansState(fanRequest.Ids);
+            
+            List<FanState> listFanStates = new List<FanState>();
+            List<FanId> listFanIds = new List<FanId>();
+            foreach (var item in fans)
+            {
+                var fanState = new FanState();
+                fanState.On = item.fan_state;
+                listFanStates.Add(fanState);
+                listFanIds.Add(new FanId { Name = item.name });
+            };
+
             FansState state = new FansState {
-                Ids = { },
-                States = { },
+                Ids = { listFanIds },
+                States = { listFanStates },
             };
 
             return Task.FromResult(state);
         }
 
-        public override Task<FansCommandAck> SendFansCommands(FansCommand command, ServerCallContext context)
+        public override Task<FansCommandAck> SendFansCommands(FansCommand fansCommand, ServerCallContext context)
         {
-            FansCommandAck ack = new FansCommandAck {
-                Success = false,
-            };
-
-            return Task.FromResult(ack);
+            try
+            {
+                Dictionary<FanId, bool> commands = new Dictionary<FanId, bool>();
+                for(int i=0; i<fansCommand.Commands.Count; i++)
+                {
+                    commands.Add(fansCommand.Commands[i].Id, fansCommand.Commands[i].On);
+                }
+                reachy.HandleFanCommand(commands);
+                return Task.FromResult(new FansCommandAck { Success = true });
+            }
+            catch
+            {
+                return Task.FromResult(new FansCommandAck { Success = false });
+            }
         }
     }
 

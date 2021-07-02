@@ -8,6 +8,7 @@ using Grpc.Core;
 
 using Reachy.Sdk.Joint;
 using Reachy.Sdk.Camera;
+using Reachy.Sdk.Fan;
 
 namespace Reachy
 {
@@ -32,6 +33,13 @@ namespace Reachy
     }
 
     [System.Serializable]
+    public class Fan
+    {
+        public string name;
+        public bool state;
+    }
+
+    [System.Serializable]
     public struct SerializableMotor
     {
         public string name;
@@ -45,6 +53,13 @@ namespace Reachy
     {
         public string name;
         public float sensor_state;
+    }
+
+    [System.Serializable]
+    public struct SerializableFan
+    {
+        public string name;
+        public bool fan_state;
     }
 
     [System.Serializable]
@@ -70,14 +85,16 @@ namespace Reachy
     public class ReachyController : MonoBehaviour
     {
         public Motor[] motors;
-        public UnityEngine.Camera leftEye, rightEye;
+        public Fan[] fans;
         public Sensor[] sensors;
+        public UnityEngine.Camera leftEye, rightEye;
         public GameObject head;
 
         float _timeElapsed;
 
         private Dictionary<string, Motor> name2motor;
         private Dictionary<string, Sensor> name2sensor;
+        private Dictionary<string, Fan> name2fan;
         private string leftEyeFrame, rightEyeFrame;
 
         const int resWidth = 320;
@@ -100,6 +117,8 @@ namespace Reachy
 
             name2sensor = new Dictionary<string, Sensor>();
 
+            name2fan = new Dictionary<string, Fan>();
+
             for (int i = 0; i < motors.Length; i++)
             {
                 Motor m = motors[i];
@@ -111,6 +130,12 @@ namespace Reachy
             {
                 Sensor s = sensors[i];
                 name2sensor[s.name] = s;
+            }
+
+            for (int i = 0; i < fans.Length; i++)
+            {
+                Fan f = fans[i];
+                name2fan[f.name] = f;
             }
 
             leftEye.targetTexture = new RenderTexture(resWidth, resHeight, 0);
@@ -186,6 +211,14 @@ namespace Reachy
             }
         }
 
+        void SetFanState(string fanName, bool targetState)
+        {
+            if(fanName != "neck_fan")
+            {
+                name2fan[fanName].state = targetState;
+            }
+        }
+
         public void HandleCommand(Dictionary<JointId, float> commands)
         {
             foreach(KeyValuePair<JointId, float> kvp in commands )
@@ -204,6 +237,27 @@ namespace Reachy
                         break;
                 }
                 SetMotorTargetPosition(motorName, kvp.Value);
+            }
+        }
+
+        public void HandleFanCommand(Dictionary<FanId, bool> commands)
+        {
+            foreach(KeyValuePair<FanId, bool> kvp in commands )
+            {
+                string fanName;
+                switch(kvp.Key.IdCase)
+                {
+                    case FanId.IdOneofCase.Name:
+                        fanName = kvp.Key.Name;
+                        break;
+                    case FanId.IdOneofCase.Uid:
+                        fanName = fans[kvp.Key.Uid].name;
+                        break;
+                    default:
+                        fanName = kvp.Key.Name;
+                        break;
+                }
+                SetFanState(fanName, kvp.Value);
             }
         }
 
@@ -285,6 +339,34 @@ namespace Reachy
             }
 
             return sensorsList;
+        }
+
+        public List<SerializableFan> GetCurrentFansState(Google.Protobuf.Collections.RepeatedField<Reachy.Sdk.Fan.FanId> request)
+        {
+            List<Fan> fanRequest = new List<Fan>();
+
+            foreach(var fan in request)
+            {
+                switch(fan.IdCase)
+                {
+                    case FanId.IdOneofCase.Name:
+                        fanRequest.Add(name2fan[fan.Name]);
+                        break;
+                    case FanId.IdOneofCase.Uid:
+                        fanRequest.Add(fans[fan.Uid]);
+                        break;
+                }
+            }
+
+            List<SerializableFan> fansList = new List<SerializableFan>();
+
+            foreach(var fan in fanRequest)
+            {
+                bool state = fan.state;
+                fansList.Add(new SerializableFan() { name=fan.name,  fan_state=state});
+            }
+
+            return fansList;
         }
 
         public SerializableView GetCurrentView()
