@@ -93,7 +93,6 @@ namespace Reachy
         Quaternion targetHeadRot;
         float headRotDuration;
         bool needUpdateHeadRot;
-        bool headMovementInProgress;
 
         private ZoomLevel zoomLevelLeft;
         private ZoomLevel zoomLevelRight;
@@ -123,9 +122,9 @@ namespace Reachy
             zoomLevelLeft = new ZoomLevel{ Level = ZoomLevelPossibilities.Out };
             zoomLevelRight = new ZoomLevel{ Level = ZoomLevelPossibilities.Out };
             needUpdateHeadRot = false;
-            headMovementInProgress = false;
             _timeElapsed = 0.0f;
             texture = new Texture2D(resWidth, resHeight, TextureFormat.RGB24, false);
+            baseHeadRot = head.transform.localRotation;
             StartCoroutine("UpdateCameraData");
         }
 
@@ -312,19 +311,13 @@ namespace Reachy
         {
             if(needUpdateHeadRot)
             {
-                baseHeadRot = head.transform.localRotation;
-                needUpdateHeadRot = false;
-                headMovementInProgress = true;
-            }
-            if(headMovementInProgress)
-            {
                 _timeElapsed += Time.deltaTime;
                 Debug.Log(_timeElapsed);
                 if(_timeElapsed >= headRotDuration)
                 {
-                    Debug.Log("finished head movement");
-                    headMovementInProgress = false;
+                    needUpdateHeadRot = false;
                     head.transform.localRotation = targetHeadRot;
+                    baseHeadRot = targetHeadRot;
 
                     _timeElapsed = 0;
                     return;
@@ -332,6 +325,10 @@ namespace Reachy
 
                 float fTime = _timeElapsed / headRotDuration;
                 head.transform.localRotation = Quaternion.Lerp(baseHeadRot, targetHeadRot, fTime);
+            }
+            else
+            {
+                head.transform.localRotation = baseHeadRot;
             }
         }
 
