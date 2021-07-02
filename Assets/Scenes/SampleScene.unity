@@ -397,7 +397,7 @@ PrefabInstance:
     - target: {fileID: 1371486727, guid: 14675acd9f33a0a45a4d38745c7489b8, type: 3}
       propertyPath: head
       value: 
-      objectReference: {fileID: 1916204379}
+      objectReference: {fileID: 223221718689245170}
     - target: {fileID: 1371486727, guid: 14675acd9f33a0a45a4d38745c7489b8, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -569,19 +569,19 @@ PrefabInstance:
     - target: {fileID: 1371486727, guid: 14675acd9f33a0a45a4d38745c7489b8, type: 3}
       propertyPath: sensors.Array.data[0].gameObject
       value: 
-      objectReference: {fileID: 364391410}
+      objectReference: {fileID: 223221718689245152}
     - target: {fileID: 1371486727, guid: 14675acd9f33a0a45a4d38745c7489b8, type: 3}
       propertyPath: sensors.Array.data[1].gameObject
       value: 
-      objectReference: {fileID: 364391409}
+      objectReference: {fileID: 223221718689245056}
     - target: {fileID: 1371486727, guid: 14675acd9f33a0a45a4d38745c7489b8, type: 3}
       propertyPath: sensors.Array.data[0].sensorObject
       value: 
-      objectReference: {fileID: 364391410}
+      objectReference: {fileID: 223221718689245152}
     - target: {fileID: 1371486727, guid: 14675acd9f33a0a45a4d38745c7489b8, type: 3}
       propertyPath: sensors.Array.data[1].sensorObject
       value: 
-      objectReference: {fileID: 364391409}
+      objectReference: {fileID: 223221718689245056}
     - target: {fileID: 1371486730, guid: 14675acd9f33a0a45a4d38745c7489b8, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -692,16 +692,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 14675acd9f33a0a45a4d38745c7489b8, type: 3}
---- !u!1 &364391409 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 223221718496824432, guid: 14675acd9f33a0a45a4d38745c7489b8, type: 3}
-  m_PrefabInstance: {fileID: 364391408}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &364391410 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 223221718496824336, guid: 14675acd9f33a0a45a4d38745c7489b8, type: 3}
-  m_PrefabInstance: {fileID: 364391408}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -946,8 +936,68 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 411462d515cf2ab4db7a03bad58ab74a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1916204379 stripped
+--- !u!1 &223221718689245056 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 223221718496824432, guid: 14675acd9f33a0a45a4d38745c7489b8, type: 3}
+  m_PrefabInstance: {fileID: 364391408}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &223221718689245152 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 223221718496824336, guid: 14675acd9f33a0a45a4d38745c7489b8, type: 3}
+  m_PrefabInstance: {fileID: 364391408}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &223221718689245170 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 223221718496824322, guid: 14675acd9f33a0a45a4d38745c7489b8, type: 3}
   m_PrefabInstance: {fileID: 364391408}
   m_PrefabAsset: {fileID: 0}
+--- !u!171741748 &223221718689245171
+ArticulationBody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 223221718689245170}
+  m_Enabled: 1
+  m_Mass: 1
+  m_ParentAnchorPosition: {x: 0, y: -0.00014999986, z: 0.00094999967}
+  m_ParentAnchorRotation: {x: 0.06162845, y: -0.06162845, z: 0.70441604, w: 0.70441604}
+  m_AnchorPosition: {x: 0, y: 0, z: 0}
+  m_AnchorRotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
+  m_ComputeParentAnchor: 1
+  m_ArticulationJointType: 3
+  m_LinearX: 2
+  m_LinearY: 2
+  m_LinearZ: 2
+  m_SwingY: 2
+  m_SwingZ: 2
+  m_Twist: 2
+  m_XDrive:
+    lowerLimit: 0
+    upperLimit: 0
+    stiffness: 0
+    damping: 0
+    forceLimit: 3.4028235e+38
+    target: 0
+    targetVelocity: 0
+  m_YDrive:
+    lowerLimit: 0
+    upperLimit: 0
+    stiffness: 0
+    damping: 0
+    forceLimit: 3.4028235e+38
+    target: 0
+    targetVelocity: 0
+  m_ZDrive:
+    lowerLimit: 0
+    upperLimit: 0
+    stiffness: 0
+    damping: 0
+    forceLimit: 3.4028235e+38
+    target: 0
+    targetVelocity: 0
+  m_LinearDamping: 0.05
+  m_AngularDamping: 0.05
+  m_JointFriction: 0.05
+  m_Immovable: 0
+  m_UseGravity: 1
