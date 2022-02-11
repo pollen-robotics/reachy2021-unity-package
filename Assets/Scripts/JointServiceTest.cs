@@ -34,6 +34,7 @@ class JointServiceTest : MonoBehaviour
                 JointService.BindService(new JointServiceImpl()), 
                 SensorService.BindService(new SensorServiceImpl()),
                 FanControllerService.BindService(new FanControllerServiceImpl()), 
+                ArmKinematics.BindService(new ArmKinematicsImpl()),
                 },
             Ports = { new ServerPort("localhost", PortJoint, ServerCredentials.Insecure) }
         };
@@ -253,6 +254,38 @@ class JointServiceTest : MonoBehaviour
             };
 
             return Task.FromResult(allIds);
+        }
+    }
+
+    public class ArmKinematicsImpl : ArmKinematics.ArmKinematicsBase
+    {
+        public override Task<ArmFKSolution> ComputeArmFK(ArmFKRequest fkRequest, ServerCallContext context)
+        {
+            ArmFKSolution sol = new ArmFKSolution {
+                Success = false,
+                EndEffector = new ArmEndEffector { 
+                    Side = fkRequest.ArmPosition.Side,
+                    Pose = new Reachy.Sdk.Kinematics.Matrix4x4 { Data = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0} },
+                },
+            };
+
+            return Task.FromResult(sol);
+        }
+
+        public override Task<ArmIKSolution> ComputeArmIK(ArmIKRequest ikRequest, ServerCallContext context)
+        {
+            ArmIKSolution sol = new ArmIKSolution {
+                Success = false,
+                ArmPosition = new ArmJointPosition { 
+                    Side = ikRequest.Target.Side,
+                    Positions = new JointPosition { 
+                        Ids = { new Reachy.Sdk.Joint.JointId {} },
+                        Positions = {},
+                    },
+                },
+            };
+
+            return Task.FromResult(sol);
         }
     }
 
