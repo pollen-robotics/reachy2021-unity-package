@@ -102,8 +102,9 @@ namespace Reachy
 
         Texture2D texture;
 
-        Quaternion baseHeadRot;
-        Quaternion targetHeadRot;
+        UnityEngine.Quaternion baseHeadRot;
+        UnityEngine.Quaternion targetHeadRot;
+        Vector3 headOrientation;
         float headRotDuration;
         bool needUpdateHeadRot;
 
@@ -145,6 +146,7 @@ namespace Reachy
             needUpdateHeadRot = false;
             _timeElapsed = 0.0f;
             texture = new Texture2D(resWidth, resHeight, TextureFormat.RGB24, false);
+            headOrientation = new Vector3(0, 0, 0);
             baseHeadRot = head.transform.localRotation;
             StartCoroutine("UpdateCameraData");
         }
@@ -161,6 +163,10 @@ namespace Reachy
                     joint.RotateTo(m.targetPosition);
 
                     m.presentPosition = joint.GetPresentPosition();
+                }
+                else
+                {
+                    m.presentPosition = m.targetPosition;
                 }
             }
 
@@ -204,11 +210,13 @@ namespace Reachy
             }
             name2motor[motorName].targetPosition = targetPosition;
 
-            if(motorName == "neck_disk_top")
-            {
-                headRotDuration = name2motor[motorName].targetPosition;
-                needUpdateHeadRot = true;
-            }
+            
+
+            // if(motorName == "neck_pitch")
+            // {
+            //     headRotDuration = name2motor[motorName].targetPosition;
+            //     needUpdateHeadRot = true;
+            // }
         }
 
         void SetFanState(string fanName, bool targetState)
@@ -237,7 +245,23 @@ namespace Reachy
                         break;
                 }
                 SetMotorTargetPosition(motorName, kvp.Value);
+
+                if(motorName == "neck_roll")
+                {
+                    headOrientation[0] = kvp.Value;
+                }
+                if(motorName == "neck_pitch")
+                {
+                    headOrientation[1] = kvp.Value;
+                }
+                if(motorName == "neck_yaw")
+                {
+                    headOrientation[2] = kvp.Value;
+                }
             }
+           
+            UnityEngine.Quaternion euler_request = UnityEngine.Quaternion.Euler(headOrientation[1], headOrientation[0], -headOrientation[2]);
+            HandleHeadOrientation(euler_request);
         }
 
         public void HandleFanCommand(Dictionary<FanId, bool> commands)
@@ -380,33 +404,14 @@ namespace Reachy
             return currentView;
         }
 
-        public void HandleHeadOrientation(Quaternion q)
+        public void HandleHeadOrientation(UnityEngine.Quaternion q)
         {
             targetHeadRot = q;
         }
 
         void UpdateHeadOrientation()
         {
-            if(needUpdateHeadRot)
-            {
-                _timeElapsed += Time.deltaTime;
-                if(_timeElapsed >= headRotDuration)
-                {
-                    needUpdateHeadRot = false;
-                    head.transform.localRotation = targetHeadRot;
-                    baseHeadRot = targetHeadRot;
-
-                    _timeElapsed = 0;
-                    return;
-                }
-
-                float fTime = _timeElapsed / headRotDuration;
-                head.transform.localRotation = Quaternion.Lerp(baseHeadRot, targetHeadRot, fTime);
-            }
-            else
-            {
-                head.transform.localRotation = baseHeadRot;
-            }
+            head.transform.localRotation = targetHeadRot;
         }
 
         public void HandleCameraZoom(CameraId id, ZoomLevelPossibilities zoomLevel)

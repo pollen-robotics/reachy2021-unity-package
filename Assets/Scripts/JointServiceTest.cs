@@ -34,7 +34,6 @@ class JointServiceTest : MonoBehaviour
                 JointService.BindService(new JointServiceImpl()), 
                 SensorService.BindService(new SensorServiceImpl()),
                 FanControllerService.BindService(new FanControllerServiceImpl()), 
-                OrbitaKinematics .BindService(new OrbitaKinematicsImpl()),
                 },
             Ports = { new ServerPort("localhost", PortJoint, ServerCredentials.Insecure) }
         };
@@ -385,65 +384,6 @@ class JointServiceTest : MonoBehaviour
             {
                 return Task.FromResult(new FansCommandAck { Success = false });
             }
-        }
-    }
-
-    public class OrbitaKinematicsImpl : OrbitaKinematics.OrbitaKinematicsBase
-    {
-        public override Task<OrbitaIKSolution> ComputeOrbitaIK(OrbitaIKRequest ik_request, ServerCallContext context)
-        {
-            OrbitaIKSolution ikSol = new OrbitaIKSolution {
-                Success = true,
-                DiskPosition = new JointPosition {
-                    Ids = {
-                        new JointId { Name = "neck_disk_top"},
-                        new JointId { Name = "neck_disk_middle"},
-                        new JointId { Name = "neck_disk_bottom"},
-                    },
-                    Positions = { float.NaN, float.NaN, float.NaN },
-                },
-            };
-
-            return Task.FromResult(ikSol);
-        }
-
-        public override Task<Reachy.Sdk.Kinematics.Quaternion> GetQuaternionTransform(LookVector look_at_request, ServerCallContext context)
-        {
-            Vector3 vo = new Vector3(1, 0, 0);
-            Vector3 vt = new Vector3((float)look_at_request.X, -(float)look_at_request.Y, (float)look_at_request.Z);
-            vt = vt.normalized;
-
-            Vector3 v = Vector3.Cross(vo, vt);
-            v = v.normalized;
-
-            float alpha = Mathf.Acos(Vector3.Dot(vo, vt));
-
-            if(float.IsNaN(alpha) || (alpha < 0.000001f))
-            {
-                UnityEngine.Quaternion null_quat = new UnityEngine.Quaternion(0.0f, 0.0f, 0.0f, 1.0f);
-                reachy.HandleHeadOrientation(null_quat * initialHeadRotation);
-
-                Reachy.Sdk.Kinematics.Quaternion null_q = new Reachy.Sdk.Kinematics.Quaternion{
-                    W = 1,
-                    X = 0,
-                    Y = 0,
-                    Z = 0,
-                };
-                return Task.FromResult(null_q);
-            }
-
-            UnityEngine.Quaternion quat = UnityEngine.Quaternion.AngleAxis(Mathf.Rad2Deg * alpha, v);
-            quat = new UnityEngine.Quaternion(quat.y, quat.x, quat.z, quat.w);
-
-            reachy.HandleHeadOrientation(quat * initialHeadRotation);
-
-            Reachy.Sdk.Kinematics.Quaternion q = new Reachy.Sdk.Kinematics.Quaternion{
-                W = quat.w,
-                X = quat.x,
-                Y = quat.y,
-                Z = quat.z,
-            };
-            return Task.FromResult(q);
         }
     }
 }

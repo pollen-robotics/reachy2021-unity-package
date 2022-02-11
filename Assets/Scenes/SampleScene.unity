@@ -452,39 +452,39 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1371486727, guid: 14675acd9f33a0a45a4d38745c7489b8, type: 3}
       propertyPath: fans.Array.data[0].state
-      value: off
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1371486727, guid: 14675acd9f33a0a45a4d38745c7489b8, type: 3}
       propertyPath: fans.Array.data[1].state
-      value: off
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1371486727, guid: 14675acd9f33a0a45a4d38745c7489b8, type: 3}
       propertyPath: fans.Array.data[2].state
-      value: off
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1371486727, guid: 14675acd9f33a0a45a4d38745c7489b8, type: 3}
       propertyPath: fans.Array.data[3].state
-      value: off
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1371486727, guid: 14675acd9f33a0a45a4d38745c7489b8, type: 3}
       propertyPath: fans.Array.data[4].state
-      value: off
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1371486727, guid: 14675acd9f33a0a45a4d38745c7489b8, type: 3}
       propertyPath: fans.Array.data[5].state
-      value: off
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1371486727, guid: 14675acd9f33a0a45a4d38745c7489b8, type: 3}
       propertyPath: fans.Array.data[6].state
-      value: off
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1371486727, guid: 14675acd9f33a0a45a4d38745c7489b8, type: 3}
       propertyPath: fans.Array.data[7].state
-      value: off
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1371486727, guid: 14675acd9f33a0a45a4d38745c7489b8, type: 3}
       propertyPath: fans.Array.data[8].state
-      value: off
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1371486727, guid: 14675acd9f33a0a45a4d38745c7489b8, type: 3}
       propertyPath: motors.Array.data[0].name
@@ -560,15 +560,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1371486727, guid: 14675acd9f33a0a45a4d38745c7489b8, type: 3}
       propertyPath: motors.Array.data[18].name
-      value: neck_disk_top
+      value: neck_roll
       objectReference: {fileID: 0}
     - target: {fileID: 1371486727, guid: 14675acd9f33a0a45a4d38745c7489b8, type: 3}
       propertyPath: motors.Array.data[19].name
-      value: neck_disk_middle
+      value: neck_pitch
       objectReference: {fileID: 0}
     - target: {fileID: 1371486727, guid: 14675acd9f33a0a45a4d38745c7489b8, type: 3}
       propertyPath: motors.Array.data[20].name
-      value: neck_disk_bottom
+      value: neck_yaw
       objectReference: {fileID: 0}
     - target: {fileID: 1371486727, guid: 14675acd9f33a0a45a4d38745c7489b8, type: 3}
       propertyPath: sensors.Array.data[0].name
