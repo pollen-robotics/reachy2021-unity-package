@@ -15,13 +15,11 @@ using Reachy.Sdk.Kinematics;
 class JointServiceTest : MonoBehaviour
 {
     public static ReachyController reachy;
-    private static UnityEngine.Quaternion initialHeadRotation;
     static Server server;
 
     void Start()
     {
         reachy = GameObject.Find("Reachy").GetComponent<ReachyController>();
-        initialHeadRotation = reachy.transform.GetChild(0).transform.localRotation;
         gRPCServer();
     }
 

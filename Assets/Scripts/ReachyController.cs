@@ -90,8 +90,6 @@ namespace Reachy
         public UnityEngine.Camera leftEye, rightEye;
         public GameObject head;
 
-        float _timeElapsed;
-
         private Dictionary<string, Motor> name2motor;
         private Dictionary<string, Sensor> name2sensor;
         private Dictionary<string, Fan> name2fan;
@@ -106,7 +104,6 @@ namespace Reachy
         UnityEngine.Quaternion targetHeadRot;
         Vector3 headOrientation;
         float headRotDuration;
-        bool needUpdateHeadRot;
 
         private ZoomLevel zoomLevelLeft;
         private ZoomLevel zoomLevelRight;
@@ -143,8 +140,6 @@ namespace Reachy
             rightEye.targetTexture = new RenderTexture(resWidth, resHeight, 0);
             zoomLevelLeft = new ZoomLevel{ Level = ZoomLevelPossibilities.Out };
             zoomLevelRight = new ZoomLevel{ Level = ZoomLevelPossibilities.Out };
-            needUpdateHeadRot = false;
-            _timeElapsed = 0.0f;
             texture = new Texture2D(resWidth, resHeight, TextureFormat.RGB24, false);
             headOrientation = new Vector3(0, 0, 0);
             baseHeadRot = head.transform.localRotation;
@@ -209,14 +204,6 @@ namespace Reachy
                 targetPosition *= -1;
             }
             name2motor[motorName].targetPosition = targetPosition;
-
-            
-
-            // if(motorName == "neck_pitch")
-            // {
-            //     headRotDuration = name2motor[motorName].targetPosition;
-            //     needUpdateHeadRot = true;
-            // }
         }
 
         void SetFanState(string fanName, bool targetState)
