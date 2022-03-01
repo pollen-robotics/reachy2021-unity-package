@@ -30,6 +30,7 @@ class JointServiceTest : MonoBehaviour
         {
             Services = { 
                 JointService.BindService(new JointServiceImpl()), 
+                FullBodyCartesianCommandService.BindService(new FullBodyCartesianCommandServiceImpl()),
                 SensorService.BindService(new SensorServiceImpl()),
                 FanControllerService.BindService(new FanControllerServiceImpl()), 
                 ArmKinematics.BindService(new ArmKinematicsImpl()),
@@ -252,6 +253,71 @@ class JointServiceTest : MonoBehaviour
             };
 
             return Task.FromResult(allIds);
+        }
+    }
+
+    public class FullBodyCartesianCommandServiceImpl : FullBodyCartesianCommandService.FullBodyCartesianCommandServiceBase
+    {
+        public override Task<FullBodyCartesianCommandAck> SendFullBodyCartesianCommands(FullBodyCartesianCommand fullBodyCartesianCommand, ServerCallContext context)
+        {
+            try
+            {
+                ArmKinematicsImpl armKinematics = new ArmKinematicsImpl();
+                Task<ArmIKSolution> leftArmTask = armKinematics.ComputeArmIK(fullBodyCartesianCommand.LeftArm, context);
+                Task<ArmIKSolution> rightArmTask = armKinematics.ComputeArmIK(fullBodyCartesianCommand.RightArm, context);
+                ArmIKSolution leftArmSolution = leftArmTask.Result;
+                ArmIKSolution rightArmSolution = rightArmTask.Result;
+                UnityEngine.Quaternion headRotation= new UnityEngine.Quaternion((float)fullBodyCartesianCommand.Neck.Q.X, 
+                    (float)fullBodyCartesianCommand.Neck.Q.Y, 
+                    -(float)fullBodyCartesianCommand.Neck.Q.Z, 
+                    (float)fullBodyCartesianCommand.Neck.Q.W);
+
+                JointServiceImpl jointService = new JointServiceImpl();
+                List<JointCommand> jointCommandList = new List<JointCommand>();
+
+                int i = 0;
+                foreach(var item in leftArmSolution.ArmPosition.Positions.Ids)
+                {
+                    jointCommandList.Add(new JointCommand {
+                        Id = item,
+                        GoalPosition = (float?)leftArmSolution.ArmPosition.Positions.Positions[i],
+                    });
+                    i += 1;
+                }
+
+                JointsCommand jointsCommand = new JointsCommand { Commands = { jointCommandList } };
+
+                jointService.SendJointsCommands(jointsCommand, context);
+
+                reachy.HandleHeadOrientation(headRotation);
+                return Task.FromResult(new FullBodyCartesianCommandAck { 
+                    LeftArmCommandSuccess = false,
+                    RightArmCommandSuccess = false,
+                    NeckCommandSuccess = false
+                });
+            }
+            catch
+            {
+                return Task.FromResult(new FullBodyCartesianCommandAck { 
+                    LeftArmCommandSuccess = false,
+                    RightArmCommandSuccess = false,
+                    NeckCommandSuccess = false
+                });
+            }
+        }
+
+        public override async Task<FullBodyCartesianCommandAck> StreamFullBodyCartesianCommands(IAsyncStreamReader<FullBodyCartesianCommand> requestStream, ServerCallContext context)
+        {
+            while (await requestStream.MoveNext())
+            {
+                var fullBodyCartesianCommand = requestStream.Current;
+                await SendFullBodyCartesianCommands(fullBodyCartesianCommand, context);
+            }
+            return (new FullBodyCartesianCommandAck { 
+                    LeftArmCommandSuccess = false,
+                    RightArmCommandSuccess = false,
+                    NeckCommandSuccess = false
+                });
         }
     }
 
