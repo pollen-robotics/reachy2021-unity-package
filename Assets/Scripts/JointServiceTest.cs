@@ -267,29 +267,38 @@ class JointServiceTest : MonoBehaviour
                 Task<ArmIKSolution> rightArmTask = armKinematics.ComputeArmIK(fullBodyCartesianCommand.RightArm, context);
                 ArmIKSolution leftArmSolution = leftArmTask.Result;
                 ArmIKSolution rightArmSolution = rightArmTask.Result;
-                UnityEngine.Quaternion headRotation= new UnityEngine.Quaternion((float)fullBodyCartesianCommand.Neck.Q.X, 
-                    (float)fullBodyCartesianCommand.Neck.Q.Y, 
-                    -(float)fullBodyCartesianCommand.Neck.Q.Z, 
-                    (float)fullBodyCartesianCommand.Neck.Q.W);
 
                 JointServiceImpl jointService = new JointServiceImpl();
                 List<JointCommand> jointCommandList = new List<JointCommand>();
 
-                int i = 0;
-                foreach(var item in leftArmSolution.ArmPosition.Positions.Ids)
+                int iter = 0;
+                foreach(var l_id in leftArmSolution.ArmPosition.Positions.Ids)
                 {
                     jointCommandList.Add(new JointCommand {
-                        Id = item,
-                        GoalPosition = (float?)leftArmSolution.ArmPosition.Positions.Positions[i],
+                        Id = l_id,
+                        GoalPosition = (float?)leftArmSolution.ArmPosition.Positions.Positions[iter],
                     });
-                    i += 1;
+                    iter += 1;
+                }
+                iter = 0;
+                foreach(var l_id in rightArmSolution.ArmPosition.Positions.Ids)
+                {
+                    jointCommandList.Add(new JointCommand {
+                        Id = l_id,
+                        GoalPosition = (float?)rightArmSolution.ArmPosition.Positions.Positions[iter],
+                    });
+                    iter += 1;
                 }
 
                 JointsCommand jointsCommand = new JointsCommand { Commands = { jointCommandList } };
-
                 jointService.SendJointsCommands(jointsCommand, context);
 
+                UnityEngine.Quaternion headRotation= new UnityEngine.Quaternion((float)fullBodyCartesianCommand.Neck.Q.X, 
+                    (float)fullBodyCartesianCommand.Neck.Q.Y, 
+                    -(float)fullBodyCartesianCommand.Neck.Q.Z, 
+                    (float)fullBodyCartesianCommand.Neck.Q.W);
                 reachy.HandleHeadOrientation(headRotation);
+
                 return Task.FromResult(new FullBodyCartesianCommandAck { 
                     LeftArmCommandSuccess = false,
                     RightArmCommandSuccess = false,
