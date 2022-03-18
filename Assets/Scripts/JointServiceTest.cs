@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System.Text;
 using System.Threading.Tasks;
-using System;
 using Reachy;
 
 using Grpc.Core;
@@ -11,16 +8,31 @@ using Grpc.Core.Utils;
 using Reachy.Sdk.Joint;
 using Reachy.Sdk.Fan;
 using Reachy.Sdk.Kinematics;
+using System.Collections;
+using System.Collections.Generic;
+using System;
+using System.Runtime.InteropServices;
 
 class JointServiceTest : MonoBehaviour
 {
     public static ReachyController reachy;
     static Server server;
 
+    [DllImport("Arm_kinematics.dll", CallingConvention = CallingConvention.Cdecl)]
+    private static extern void setup();
+
+    [DllImport("Arm_kinematics.dll", CallingConvention = CallingConvention.Cdecl)]
+    private static extern void forward(ArmSide side, double[] q, int n, double[] M);
+
+    [DllImport("Arm_kinematics.dll", CallingConvention = CallingConvention.Cdecl)]
+    private static extern void inverse(ArmSide side, double[] M, double[] q);
+
+
     void Start()
     {
         reachy = GameObject.Find("Reachy").GetComponent<ReachyController>();
         gRPCServer();
+        setup(); // Setup Arm_kinematics
     }
 
     public static void gRPCServer()
@@ -334,11 +346,35 @@ class JointServiceTest : MonoBehaviour
     {
         public override Task<ArmFKSolution> ComputeArmFK(ArmFKRequest fkRequest, ServerCallContext context)
         {
-            ArmFKSolution sol = new ArmFKSolution {
+            ArmFKSolution sol;
+            if(fkRequest.ArmPosition.Positions.Positions.Count != 7)
+            {
+                sol = new ArmFKSolution {
                 Success = false,
                 EndEffector = new ArmEndEffector { 
                     Side = fkRequest.ArmPosition.Side,
                     Pose = new Reachy.Sdk.Kinematics.Matrix4x4 { Data = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0} },
+                    },
+                };
+                return Task.FromResult(sol);
+            }
+
+            double[] q = new double[7];
+            for(int i = 0; i < 7; i++)
+            {
+                q[i] = fkRequest.ArmPosition.Positions.Positions[i];
+            }
+            double[] M = new double[16];
+
+            forward(fkRequest.ArmPosition.Side, q, 7, M);
+
+            List<double> listM = new List<double>(M);
+
+            sol = new ArmFKSolution {
+                Success = true,
+                EndEffector = new ArmEndEffector { 
+                    Side = fkRequest.ArmPosition.Side,
+                    Pose = new Reachy.Sdk.Kinematics.Matrix4x4 { Data = { listM } },
                 },
             };
 
@@ -347,13 +383,71 @@ class JointServiceTest : MonoBehaviour
 
         public override Task<ArmIKSolution> ComputeArmIK(ArmIKRequest ikRequest, ServerCallContext context)
         {
-            ArmIKSolution sol = new ArmIKSolution {
-                Success = false,
+            ArmIKSolution sol;
+
+            double[] M = new double[16];
+            if(ikRequest.Target.Pose.Data.Count != 16)
+            {
+                sol = new ArmIKSolution {
+                    Success = false,
+                    ArmPosition = new ArmJointPosition { 
+                        Side = ikRequest.Target.Side,
+                        Positions = new JointPosition { 
+                            Ids = { new Reachy.Sdk.Joint.JointId {} },
+                            Positions = {},
+                        },
+                    },
+                };
+
+                return Task.FromResult(sol);
+            }
+
+            for (int i = 0; i < 16; i++)
+            {
+                M[i] = ikRequest.Target.Pose.Data[i];
+            }
+            double[] q = new double[7];
+            inverse(ikRequest.Target.Side, M, q);
+
+            List<double> listq = new List<double>(q);
+
+            List<JointId> listJointIds = new List<JointId>();
+            if(ikRequest.Target.Side == ArmSide.Right)
+            {
+                listJointIds.Add(new JointId { Name = "r_shoulder_pitch" });
+                listJointIds.Add(new JointId { Name = "r_shoulder_roll" });
+                listJointIds.Add(new JointId { Name = "r_arm_yaw" });
+                listJointIds.Add(new JointId { Name = "r_elbow_pitch" });
+                listJointIds.Add(new JointId { Name = "r_forearm_yaw" });
+                listJointIds.Add(new JointId { Name = "r_wrist_pitch" });
+                listJointIds.Add(new JointId { Name = "r_wrist_roll" });
+            }
+            else 
+            {
+                listJointIds.Add(new JointId { Name = "l_shoulder_pitch" });
+                listJointIds.Add(new JointId { Name = "l_shoulder_roll" });
+                listJointIds.Add(new JointId { Name = "l_arm_yaw" });
+                listJointIds.Add(new JointId { Name = "l_elbow_pitch" });
+                listJointIds.Add(new JointId { Name = "l_forearm_yaw" });
+                listJointIds.Add(new JointId { Name = "l_wrist_pitch" });
+                listJointIds.Add(new JointId { Name = "l_wrist_roll" });
+            }
+
+            Debug.Log(q[0]);
+            Debug.Log(q[1]);
+            Debug.Log(q[2]);
+            Debug.Log(q[3]);
+            Debug.Log(q[4]);
+            Debug.Log(q[5]);
+            Debug.Log(q[6]);
+
+            sol = new ArmIKSolution {
+                Success = true,
                 ArmPosition = new ArmJointPosition { 
                     Side = ikRequest.Target.Side,
                     Positions = new JointPosition { 
-                        Ids = { new Reachy.Sdk.Joint.JointId {} },
-                        Positions = {},
+                        Ids = { listJointIds },
+                        Positions = { listq },
                     },
                 },
             };
