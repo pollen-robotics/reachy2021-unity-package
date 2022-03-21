@@ -274,42 +274,55 @@ class JointServiceTest : MonoBehaviour
         {
             try
             {
+                Debug.Log(fullBodyCartesianCommand);
                 ArmKinematicsImpl armKinematics = new ArmKinematicsImpl();
-                Task<ArmIKSolution> leftArmTask = armKinematics.ComputeArmIK(fullBodyCartesianCommand.LeftArm, context);
-                Task<ArmIKSolution> rightArmTask = armKinematics.ComputeArmIK(fullBodyCartesianCommand.RightArm, context);
-                ArmIKSolution leftArmSolution = leftArmTask.Result;
-                ArmIKSolution rightArmSolution = rightArmTask.Result;
 
                 JointServiceImpl jointService = new JointServiceImpl();
                 List<JointCommand> jointCommandList = new List<JointCommand>();
 
-                int iter = 0;
-                foreach(var l_id in leftArmSolution.ArmPosition.Positions.Ids)
+                if(fullBodyCartesianCommand.LeftArm != null)
                 {
-                    jointCommandList.Add(new JointCommand {
-                        Id = l_id,
-                        GoalPosition = (float?)leftArmSolution.ArmPosition.Positions.Positions[iter],
-                    });
-                    iter += 1;
+                    Task<ArmIKSolution> leftArmTask = armKinematics.ComputeArmIK(fullBodyCartesianCommand.LeftArm, context);
+                    ArmIKSolution leftArmSolution = leftArmTask.Result;
+
+                    int iter = 0;
+                    foreach(var l_id in leftArmSolution.ArmPosition.Positions.Ids)
+                    {
+                        jointCommandList.Add(new JointCommand {
+                            Id = l_id,
+                            GoalPosition = (float?)leftArmSolution.ArmPosition.Positions.Positions[iter],
+                        });
+                        iter += 1;
+                    }
                 }
-                iter = 0;
-                foreach(var l_id in rightArmSolution.ArmPosition.Positions.Ids)
+                if(fullBodyCartesianCommand.RightArm != null)
                 {
-                    jointCommandList.Add(new JointCommand {
-                        Id = l_id,
-                        GoalPosition = (float?)rightArmSolution.ArmPosition.Positions.Positions[iter],
-                    });
-                    iter += 1;
+                    Task<ArmIKSolution> rightArmTask = armKinematics.ComputeArmIK(fullBodyCartesianCommand.RightArm, context);
+                    ArmIKSolution rightArmSolution = rightArmTask.Result;
+
+                    int iter = 0;
+                    foreach(var l_id in rightArmSolution.ArmPosition.Positions.Ids)
+                    {
+                        Debug.Log("right arm id");
+                        jointCommandList.Add(new JointCommand {
+                            Id = l_id,
+                            GoalPosition = (float?)rightArmSolution.ArmPosition.Positions.Positions[iter],
+                        });
+                        iter += 1;
+                    }
                 }
 
                 JointsCommand jointsCommand = new JointsCommand { Commands = { jointCommandList } };
                 jointService.SendJointsCommands(jointsCommand, context);
 
-                UnityEngine.Quaternion headRotation= new UnityEngine.Quaternion((float)fullBodyCartesianCommand.Neck.Q.X, 
+                if(fullBodyCartesianCommand.Neck != null)
+                {
+                    UnityEngine.Quaternion headRotation= new UnityEngine.Quaternion((float)fullBodyCartesianCommand.Neck.Q.X, 
                     (float)fullBodyCartesianCommand.Neck.Q.Y, 
                     -(float)fullBodyCartesianCommand.Neck.Q.Z, 
                     (float)fullBodyCartesianCommand.Neck.Q.W);
-                reachy.HandleHeadOrientation(headRotation);
+                    reachy.HandleHeadOrientation(headRotation);
+                }
 
                 return Task.FromResult(new FullBodyCartesianCommandAck { 
                     LeftArmCommandSuccess = false,
@@ -335,9 +348,9 @@ class JointServiceTest : MonoBehaviour
                 await SendFullBodyCartesianCommands(fullBodyCartesianCommand, context);
             }
             return (new FullBodyCartesianCommandAck { 
-                    LeftArmCommandSuccess = false,
-                    RightArmCommandSuccess = false,
-                    NeckCommandSuccess = false
+                    LeftArmCommandSuccess = true,
+                    RightArmCommandSuccess = true,
+                    NeckCommandSuccess = true
                 });
         }
     }
@@ -432,14 +445,6 @@ class JointServiceTest : MonoBehaviour
                 listJointIds.Add(new JointId { Name = "l_wrist_pitch" });
                 listJointIds.Add(new JointId { Name = "l_wrist_roll" });
             }
-
-            Debug.Log(q[0]);
-            Debug.Log(q[1]);
-            Debug.Log(q[2]);
-            Debug.Log(q[3]);
-            Debug.Log(q[4]);
-            Debug.Log(q[5]);
-            Debug.Log(q[6]);
 
             sol = new ArmIKSolution {
                 Success = true,
