@@ -18,13 +18,31 @@ class JointServiceTest : MonoBehaviour
     public static ReachyController reachy;
     static Server server;
 
+    #if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
     [DllImport("Arm_kinematics.dll", CallingConvention = CallingConvention.Cdecl)]
+    #elif UNITY_STANDALONE_LINUX || UNITY_EDITOR_LINUX
+    [DllImport("libArm_kinematics.so", CallingConvention = CallingConvention.Cdecl)]
+    #elif UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX
+    [DllImport("libArm_kinematics.dylib", CallingConvention = CallingConvention.Cdecl)]
+    #endif
     private static extern void setup();
 
+    #if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
     [DllImport("Arm_kinematics.dll", CallingConvention = CallingConvention.Cdecl)]
+    #elif UNITY_STANDALONE_LINUX || UNITY_EDITOR_LINUX
+    [DllImport("libArm_kinematics.so", CallingConvention = CallingConvention.Cdecl)]
+    #elif UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX
+    [DllImport("libArm_kinematics.dylib", CallingConvention = CallingConvention.Cdecl)]
+    #endif
     private static extern void forward(ArmSide side, double[] q, int n, double[] M);
 
+    #if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
     [DllImport("Arm_kinematics.dll", CallingConvention = CallingConvention.Cdecl)]
+    #elif UNITY_STANDALONE_LINUX || UNITY_EDITOR_LINUX
+    [DllImport("libArm_kinematics.so", CallingConvention = CallingConvention.Cdecl)]
+    #elif UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX
+    [DllImport("libArm_kinematics.dylib", CallingConvention = CallingConvention.Cdecl)]
+    #endif
     private static extern void inverse(ArmSide side, double[] M, double[] q);
 
 
