@@ -30,7 +30,7 @@ class CameraServiceTest : MonoBehaviour
         })
         {
             Services = { CameraService.BindService(new CameraServiceImpl()) },
-            Ports = { new ServerPort("localhost", PortJoint, ServerCredentials.Insecure) }
+            Ports = { new ServerPort("0.0.0.0", PortJoint, ServerCredentials.Insecure) }
         };
         server.Start();
     }
