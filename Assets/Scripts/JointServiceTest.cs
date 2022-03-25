@@ -82,12 +82,23 @@ class JointServiceTest : MonoBehaviour
             try
             {
                 Dictionary<JointId, float> commands = new Dictionary<JointId, float>();
+                Dictionary<JointId, bool> compliancy = new Dictionary<JointId, bool>();
                 for(int i=0; i<jointsCommand.Commands.Count; i++)
                 {
-                    float command = Mathf.Rad2Deg * (float)jointsCommand.Commands[i].GoalPosition;
-                    commands.Add(jointsCommand.Commands[i].Id, command);
+                    if(jointsCommand.Commands[i].GoalPosition != null)
+                    {
+                        float command = Mathf.Rad2Deg * (float)jointsCommand.Commands[i].GoalPosition;
+                        commands.Add(jointsCommand.Commands[i].Id, command);
+                    }
+
+                    if(jointsCommand.Commands[i].Compliant != null)
+                    {
+                        bool isCompliant = (bool)jointsCommand.Commands[i].Compliant;
+                        compliancy.Add(jointsCommand.Commands[i].Id, isCompliant);
+                    }                    
                 }
                 reachy.HandleCommand(commands);
+                reachy.HandleCompliancy(compliancy);
                 return Task.FromResult(new JointsCommandAck { Success = true });
             }
             catch
@@ -142,7 +153,7 @@ class JointServiceTest : MonoBehaviour
                 }
                 if(jointRequest.RequestedFields.Contains(JointField.Compliant))
                 {
-                    jointState.Compliant = false;
+                    jointState.Compliant = item.isCompliant;
                 }
                 if(jointRequest.RequestedFields.Contains(JointField.GoalPosition))
                 {
@@ -292,7 +303,6 @@ class JointServiceTest : MonoBehaviour
         {
             try
             {
-                Debug.Log(fullBodyCartesianCommand);
                 ArmKinematicsImpl armKinematics = new ArmKinematicsImpl();
 
                 JointServiceImpl jointService = new JointServiceImpl();
@@ -321,7 +331,6 @@ class JointServiceTest : MonoBehaviour
                     int iter = 0;
                     foreach(var l_id in rightArmSolution.ArmPosition.Positions.Ids)
                     {
-                        Debug.Log("right arm id");
                         jointCommandList.Add(new JointCommand {
                             Id = l_id,
                             GoalPosition = (float?)rightArmSolution.ArmPosition.Positions.Positions[iter],
