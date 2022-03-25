@@ -223,6 +223,7 @@ namespace Reachy
 
         public void HandleCommand(Dictionary<JointId, float> commands)
         {
+            bool containNeckCommand = false;
             foreach(KeyValuePair<JointId, float> kvp in commands )
             {
                 string motorName;
@@ -246,6 +247,7 @@ namespace Reachy
 
                 if(motorName == "neck_roll")
                 {
+                    containNeckCommand = true;
                     headOrientation[0] = kvp.Value;
                 }
                 if(motorName == "neck_pitch")
@@ -258,8 +260,11 @@ namespace Reachy
                 }
             }
            
-            UnityEngine.Quaternion euler_request = UnityEngine.Quaternion.Euler(headOrientation[1], headOrientation[0], -headOrientation[2]);
-            HandleHeadOrientation(euler_request);
+            if(containNeckCommand) 
+            {
+                UnityEngine.Quaternion euler_request = UnityEngine.Quaternion.Euler(headOrientation[1], headOrientation[0], -headOrientation[2]);
+                HandleHeadOrientation(euler_request);
+            }
         }
 
         public void HandleCompliancy(Dictionary<JointId, bool> commands)
