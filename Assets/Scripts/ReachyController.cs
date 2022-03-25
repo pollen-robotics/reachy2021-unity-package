@@ -22,6 +22,7 @@ namespace Reachy
         public float presentPosition;
         public float offset;
         public bool isDirect;
+        public bool isCompliant;
     }
 
     [System.Serializable]
@@ -46,6 +47,7 @@ namespace Reachy
         public int uid;
         public float present_position;
         public float goal_position;
+        public bool isCompliant;
     }
 
     [System.Serializable]
@@ -206,6 +208,11 @@ namespace Reachy
             name2motor[motorName].targetPosition = targetPosition;
         }
 
+        void SetMotorCompliancy(string motorName, bool compliancy)
+        {
+            name2motor[motorName].isCompliant = compliancy;
+        }
+
         void SetFanState(string fanName, bool targetState)
         {
             if(fanName != "neck_fan")
@@ -231,7 +238,11 @@ namespace Reachy
                         motorName = kvp.Key.Name;
                         break;
                 }
-                SetMotorTargetPosition(motorName, kvp.Value);
+                if(!name2motor[motorName].isCompliant) 
+                {
+                    SetMotorTargetPosition(motorName, kvp.Value);
+                }
+                
 
                 if(motorName == "neck_roll")
                 {
@@ -249,6 +260,27 @@ namespace Reachy
            
             UnityEngine.Quaternion euler_request = UnityEngine.Quaternion.Euler(headOrientation[1], headOrientation[0], -headOrientation[2]);
             HandleHeadOrientation(euler_request);
+        }
+
+        public void HandleCompliancy(Dictionary<JointId, bool> commands)
+        {
+            foreach(KeyValuePair<JointId, bool> kvp in commands )
+            {
+                string motorName;
+                switch(kvp.Key.IdCase)
+                {
+                    case JointId.IdOneofCase.Name:
+                        motorName = kvp.Key.Name;
+                        break;
+                    case JointId.IdOneofCase.Uid:
+                        motorName = motors[kvp.Key.Uid].name;
+                        break;
+                    default:
+                        motorName = kvp.Key.Name;
+                        break;
+                }
+                SetMotorCompliancy(motorName, kvp.Value);
+            }
         }
 
         public void HandleFanCommand(Dictionary<FanId, bool> commands)
@@ -280,12 +312,14 @@ namespace Reachy
                 Motor m;
                 float position;
                 float target_position;
+                bool compliancy;
                 switch(kvp.Key.IdCase)
                 {
                     case JointId.IdOneofCase.Name:
                         m = name2motor[kvp.Key.Name];
                         position = m.presentPosition;
                         target_position = m.targetPosition;
+                        compliancy = m.isCompliant;
                         if(!name2motor[kvp.Key.Name].isDirect)
                         {
                             position *= -1;
@@ -298,6 +332,7 @@ namespace Reachy
                         m = motors[kvp.Key.Uid];
                         position = m.presentPosition;
                         target_position = m.targetPosition;
+                        compliancy = m.isCompliant;
                         if(!motors[kvp.Key.Uid].isDirect)
                         {
                             position *= -1;
@@ -310,6 +345,7 @@ namespace Reachy
                         m = name2motor[kvp.Key.Name];
                         position = m.presentPosition;
                         target_position = m.targetPosition;
+                        compliancy = m.isCompliant;
                         if(!name2motor[kvp.Key.Name].isDirect)
                         {
                             position *= -1;
@@ -319,7 +355,7 @@ namespace Reachy
                         target_position -= name2motor[kvp.Key.Name].offset;
                         break;
                 }
-                motorsList.Add(new SerializableMotor() { name=m.name, uid = m.uid, present_position=Mathf.Deg2Rad*position, goal_position=Mathf.Deg2Rad*target_position});
+                motorsList.Add(new SerializableMotor() { name=m.name, uid = m.uid, present_position=Mathf.Deg2Rad*position, goal_position=Mathf.Deg2Rad*target_position, isCompliant = compliancy});
             }
             return motorsList;
         }
