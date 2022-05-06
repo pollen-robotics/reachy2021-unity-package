@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: PA_DayWater
+  m_Shader: {fileID: -6465566751694194690, guid: 16d1f11fd60eb754687c8451e2b5e5bf,
+    type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _NormalFromTexture_5BF41B3C_Texture_0:
+        m_Texture: {fileID: 2800000, guid: bd112cd553bdb52458cf1f644b9c8c0a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - Vector1_2212E733: 31
+    - Vector1_85BD9EED: 1
+    m_Colors:
+    - Color_890AC6DD: {r: 0, g: 2.2588236, b: 5.992157, a: 1}
+    - Color_A5475A14: {r: 0.09019607, g: 1, b: 0.481291, a: 0}
+    - Color_D50F5719: {r: 0, g: 1.4001251, b: 1.8443027, a: 1}
