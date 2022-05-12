@@ -17,7 +17,7 @@ public class DrumSound : MonoBehaviour
         if (collision.gameObject.name == "Left Wrist Roll" || collision.gameObject.name == "Right Wrist Roll")
         {
             Debug.Log("Play sound");
-            GetComponent<AudioSource>().PlayOneShot(sound, 0.7F);;
+            GetComponent<AudioSource>().Play();
         }
     }
 }
