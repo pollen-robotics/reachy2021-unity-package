@@ -8,13 +8,15 @@
 
 ## Create your own simulator
 
-Download the Unity package available on the realease page.
+Download the Unity package available on the [release page](https://github.com/pollen-robotics/Simulator_Reachy2021/releases).
+Download the [grpc_unity_package](https://packages.grpc.io/archive/2022/04/67538122780f8a081c774b66884289335c290cbe-f15a2c1c-582b-4c51-acf2-ab6d711d2c59/csharp/grpc_unity_package.2.47.0-dev202204190851.zip) from the [gRPC daily builds](https://packages.grpc.io/archive/2022/04/67538122780f8a081c774b66884289335c290cbe-f15a2c1c-582b-4c51-acf2-ab6d711d2c59/index.xml).
 
 To start using the simulator:
 1. Create a new 3D Unity project (or open an existing one)
-2. From **Assets/Import Package/Custom Package...**, import the package you previously downloaded.
-3. Drag and drop Reachy and the Server from the Prefabs folder into your scene.
-4. Then click Play and choose how to connect to your robot
+2. Extract all from the previously downloaded grpc_unity_package, and paste the **Plugins** folder directly in the **Assets** folder of your Unity project.
+3. From the menu **Assets/Import Package/Custom Package...**, import the *reachy2021-simulator.unitypackage* you previously downloaded.
+4. Drag and drop Reachy and the Server from the Prefabs folder into your scene.
+5. Then click Play and choose how to connect to your robot
 
 You can create your own scene and environment for Reachy to evolve in!
 
