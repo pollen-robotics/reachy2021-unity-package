@@ -8,7 +8,7 @@
 
 ## Create your own simulator
 
-Download the Unity package available on the [release page](https://github.com/pollen-robotics/Simulator_Reachy2021/releases).
+Download the Unity package available on the [release page](https://github.com/pollen-robotics/Simulator_Reachy2021/releases).  
 Download the [grpc_unity_package](https://packages.grpc.io/archive/2022/04/67538122780f8a081c774b66884289335c290cbe-f15a2c1c-582b-4c51-acf2-ab6d711d2c59/csharp/grpc_unity_package.2.47.0-dev202204190851.zip) from the [gRPC daily builds](https://packages.grpc.io/archive/2022/04/67538122780f8a081c774b66884289335c290cbe-f15a2c1c-582b-4c51-acf2-ab6d711d2c59/index.xml).
 
 To start using the simulator:
