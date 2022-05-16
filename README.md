@@ -8,7 +8,7 @@
 
 ## Create your own simulator
 
-To use the simulator, download the Unity package.
+Download the Unity package available on the realease page.
 
 To start using the simulator:
 1. Create a new 3D Unity project (or open an existing one)
@@ -23,7 +23,7 @@ You can create your own scene and environment for Reachy to evolve in!
 The Unity simulator is only offering the gRPC services of the robot, not the below ROS2 services.  
 For this reason, the simulator is compatible with:
 - [Reachy 2021 Python SDK](https://docs.pollen-robotics.com/sdk/getting-started/introduction/): 
-connect to the simulated robot with the usual [Reachy 2021 Python SDK](https://docs.pollen-robotics.com/sdk/getting-started/introduction/) command:
+connect to the simulated robot with the usual command:
 
 ```
 from reachy_sdk import ReachySDK
