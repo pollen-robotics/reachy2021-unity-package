@@ -1,4 +1,4 @@
-# Simulator_Reachy2021
+# reachy2021-unity-package
 
 |   License     |     |
 | ------------- | :-------------: |
