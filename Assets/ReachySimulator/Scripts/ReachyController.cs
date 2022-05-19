@@ -145,7 +145,6 @@ namespace Reachy
             texture = new Texture2D(resWidth, resHeight, TextureFormat.RGB24, false);
             headOrientation = new Vector3(0, 0, 0);
             baseHeadRot = head.transform.localRotation;
-            StartCoroutine("UpdateCameraData");
         }
 
         void Update()
@@ -176,17 +175,15 @@ namespace Reachy
             }
 
            UpdateHeadOrientation();
+           UpdateCameraData();
            UpdateCameraZoom();
         }
 
-        IEnumerator UpdateCameraData()
-        {
-            while (true)
-            {
-                yield return new WaitForEndOfFrame();
-                leftEyeFrame = GetEyeRawTextureData(leftEye);
-                rightEyeFrame = GetEyeRawTextureData(rightEye);
-            }
+
+        void UpdateCameraData()
+        {           
+            leftEyeFrame = GetEyeRawTextureData(leftEye);
+            rightEyeFrame = GetEyeRawTextureData(rightEye);
         }
 
         string GetEyeRawTextureData(UnityEngine.Camera camera)
