@@ -77,7 +77,7 @@ class CameraServiceServer : MonoBehaviour
                 }
 
                 await responseStream.WriteAsync(new Image { Data = Google.Protobuf.ByteString.FromBase64(image) });
-                await Task.Delay(TimeSpan.FromSeconds(1/30), context.CancellationToken);
+                await Task.Delay(30, context.CancellationToken);
             }
         }
 
