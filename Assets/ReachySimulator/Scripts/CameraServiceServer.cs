@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System;
 using Reachy;
@@ -14,6 +15,8 @@ class CameraServiceServer : MonoBehaviour
 {
     public static ReachyController reachy;
     static Server server;
+
+    private static CancellationTokenSource askForCancellation = new CancellationTokenSource();
 
     void Start()
     {
@@ -40,6 +43,12 @@ class CameraServiceServer : MonoBehaviour
         server.ShutdownAsync().Wait();
     }
 
+    void OnApplicationQuit()
+    {
+        askForCancellation.Cancel();
+        askForCancellation.Dispose();
+    }
+
     public class CameraServiceImpl : CameraService.CameraServiceBase
     {
 
@@ -63,21 +72,32 @@ class CameraServiceServer : MonoBehaviour
 
         public override async Task StreamImage(StreamImageRequest imageRequest, Grpc.Core.IServerStreamWriter<Image> responseStream, ServerCallContext context)
         {
-            while (!context.CancellationToken.IsCancellationRequested)
-            {
-                var state = reachy.GetCurrentView();
-                string image;
-                if(imageRequest.Request.Camera.Id == CameraId.Left)
-                {
-                    image = state.left_eye;
-                }
-                else
-                {
-                    image = state.right_eye;
-                }
+            CancellationToken cancellationToken = askForCancellation.Token;
 
-                await responseStream.WriteAsync(new Image { Data = Google.Protobuf.ByteString.FromBase64(image) });
-                await Task.Delay(30, context.CancellationToken);
+            try
+            {
+                while (!context.CancellationToken.IsCancellationRequested)
+                {
+                    var state = reachy.GetCurrentView();
+                    string image;
+                    if(imageRequest.Request.Camera.Id == CameraId.Left)
+                    {
+                        image = state.left_eye;
+                    }
+                    else
+                    {
+                        image = state.right_eye;
+                    }
+
+                    await responseStream.WriteAsync(new Image { Data = Google.Protobuf.ByteString.FromBase64(image) });
+                    await Task.Delay(30, context.CancellationToken);
+
+                    cancellationToken.ThrowIfCancellationRequested();
+                }
+            }
+            catch(OperationCanceledException e)
+            {
+
             }
         }
 
