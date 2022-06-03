@@ -71,6 +71,7 @@ class JointServiceServer : MonoBehaviour
             Ports = { new ServerPort("0.0.0.0", PortJoint, ServerCredentials.Insecure) },
         };
         server.Start();
+        Debug.Log("[ReachyJointServiceServer] Joint server ready!");
     }
 
     void OnDestroy()
@@ -82,6 +83,8 @@ class JointServiceServer : MonoBehaviour
     {
         askForCancellation.Cancel();
         askForCancellation.Dispose();
+
+        Debug.Log("[ReachyJointServiceServer] Joint server closed");
     }
     
     public class JointServiceImpl : JointService.JointServiceBase
@@ -216,6 +219,7 @@ class JointServiceServer : MonoBehaviour
 
         public override async Task StreamJointsState(StreamJointsRequest jointRequest, Grpc.Core.IServerStreamWriter<JointsState> responseStream, ServerCallContext context)
         {
+            Debug.Log("New joint client connection");
             CancellationToken cancellationToken = askForCancellation.Token;
 
             try
@@ -299,6 +303,7 @@ class JointServiceServer : MonoBehaviour
                     await Task.Delay(TimeSpan.FromSeconds(1/jointRequest.PublishFrequency), cancellationToken);
                     cancellationToken.ThrowIfCancellationRequested();
                 }
+                Debug.Log("Joint client disconnection");
             }
             catch (OperationCanceledException e)
             {

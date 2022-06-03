@@ -36,6 +36,8 @@ class CameraServiceServer : MonoBehaviour
             Ports = { new ServerPort("0.0.0.0", PortJoint, ServerCredentials.Insecure) }
         };
         server.Start();
+
+        Debug.Log("[ReachyCameraServiceServer] Camera server ready!");
     }
 
     void OnDestroy()
@@ -47,6 +49,7 @@ class CameraServiceServer : MonoBehaviour
     {
         askForCancellation.Cancel();
         askForCancellation.Dispose();
+        Debug.Log("[ReachyCameraServiceServer] Camera server closed");
     }
 
     public class CameraServiceImpl : CameraService.CameraServiceBase
@@ -72,6 +75,8 @@ class CameraServiceServer : MonoBehaviour
 
         public override async Task StreamImage(StreamImageRequest imageRequest, Grpc.Core.IServerStreamWriter<Image> responseStream, ServerCallContext context)
         {
+            Debug.Log("New camera client connection");
+
             CancellationToken cancellationToken = askForCancellation.Token;
 
             try
@@ -94,6 +99,7 @@ class CameraServiceServer : MonoBehaviour
 
                     cancellationToken.ThrowIfCancellationRequested();
                 }
+                Debug.Log("Camera client disconnection");
             }
             catch(OperationCanceledException e)
             {
