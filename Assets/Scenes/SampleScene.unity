@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.45011425, g: 0.50015527, b: 0.5754596, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -176,6 +176,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 3
+    m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -491,6 +492,7 @@ Light:
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
+  m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
 --- !u!4 &705507995
@@ -632,6 +634,7 @@ ArticulationBody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 223221718689245080}
   m_Enabled: 1
+  serializedVersion: 2
   m_Mass: 0.4
   m_ParentAnchorPosition: {x: -1.2104952e-10, y: -1.950054e-10, z: -0.0007559991}
   m_ParentAnchorRotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
@@ -650,7 +653,7 @@ ArticulationBody:
     upperLimit: 90
     stiffness: 1000
     damping: 50
-    forceLimit: 2.8
+    forceLimit: 1000
     target: 0
     targetVelocity: 0
   m_YDrive:
@@ -674,6 +677,7 @@ ArticulationBody:
   m_JointFriction: 0.05
   m_Immovable: 0
   m_UseGravity: 1
+  m_CollisionDetectionMode: 0
 --- !u!171741748 &840404001
 ArticulationBody:
   m_ObjectHideFlags: 0
@@ -682,6 +686,7 @@ ArticulationBody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 223221718689245066}
   m_Enabled: 1
+  serializedVersion: 2
   m_Mass: 0.16
   m_ParentAnchorPosition: {x: 0.00066, y: 1.1641535e-10, z: -1.6987324e-10}
   m_ParentAnchorRotation: {x: -0.49999997, y: 0.4999999, z: 0.5, w: -0.5}
@@ -700,7 +705,7 @@ ArticulationBody:
     upperLimit: 90
     stiffness: 1000
     damping: 50
-    forceLimit: 6.4
+    forceLimit: 1000
     target: 0
     targetVelocity: 0
   m_YDrive:
@@ -724,6 +729,7 @@ ArticulationBody:
   m_JointFriction: 0.05
   m_Immovable: 0
   m_UseGravity: 1
+  m_CollisionDetectionMode: 0
 --- !u!171741748 &840404002
 ArticulationBody:
   m_ObjectHideFlags: 0
@@ -732,6 +738,7 @@ ArticulationBody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 223221718689245064}
   m_Enabled: 1
+  serializedVersion: 2
   m_Mass: 0.08
   m_ParentAnchorPosition: {x: 0.00124, y: 0, z: -7.450579e-11}
   m_ParentAnchorRotation: {x: -0.00000003090862, y: -0.7071067, z: 0.7071068, w: -0.00000005849835}
@@ -750,7 +757,7 @@ ArticulationBody:
     upperLimit: 90
     stiffness: 1000
     damping: 50
-    forceLimit: 10.6
+    forceLimit: 1000
     target: 0
     targetVelocity: 0
   m_YDrive:
@@ -774,6 +781,7 @@ ArticulationBody:
   m_JointFriction: 0.05
   m_Immovable: 0
   m_UseGravity: 1
+  m_CollisionDetectionMode: 0
 --- !u!171741748 &840404003
 ArticulationBody:
   m_ObjectHideFlags: 0
@@ -782,6 +790,7 @@ ArticulationBody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 223221718689245156}
   m_Enabled: 1
+  serializedVersion: 2
   m_Mass: 0.08
   m_ParentAnchorPosition: {x: 0.00037000034, y: -0.00039999853, z: 2.910383e-10}
   m_ParentAnchorRotation: {x: 0.00000008940698, y: 0.7071068, z: 0.00000008940697, w: -0.7071068}
@@ -800,7 +809,7 @@ ArticulationBody:
     upperLimit: 69
     stiffness: 1000
     damping: 50
-    forceLimit: 1.8
+    forceLimit: 1000
     target: 0
     targetVelocity: 0
   m_YDrive:
@@ -824,6 +833,7 @@ ArticulationBody:
   m_JointFriction: 0.05
   m_Immovable: 0
   m_UseGravity: 1
+  m_CollisionDetectionMode: 0
 --- !u!171741748 &840404004
 ArticulationBody:
   m_ObjectHideFlags: 0
@@ -832,6 +842,7 @@ ArticulationBody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 223221718689245166}
   m_Enabled: 1
+  serializedVersion: 2
   m_Mass: 0.1
   m_ParentAnchorPosition: {x: 5.1837323e-10, y: 2.051633e-10, z: -0.0003249999}
   m_ParentAnchorRotation: {x: -0.49999997, y: 0.5, z: 0.5, w: -0.49999994}
@@ -850,7 +861,7 @@ ArticulationBody:
     upperLimit: 45
     stiffness: 1000
     damping: 50
-    forceLimit: 1.8
+    forceLimit: 1000
     target: 0
     targetVelocity: 0
   m_YDrive:
@@ -874,6 +885,7 @@ ArticulationBody:
   m_JointFriction: 0.05
   m_Immovable: 0
   m_UseGravity: 1
+  m_CollisionDetectionMode: 0
 --- !u!171741748 &840404005
 ArticulationBody:
   m_ObjectHideFlags: 0
@@ -882,6 +894,7 @@ ArticulationBody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 223221718689245164}
   m_Enabled: 1
+  serializedVersion: 2
   m_Mass: 0.05
   m_ParentAnchorPosition: {x: 4.9536847e-10, y: -3.4924608e-10, z: -0.0017099996}
   m_ParentAnchorRotation: {x: 0, y: 0.99999976, z: 0, w: -0.000000043711378}
@@ -900,7 +913,7 @@ ArticulationBody:
     upperLimit: 50
     stiffness: 1000
     damping: 50
-    forceLimit: 1.8
+    forceLimit: 1000
     target: 0
     targetVelocity: 0
   m_YDrive:
@@ -924,6 +937,7 @@ ArticulationBody:
   m_JointFriction: 0.05
   m_Immovable: 0
   m_UseGravity: 1
+  m_CollisionDetectionMode: 0
 --- !u!171741748 &840404006
 ArticulationBody:
   m_ObjectHideFlags: 0
@@ -932,6 +946,7 @@ ArticulationBody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 223221718689245154}
   m_Enabled: 1
+  serializedVersion: 2
   m_Mass: 0.3
   m_ParentAnchorPosition: {x: 2.8275707e-10, y: -0.00079000066, z: 1.7462294e-10}
   m_ParentAnchorRotation: {x: 0.49999994, y: 0.49999997, z: -0.49999994, w: -0.50000006}
@@ -950,7 +965,7 @@ ArticulationBody:
     upperLimit: 150
     stiffness: 1000
     damping: 50
-    forceLimit: 1.8
+    forceLimit: 1000
     target: 0
     targetVelocity: 0
   m_YDrive:
@@ -974,6 +989,7 @@ ArticulationBody:
   m_JointFriction: 0.05
   m_Immovable: 0
   m_UseGravity: 1
+  m_CollisionDetectionMode: 0
 --- !u!171741748 &840404007
 ArticulationBody:
   m_ObjectHideFlags: 0
@@ -982,6 +998,7 @@ ArticulationBody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 223221718689245180}
   m_Enabled: 1
+  serializedVersion: 2
   m_Mass: 0.3
   m_ParentAnchorPosition: {x: 1.54637e-10, y: 2.9974436e-11, z: -0.0020440007}
   m_ParentAnchorRotation: {x: 7.0151174e-10, y: -0.7071068, z: 0.7071068, w: -0.000000002914117}
@@ -1000,7 +1017,7 @@ ArticulationBody:
     upperLimit: 125
     stiffness: 1000
     damping: 50
-    forceLimit: 2.8
+    forceLimit: 1000
     target: 0
     targetVelocity: 0
   m_YDrive:
@@ -1024,6 +1041,7 @@ ArticulationBody:
   m_JointFriction: 0.05
   m_Immovable: 0
   m_UseGravity: 1
+  m_CollisionDetectionMode: 0
 --- !u!171741748 &840404008
 ArticulationBody:
   m_ObjectHideFlags: 0
@@ -1032,6 +1050,7 @@ ArticulationBody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 223221718689245176}
   m_Enabled: 1
+  serializedVersion: 2
   m_Mass: 0.4
   m_ParentAnchorPosition: {x: 1.4020028e-11, y: -4.2708097e-11, z: -0.00075599976}
   m_ParentAnchorRotation: {x: -0.000000073756986, y: 0.70710677, z: 0.000000052683554, w: -0.70710677}
@@ -1050,7 +1069,7 @@ ArticulationBody:
     upperLimit: 90
     stiffness: 1000
     damping: 50
-    forceLimit: 2.8
+    forceLimit: 1000
     target: 0
     targetVelocity: 0
   m_YDrive:
@@ -1074,6 +1093,7 @@ ArticulationBody:
   m_JointFriction: 0.05
   m_Immovable: 0
   m_UseGravity: 1
+  m_CollisionDetectionMode: 0
 --- !u!171741748 &840404009
 ArticulationBody:
   m_ObjectHideFlags: 0
@@ -1082,6 +1102,7 @@ ArticulationBody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 223221718689245162}
   m_Enabled: 1
+  serializedVersion: 2
   m_Mass: 0.16
   m_ParentAnchorPosition: {x: 0.00066, y: 1.573563e-10, z: 3.1610162e-11}
   m_ParentAnchorRotation: {x: -0.50000006, y: -0.4999999, z: 0.49999994, w: 0.5}
@@ -1100,7 +1121,7 @@ ArticulationBody:
     upperLimit: 100
     stiffness: 1000
     damping: 50
-    forceLimit: 6.4
+    forceLimit: 1000
     target: 0
     targetVelocity: 0
   m_YDrive:
@@ -1124,6 +1145,7 @@ ArticulationBody:
   m_JointFriction: 0.05
   m_Immovable: 0
   m_UseGravity: 1
+  m_CollisionDetectionMode: 0
 --- !u!171741748 &840404010
 ArticulationBody:
   m_ObjectHideFlags: 0
@@ -1132,6 +1154,7 @@ ArticulationBody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 223221718689245160}
   m_Enabled: 1
+  serializedVersion: 2
   m_Mass: 0.08
   m_ParentAnchorPosition: {x: -0.00124, y: 0, z: 0}
   m_ParentAnchorRotation: {x: -0.7071067, y: 0.000000043597186, z: -0.00000012031558, w: -0.7071068}
@@ -1150,7 +1173,7 @@ ArticulationBody:
     upperLimit: 180
     stiffness: 1000
     damping: 50
-    forceLimit: 10.6
+    forceLimit: 1000
     target: 0
     targetVelocity: 0
   m_YDrive:
@@ -1174,6 +1197,7 @@ ArticulationBody:
   m_JointFriction: 0.05
   m_Immovable: 0
   m_UseGravity: 1
+  m_CollisionDetectionMode: 0
 --- !u!171741748 &840404011
 ArticulationBody:
   m_ObjectHideFlags: 0
@@ -1182,6 +1206,7 @@ ArticulationBody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 223221718689245076}
   m_Enabled: 1
+  serializedVersion: 2
   m_Mass: 0.025
   m_ParentAnchorPosition: {x: 0.0005715161, y: 0.00052448374, z: 0.0008671544}
   m_ParentAnchorRotation: {x: 0.38935542, y: -0.623853, z: -0.6768661, w: 0.03258995}
@@ -1200,7 +1225,7 @@ ArticulationBody:
     upperLimit: 150
     stiffness: 5000
     damping: 2000
-    forceLimit: 0.1
+    forceLimit: 1000
     target: 0
     targetVelocity: 0
   m_YDrive:
@@ -1224,6 +1249,7 @@ ArticulationBody:
   m_JointFriction: 0.05
   m_Immovable: 0
   m_UseGravity: 1
+  m_CollisionDetectionMode: 0
 --- !u!171741748 &840404012
 ArticulationBody:
   m_ObjectHideFlags: 0
@@ -1232,6 +1258,7 @@ ArticulationBody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 223221718689245172}
   m_Enabled: 1
+  serializedVersion: 2
   m_Mass: 0.025
   m_ParentAnchorPosition: {x: -0.0005715161, y: 0.00052448374, z: 0.0008671544}
   m_ParentAnchorRotation: {x: -0.3893553, y: -0.6238531, z: -0.67686594, w: -0.032589942}
@@ -1250,7 +1277,7 @@ ArticulationBody:
     upperLimit: 150
     stiffness: 5000
     damping: 2000
-    forceLimit: 0.1
+    forceLimit: 1000
     target: 0
     targetVelocity: 0
   m_YDrive:
@@ -1274,6 +1301,7 @@ ArticulationBody:
   m_JointFriction: 0.05
   m_Immovable: 0
   m_UseGravity: 1
+  m_CollisionDetectionMode: 0
 --- !u!171741748 &840404026
 ArticulationBody:
   m_ObjectHideFlags: 0
@@ -1282,6 +1310,7 @@ ArticulationBody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 223221718689245072}
   m_Enabled: 1
+  serializedVersion: 2
   m_Mass: 3.5
   m_ParentAnchorPosition: {x: 0, y: 0, z: 0}
   m_ParentAnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
@@ -1324,6 +1353,7 @@ ArticulationBody:
   m_JointFriction: 0.05
   m_Immovable: 1
   m_UseGravity: 1
+  m_CollisionDetectionMode: 0
 --- !u!171741748 &840404027
 ArticulationBody:
   m_ObjectHideFlags: 0
@@ -1332,6 +1362,7 @@ ArticulationBody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 223221718689245060}
   m_Enabled: 1
+  serializedVersion: 2
   m_Mass: 0.08
   m_ParentAnchorPosition: {x: 0.00036999982, y: -4.540266e-10, z: -0.00039999897}
   m_ParentAnchorRotation: {x: 0.49999997, y: 0.5, z: 0.49999997, w: 0.49999982}
@@ -1350,7 +1381,7 @@ ArticulationBody:
     upperLimit: 20
     stiffness: 1000
     damping: 50
-    forceLimit: 1.8
+    forceLimit: 1000
     target: 0
     targetVelocity: 0
   m_YDrive:
@@ -1374,6 +1405,7 @@ ArticulationBody:
   m_JointFriction: 0.05
   m_Immovable: 0
   m_UseGravity: 1
+  m_CollisionDetectionMode: 0
 --- !u!171741748 &840404028
 ArticulationBody:
   m_ObjectHideFlags: 0
@@ -1382,6 +1414,7 @@ ArticulationBody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 223221718689245068}
   m_Enabled: 1
+  serializedVersion: 2
   m_Mass: 0.1
   m_ParentAnchorPosition: {x: 4.3644025e-10, y: 8.3368326e-11, z: -0.0003249996}
   m_ParentAnchorRotation: {x: 0, y: 0, z: 0.70710677, w: -0.70710677}
@@ -1400,7 +1433,7 @@ ArticulationBody:
     upperLimit: 45
     stiffness: 1000
     damping: 50
-    forceLimit: 1.8
+    forceLimit: 1000
     target: 0
     targetVelocity: 0
   m_YDrive:
@@ -1424,6 +1457,7 @@ ArticulationBody:
   m_JointFriction: 0.05
   m_Immovable: 0
   m_UseGravity: 1
+  m_CollisionDetectionMode: 0
 --- !u!171741748 &840404029
 ArticulationBody:
   m_ObjectHideFlags: 0
@@ -1432,6 +1466,7 @@ ArticulationBody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 223221718689245070}
   m_Enabled: 1
+  serializedVersion: 2
   m_Mass: 0.05
   m_ParentAnchorPosition: {x: 4.370856e-10, y: 4.389473e-10, z: -0.0017100002}
   m_ParentAnchorRotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
@@ -1450,7 +1485,7 @@ ArticulationBody:
     upperLimit: 50
     stiffness: 1000
     damping: 50
-    forceLimit: 1.8
+    forceLimit: 1000
     target: 0
     targetVelocity: 0
   m_YDrive:
@@ -1474,6 +1509,7 @@ ArticulationBody:
   m_JointFriction: 0.05
   m_Immovable: 0
   m_UseGravity: 1
+  m_CollisionDetectionMode: 0
 --- !u!171741748 &840404030
 ArticulationBody:
   m_ObjectHideFlags: 0
@@ -1482,6 +1518,7 @@ ArticulationBody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 223221718689245058}
   m_Enabled: 1
+  serializedVersion: 2
   m_Mass: 0.3
   m_ParentAnchorPosition: {x: 2.0764782e-10, y: -4.1186146e-10, z: -0.0007899989}
   m_ParentAnchorRotation: {x: 0.000000010536711, y: 0.7071067, z: -0.00000005268356, w: -0.7071068}
@@ -1500,7 +1537,7 @@ ArticulationBody:
     upperLimit: 150
     stiffness: 1000
     damping: 50
-    forceLimit: 1.8
+    forceLimit: 1000
     target: 0
     targetVelocity: 0
   m_YDrive:
@@ -1524,6 +1561,7 @@ ArticulationBody:
   m_JointFriction: 0.05
   m_Immovable: 0
   m_UseGravity: 1
+  m_CollisionDetectionMode: 0
 --- !u!171741748 &840404031
 ArticulationBody:
   m_ObjectHideFlags: 0
@@ -1532,6 +1570,7 @@ ArticulationBody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 223221718689245084}
   m_Enabled: 1
+  serializedVersion: 2
   m_Mass: 0.3
   m_ParentAnchorPosition: {x: 4.54485e-11, y: -1.4919971e-10, z: -0.002044001}
   m_ParentAnchorRotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
@@ -1550,7 +1589,7 @@ ArticulationBody:
     upperLimit: 125
     stiffness: 1000
     damping: 50
-    forceLimit: 2.8
+    forceLimit: 1000
     target: 0
     targetVelocity: 0
   m_YDrive:
@@ -1574,6 +1613,7 @@ ArticulationBody:
   m_JointFriction: 0.05
   m_Immovable: 0
   m_UseGravity: 1
+  m_CollisionDetectionMode: 0
 --- !u!4 &857503520
 Transform:
   m_ObjectHideFlags: 0
@@ -1626,6 +1666,7 @@ ArticulationBody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 223221718689245056}
   m_Enabled: 1
+  serializedVersion: 2
   m_Mass: 1
   m_ParentAnchorPosition: {x: 4.367602e-10, y: 0.0000020000286, z: 0.000000004423784}
   m_ParentAnchorRotation: {x: 0.50000006, y: -0.49999988, z: 0.4999999, w: 0.4999999}
@@ -1668,6 +1709,7 @@ ArticulationBody:
   m_JointFriction: 0.05
   m_Immovable: 0
   m_UseGravity: 1
+  m_CollisionDetectionMode: 0
 --- !u!114 &906157545
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2286,6 +2328,7 @@ ArticulationBody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 223221718689245152}
   m_Enabled: 1
+  serializedVersion: 2
   m_Mass: 0.05
   m_ParentAnchorPosition: {x: -5.1833654e-10, y: 0.000000001775561, z: -0.000002000242}
   m_ParentAnchorRotation: {x: 0, y: 0, z: 0.70710695, w: 0.70710695}
@@ -2328,6 +2371,7 @@ ArticulationBody:
   m_JointFriction: 0.05
   m_Immovable: 0
   m_UseGravity: 1
+  m_CollisionDetectionMode: 0
 --- !u!114 &1783890663
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2487,6 +2531,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0
 --- !u!223 &1918557403
 Canvas:
   m_ObjectHideFlags: 0
@@ -3670,6 +3715,7 @@ ArticulationBody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 223221718689245170}
   m_Enabled: 1
+  serializedVersion: 2
   m_Mass: 1
   m_ParentAnchorPosition: {x: 0, y: -0.00014999986, z: 0.00094999967}
   m_ParentAnchorRotation: {x: 0.06162845, y: -0.06162845, z: 0.70441604, w: 0.70441604}
@@ -3712,6 +3758,7 @@ ArticulationBody:
   m_JointFriction: 0.05
   m_Immovable: 0
   m_UseGravity: 1
+  m_CollisionDetectionMode: 0
 --- !u!1 &223221718689245172
 GameObject:
   m_ObjectHideFlags: 0
