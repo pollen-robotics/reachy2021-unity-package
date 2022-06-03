@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Reachy;
 
@@ -45,6 +46,8 @@ class JointServiceServer : MonoBehaviour
     #endif
     private static extern void inverse(ArmSide side, double[] M, double[] q);
 
+    private static CancellationTokenSource askForCancellation = new CancellationTokenSource();
+
 
     void Start()
     {
@@ -73,6 +76,12 @@ class JointServiceServer : MonoBehaviour
     void OnDestroy()
     {
         server.ShutdownAsync().Wait();
+    }
+
+    void OnApplicationQuit()
+    {
+        askForCancellation.Cancel();
+        askForCancellation.Dispose();
     }
     
     public class JointServiceImpl : JointService.JointServiceBase
@@ -109,10 +118,19 @@ class JointServiceServer : MonoBehaviour
 
         public override async Task<JointsCommandAck> StreamJointsCommands(IAsyncStreamReader<JointsCommand> requestStream, ServerCallContext context)
         {
-            while (await requestStream.MoveNext())
+            CancellationToken cancellationToken = askForCancellation.Token;
+            try 
             {
-                var jointsCommand = requestStream.Current;
-                await SendJointsCommands(jointsCommand, context);
+                while (await requestStream.MoveNext(cancellationToken))
+                {
+                    var jointsCommand = requestStream.Current;
+                    await SendJointsCommands(jointsCommand, context);
+                    cancellationToken.ThrowIfCancellationRequested();
+                }
+            }
+            catch (OperationCanceledException e)
+            {
+
             }
             return (new JointsCommandAck { Success = true });
         }
@@ -198,82 +216,93 @@ class JointServiceServer : MonoBehaviour
 
         public override async Task StreamJointsState(StreamJointsRequest jointRequest, Grpc.Core.IServerStreamWriter<JointsState> responseStream, ServerCallContext context)
         {
-            Dictionary<JointId, JointField> request = new Dictionary<JointId, JointField>();
-            for(int i=0; i<jointRequest.Request.Ids.Count; i++)
-            {
-                request.Add(jointRequest.Request.Ids[i], JointField.PresentPosition);
-            }
+            CancellationToken cancellationToken = askForCancellation.Token;
 
-            while (!context.CancellationToken.IsCancellationRequested)
+            try
             {
-                var motors = reachy.GetCurrentMotorsState(request);
-            
-                List<JointState> listJointStates = new List<JointState>();
-                List<JointId> listJointIds = new List<JointId>();
-                foreach (var item in motors)
+                Dictionary<JointId, JointField> request = new Dictionary<JointId, JointField>();
+                for(int i=0; i<jointRequest.Request.Ids.Count; i++)
                 {
-                    var jointState = new JointState();
-                    jointState.Name = item.name;
-                    jointState.Uid = (uint?)item.uid;
-                    if(jointRequest.Request.RequestedFields.Contains(JointField.PresentPosition))
-                    {
-                        jointState.PresentPosition = item.present_position;
-                    }
-                    if(jointRequest.Request.RequestedFields.Contains(JointField.PresentSpeed))
-                    {
-                        jointState.PresentSpeed = 0;
-                    }
-                    if(jointRequest.Request.RequestedFields.Contains(JointField.PresentLoad))
-                    {
-                        jointState.PresentLoad = 0;
-                    }
-                    if(jointRequest.Request.RequestedFields.Contains(JointField.Temperature))
-                    {
-                        jointState.Temperature = 0;
-                    }
-                    if(jointRequest.Request.RequestedFields.Contains(JointField.Compliant))
-                    {
-                        jointState.Compliant = false;
-                    }
-                    if(jointRequest.Request.RequestedFields.Contains(JointField.GoalPosition))
-                    {
-                        jointState.GoalPosition = item.goal_position;
-                    }
-                    if(jointRequest.Request.RequestedFields.Contains(JointField.SpeedLimit))
-                    {
-                        jointState.SpeedLimit = 0;
-                    }
-                    if(jointRequest.Request.RequestedFields.Contains(JointField.TorqueLimit))
-                    {
-                        jointState.TorqueLimit = 0;
-                    }
-                    if(jointRequest.Request.RequestedFields.Contains(JointField.Pid))
-                    {
-                        jointState.Pid = new PIDValue { Pid = new PIDGains { P = 0, I = 0, D = 0 }};
-                    }
-                    if(jointRequest.Request.RequestedFields.Contains(JointField.All))
-                    {
-                        jointState.PresentPosition = item.present_position;
-                        jointState.PresentSpeed = 0;
-                        jointState.PresentLoad = 0;
-                        jointState.Temperature = 0;
-                        jointState.Compliant = false;
-                        jointState.GoalPosition = item.goal_position;
-                        jointState.SpeedLimit = 0;
-                        jointState.TorqueLimit = 0;
-                        jointState.Pid = new PIDValue { Pid = new PIDGains { P = 0, I = 0, D = 0 }};
-                    }
+                    request.Add(jointRequest.Request.Ids[i], JointField.PresentPosition);
+                }
 
-                    listJointStates.Add(jointState);
-                    listJointIds.Add(new JointId { Name = item.name });
-                };
+                while (!context.CancellationToken.IsCancellationRequested)
+                {
+                    var motors = reachy.GetCurrentMotorsState(request);
+                
+                    List<JointState> listJointStates = new List<JointState>();
+                    List<JointId> listJointIds = new List<JointId>();
 
-                JointsState state = new JointsState {
-                    Ids = { listJointIds },
-                    States = { listJointStates },
-                };
-                await responseStream.WriteAsync(state);
-                await Task.Delay(TimeSpan.FromSeconds(1/jointRequest.PublishFrequency), context.CancellationToken);
+                    foreach (var item in motors)
+                    {
+                        var jointState = new JointState();
+                        jointState.Name = item.name;
+                        jointState.Uid = (uint?)item.uid;
+                        if(jointRequest.Request.RequestedFields.Contains(JointField.PresentPosition))
+                        {
+                            jointState.PresentPosition = item.present_position;
+                        }
+                        if(jointRequest.Request.RequestedFields.Contains(JointField.PresentSpeed))
+                        {
+                            jointState.PresentSpeed = 0;
+                        }
+                        if(jointRequest.Request.RequestedFields.Contains(JointField.PresentLoad))
+                        {
+                            jointState.PresentLoad = 0;
+                        }
+                        if(jointRequest.Request.RequestedFields.Contains(JointField.Temperature))
+                        {
+                            jointState.Temperature = 0;
+                        }
+                        if(jointRequest.Request.RequestedFields.Contains(JointField.Compliant))
+                        {
+                            jointState.Compliant = false;
+                        }
+                        if(jointRequest.Request.RequestedFields.Contains(JointField.GoalPosition))
+                        {
+                            jointState.GoalPosition = item.goal_position;
+                        }
+                        if(jointRequest.Request.RequestedFields.Contains(JointField.SpeedLimit))
+                        {
+                            jointState.SpeedLimit = 0;
+                        }
+                        if(jointRequest.Request.RequestedFields.Contains(JointField.TorqueLimit))
+                        {
+                            jointState.TorqueLimit = 0;
+                        }
+                        if(jointRequest.Request.RequestedFields.Contains(JointField.Pid))
+                        {
+                            jointState.Pid = new PIDValue { Pid = new PIDGains { P = 0, I = 0, D = 0 }};
+                        }
+                        if(jointRequest.Request.RequestedFields.Contains(JointField.All))
+                        {
+                            jointState.PresentPosition = item.present_position;
+                            jointState.PresentSpeed = 0;
+                            jointState.PresentLoad = 0;
+                            jointState.Temperature = 0;
+                            jointState.Compliant = false;
+                            jointState.GoalPosition = item.goal_position;
+                            jointState.SpeedLimit = 0;
+                            jointState.TorqueLimit = 0;
+                            jointState.Pid = new PIDValue { Pid = new PIDGains { P = 0, I = 0, D = 0 }};
+                        }
+
+                        listJointStates.Add(jointState);
+                        listJointIds.Add(new JointId { Name = item.name });
+                    };
+
+                    JointsState state = new JointsState {
+                        Ids = { listJointIds },
+                        States = { listJointStates },
+                    };
+                    await responseStream.WriteAsync(state);
+                    await Task.Delay(TimeSpan.FromSeconds(1/jointRequest.PublishFrequency), cancellationToken);
+                    cancellationToken.ThrowIfCancellationRequested();
+                }
+            }
+            catch (OperationCanceledException e)
+            {
+
             }
         }
 
@@ -382,11 +411,23 @@ class JointServiceServer : MonoBehaviour
 
         public override async Task<FullBodyCartesianCommandAck> StreamFullBodyCartesianCommands(IAsyncStreamReader<FullBodyCartesianCommand> requestStream, ServerCallContext context)
         {
-            while (await requestStream.MoveNext())
+            CancellationToken cancellationToken = askForCancellation.Token;
+
+            try
             {
-                var fullBodyCartesianCommand = requestStream.Current;
-                await SendFullBodyCartesianCommands(fullBodyCartesianCommand, context);
+                while (await requestStream.MoveNext(cancellationToken))
+                {
+                    var fullBodyCartesianCommand = requestStream.Current;
+                    await SendFullBodyCartesianCommands(fullBodyCartesianCommand, context);
+
+                    cancellationToken.ThrowIfCancellationRequested();
+                }
             }
+            catch(OperationCanceledException e)
+            {
+
+            }
+
             return (new FullBodyCartesianCommandAck { 
                     LeftArmCommandSuccess = true,
                     RightArmCommandSuccess = true,
@@ -546,26 +587,37 @@ class JointServiceServer : MonoBehaviour
 
         public override async Task StreamSensorStates(StreamSensorsStateRequest stateRequest, IServerStreamWriter<SensorsState> responseStream, ServerCallContext context)
         {
-            while (!context.CancellationToken.IsCancellationRequested)
-            {
-                var sensors = reachy.GetCurrentSensorsState(stateRequest.Request.Ids);
-            
-                List<SensorState> listSensorStates = new List<SensorState>();
-                List<SensorId> listSensorIds = new List<SensorId>();
-                foreach (var item in sensors)
-                {
-                    var sensorState = new SensorState();
-                    sensorState.ForceSensorState = new ForceSensorState{ Force = item.sensor_state };
-                    listSensorStates.Add(sensorState);
-                    listSensorIds.Add(new SensorId { Name = item.name });
-                };
+            CancellationToken cancellationToken = askForCancellation.Token;
 
-                SensorsState state = new SensorsState {
-                    Ids = { listSensorIds },
-                    States = { listSensorStates },
-                };
-                await responseStream.WriteAsync(state);
-                await Task.Delay(TimeSpan.FromSeconds(1/stateRequest.PublishFrequency), context.CancellationToken);
+            try
+            {
+                while (!context.CancellationToken.IsCancellationRequested)
+                {
+                    var sensors = reachy.GetCurrentSensorsState(stateRequest.Request.Ids);
+                
+                    List<SensorState> listSensorStates = new List<SensorState>();
+                    List<SensorId> listSensorIds = new List<SensorId>();
+                    foreach (var item in sensors)
+                    {
+                        var sensorState = new SensorState();
+                        sensorState.ForceSensorState = new ForceSensorState{ Force = item.sensor_state };
+                        listSensorStates.Add(sensorState);
+                        listSensorIds.Add(new SensorId { Name = item.name });
+                    };
+
+                    SensorsState state = new SensorsState {
+                        Ids = { listSensorIds },
+                        States = { listSensorStates },
+                    };
+                    await responseStream.WriteAsync(state);
+                    await Task.Delay(TimeSpan.FromSeconds(1/stateRequest.PublishFrequency), cancellationToken);
+
+                    cancellationToken.ThrowIfCancellationRequested();
+                }
+            }
+            catch(OperationCanceledException e)
+            {
+
             }
         }
     }
