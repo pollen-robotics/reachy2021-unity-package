@@ -1,49 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3884292884778804776
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3884292884778804783}
-  - component: {fileID: 3884292884778804782}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3884292884778804783
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3884292884778804776}
-  m_LocalRotation: {x: -0.0000030398376, y: 0.000003542764, z: 0.1969024, w: 0.9804231}
-  m_LocalPosition: {x: -0.00003310375, y: 0.000008243171, z: 0.00000009835369}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 3962830348483068919}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 22.712}
---- !u!65 &3884292884778804782
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3884292884778804776}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.00017549508, y: 0.00043202937, z: 0.0004732683}
-  m_Center: {x: 0.000048178597, y: -0.0001660144, z: 0.000004372595}
 --- !u!1 &3884292885660708753
 GameObject:
   m_ObjectHideFlags: 0
@@ -55,7 +11,7 @@ GameObject:
   - component: {fileID: 3884292885660708752}
   - component: {fileID: 3884292885660708759}
   m_Layer: 0
-  m_Name: GameObject (1)
+  m_Name: Left Gripper Tip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -71,9 +27,10 @@ Transform:
   m_LocalRotation: {x: -0.0000017881397, y: -0.000001505018, z: -0.25821686, w: 0.966087}
   m_LocalPosition: {x: -0.000072, y: -0.000672, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3962830348483068887}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -29.929}
 --- !u!65 &3884292885660708759
 BoxCollider:
@@ -98,8 +55,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3884292885747824736}
   - component: {fileID: 3884292885747824743}
+  - component: {fileID: 7215694972991224179}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Right Fingertip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -115,6 +73,7 @@ Transform:
   m_LocalRotation: {x: -0.0000022649767, y: 0.0000018888552, z: 0.31666687, w: 0.9485368}
   m_LocalPosition: {x: -0.000087, y: -0.000941, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3962830348483068915}
   m_RootOrder: 0
@@ -132,50 +91,58 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.000090837835, y: 0.00032113914, z: 0.00033801017}
   m_Center: {x: -0.000071752096, y: -0.000029078048, z: 0.000010995267}
---- !u!1 &3884292886547547928
-GameObject:
+--- !u!171741748 &7215694972991224179
+ArticulationBody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3884292886547547935}
-  - component: {fileID: 3884292886547547934}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3884292886547547935
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3884292886547547928}
-  m_LocalRotation: {x: 0.000004917383, y: 0.00000068545415, z: 0.2979438, w: 0.9545834}
-  m_LocalPosition: {x: -0.00009804829, y: -0.00008709083, z: -2.9112499e-10}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 3962830348483068887}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0.001, y: 0, z: 34.668}
---- !u!65 &3884292886547547934
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3884292886547547928}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_GameObject: {fileID: 3884292885747824737}
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.00021328688, y: 0.0003172748, z: 0.00046428278}
-  m_Center: {x: 0.00011883569, y: -0.00016988942, z: 0.0000067471597}
+  serializedVersion: 3
+  m_Mass: 0.05
+  m_ParentAnchorPosition: {x: 0, y: 0, z: 0}
+  m_ParentAnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_AnchorPosition: {x: 0, y: 0, z: 0}
+  m_AnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_MatchAnchors: 1
+  m_ArticulationJointType: 0
+  m_LinearX: 2
+  m_LinearY: 2
+  m_LinearZ: 2
+  m_SwingY: 2
+  m_SwingZ: 2
+  m_Twist: 2
+  m_XDrive:
+    lowerLimit: 0
+    upperLimit: 0
+    stiffness: 0
+    damping: 0
+    forceLimit: 3.4028235e+38
+    target: 0
+    targetVelocity: 0
+  m_YDrive:
+    lowerLimit: 0
+    upperLimit: 0
+    stiffness: 0
+    damping: 0
+    forceLimit: 3.4028235e+38
+    target: 0
+    targetVelocity: 0
+  m_ZDrive:
+    lowerLimit: 0
+    upperLimit: 0
+    stiffness: 0
+    damping: 0
+    forceLimit: 3.4028235e+38
+    target: 0
+    targetVelocity: 0
+  m_LinearDamping: 0.05
+  m_AngularDamping: 0.05
+  m_JointFriction: 0.05
+  m_Immovable: 0
+  m_UseGravity: 1
+  m_CollisionDetectionMode: 0
 --- !u!1 &3884292886710396214
 GameObject:
   m_ObjectHideFlags: 0
@@ -187,7 +154,7 @@ GameObject:
   - component: {fileID: 3884292886710396213}
   - component: {fileID: 3884292886710396212}
   m_Layer: 0
-  m_Name: GameObject (1)
+  m_Name: Right Gripper tip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -203,9 +170,10 @@ Transform:
   m_LocalRotation: {x: 0.000000059604645, y: 0.0000010841367, z: -0.26864272, w: 0.9632399}
   m_LocalPosition: {x: -0.000009, y: -0.000601, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3962830348483068919}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -31.167}
 --- !u!65 &3884292886710396212
 BoxCollider:
@@ -231,7 +199,7 @@ GameObject:
   - component: {fileID: 3884292886811676467}
   - component: {fileID: 3884292886811676466}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Left Fingertip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -247,6 +215,7 @@ Transform:
   m_LocalRotation: {x: 0.0000043809423, y: 0.000000044703462, z: 0.32326156, w: 0.9463097}
   m_LocalPosition: {x: -0.000619, y: -0.000086, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3962830348483068883}
   m_RootOrder: 0
@@ -295,6 +264,7 @@ Transform:
   m_LocalRotation: {x: -0.5, y: -0.5, z: -0.5, w: 0.5}
   m_LocalPosition: {x: 1.726, y: 0, z: 0}
   m_LocalScale: {x: 99.999985, y: 99.99999, z: 100.000015}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3962830348483068865}
   - {fileID: 3962830348483068869}
@@ -323,6 +293,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -592,12 +563,13 @@ ArticulationBody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3962830348483501955}
   m_Enabled: 1
+  serializedVersion: 3
   m_Mass: 3.5
   m_ParentAnchorPosition: {x: 0, y: 0, z: 0}
   m_ParentAnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_ComputeParentAnchor: 1
+  m_MatchAnchors: 1
   m_ArticulationJointType: 0
   m_LinearX: 2
   m_LinearY: 2
@@ -634,6 +606,7 @@ ArticulationBody:
   m_JointFriction: 0.05
   m_Immovable: 1
   m_UseGravity: 1
+  m_CollisionDetectionMode: 0
 --- !u!1 &3962830348483501957
 GameObject:
   m_ObjectHideFlags: 0
@@ -662,6 +635,7 @@ Transform:
   m_LocalRotation: {x: 0.50000006, y: -0.49999997, z: 0.5, w: 0.5}
   m_LocalPosition: {x: -1.3234891e-25, y: -1.7782248e-32, z: -4.4408916e-18}
   m_LocalScale: {x: 1, y: 1.0000001, z: 1.0000001}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3962830348483068923}
   m_Father: {fileID: 3962830348483068899}
@@ -686,6 +660,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -749,6 +724,7 @@ Transform:
   m_LocalRotation: {x: -0.18446614, y: 0.47197682, z: 0.2374792, w: 0.82874227}
   m_LocalPosition: {x: 0.00057151617, y: 0.00052448333, z: 0.0008671545}
   m_LocalScale: {x: 1.0000004, y: 1.0000002, z: 1.0000001}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3962830348483068865}
   m_RootOrder: 2
@@ -772,6 +748,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -823,12 +800,13 @@ ArticulationBody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3962830348483501959}
   m_Enabled: 1
+  serializedVersion: 3
   m_Mass: 0.025
   m_ParentAnchorPosition: {x: 0.0005715161, y: 0.00052448374, z: 0.0008671544}
   m_ParentAnchorRotation: {x: 0.38935542, y: -0.623853, z: -0.6768661, w: 0.03258995}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0.49999997, y: -0.49999997, z: -0.49999997, w: -0.49999997}
-  m_ComputeParentAnchor: 1
+  m_MatchAnchors: 1
   m_ArticulationJointType: 2
   m_LinearX: 2
   m_LinearY: 2
@@ -865,6 +843,7 @@ ArticulationBody:
   m_JointFriction: 0.05
   m_Immovable: 0
   m_UseGravity: 1
+  m_CollisionDetectionMode: 0
 --- !u!1 &3962830348483501961
 GameObject:
   m_ObjectHideFlags: 0
@@ -892,6 +871,7 @@ Transform:
   m_LocalRotation: {x: 0.7071067, y: 0.00000011920929, z: 0.00000008940697, w: 0.7071068}
   m_LocalPosition: {x: -0.000000021159648, y: 0.00026315023, z: -0.00000003989786}
   m_LocalScale: {x: 1, y: 0.99999994, z: 1.0000002}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3962830348483068909}
   m_RootOrder: 0
@@ -970,6 +950,7 @@ Transform:
   m_LocalRotation: {x: 1.4210856e-14, y: 7.536445e-15, z: -7.1054274e-15, w: 1}
   m_LocalPosition: {x: 4.601714e-17, y: 1.0157532e-10, z: -0.00075599935}
   m_LocalScale: {x: 1, y: 0.9999999, z: 0.9999999}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3962830348483068911}
   m_Father: {fileID: 3962830348483068921}
@@ -994,6 +975,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -1060,12 +1042,13 @@ ArticulationBody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3962830348483501963}
   m_Enabled: 1
+  serializedVersion: 3
   m_Mass: 0.4
   m_ParentAnchorPosition: {x: -1.2104952e-10, y: -1.950054e-10, z: -0.0007559991}
   m_ParentAnchorRotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
-  m_ComputeParentAnchor: 1
+  m_MatchAnchors: 1
   m_ArticulationJointType: 2
   m_LinearX: 2
   m_LinearY: 2
@@ -1102,6 +1085,7 @@ ArticulationBody:
   m_JointFriction: 0.05
   m_Immovable: 0
   m_UseGravity: 1
+  m_CollisionDetectionMode: 0
 --- !u!1 &3962830348483501965
 GameObject:
   m_ObjectHideFlags: 0
@@ -1130,6 +1114,7 @@ Transform:
   m_LocalRotation: {x: -0.000000011175869, y: -0.000000010508582, z: 7.8159174e-10, w: 1}
   m_LocalPosition: {x: 0.00036250002, y: -0.00034875015, z: 0.0006100002}
   m_LocalScale: {x: 1, y: 1.0000002, z: 1.0000001}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3962830348483068905}
   m_Father: {fileID: 3962830348483068865}
@@ -1154,6 +1139,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -1217,6 +1203,7 @@ Transform:
   m_LocalRotation: {x: 1.7763572e-14, y: 8.792519e-15, z: -4.440891e-15, w: 1}
   m_LocalPosition: {x: -6.985896e-18, y: 2.7462976e-10, z: -0.0020440011}
   m_LocalScale: {x: 1.0000001, y: 0.99999994, z: 0.99999994}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3962830348483068913}
   m_Father: {fileID: 3962830348483068907}
@@ -1241,6 +1228,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -1295,12 +1283,13 @@ ArticulationBody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3962830348483501967}
   m_Enabled: 1
+  serializedVersion: 3
   m_Mass: 0.3
   m_ParentAnchorPosition: {x: 4.54485e-11, y: -1.4919971e-10, z: -0.002044001}
   m_ParentAnchorRotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
-  m_ComputeParentAnchor: 1
+  m_MatchAnchors: 1
   m_ArticulationJointType: 2
   m_LinearX: 2
   m_LinearY: 2
@@ -1337,6 +1326,7 @@ ArticulationBody:
   m_JointFriction: 0.05
   m_Immovable: 0
   m_UseGravity: 1
+  m_CollisionDetectionMode: 0
 --- !u!1 &3962830348483501969
 GameObject:
   m_ObjectHideFlags: 0
@@ -1368,6 +1358,7 @@ Transform:
   m_LocalRotation: {x: 7.105428e-15, y: 0.00000004371139, z: 0.000000043711417, w: 1}
   m_LocalPosition: {x: 4.502522e-17, y: 1.06420116e-10, z: -0.00078999967}
   m_LocalScale: {x: 1, y: 0.9999999, z: 0.9999999}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3962830348483068925}
   m_Father: {fileID: 3962830348483068911}
@@ -1392,6 +1383,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -1457,12 +1449,13 @@ ArticulationBody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3962830348483501969}
   m_Enabled: 1
+  serializedVersion: 3
   m_Mass: 0.3
   m_ParentAnchorPosition: {x: 2.0764782e-10, y: -4.1186146e-10, z: -0.0007899989}
   m_ParentAnchorRotation: {x: 0.000000010536711, y: 0.7071067, z: -0.00000005268356, w: -0.7071068}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
-  m_ComputeParentAnchor: 1
+  m_MatchAnchors: 1
   m_ArticulationJointType: 2
   m_LinearX: 2
   m_LinearY: 2
@@ -1499,6 +1492,7 @@ ArticulationBody:
   m_JointFriction: 0.05
   m_Immovable: 0
   m_UseGravity: 1
+  m_CollisionDetectionMode: 0
 --- !u!1 &3962830348483501971
 GameObject:
   m_ObjectHideFlags: 0
@@ -1530,6 +1524,7 @@ Transform:
   m_LocalRotation: {x: 0.7071068, y: 0.0000000053561418, z: 0.00000007893753, w: 0.7071067}
   m_LocalPosition: {x: -2.394529e-13, y: 0.0000019999995, z: 0.000000004172325}
   m_LocalScale: {x: 0.99999976, y: 0.99999964, z: 0.99999976}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3884292885747824736}
   m_Father: {fileID: 3962830348483068927}
@@ -1554,6 +1549,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -1608,12 +1604,13 @@ ArticulationBody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3962830348483501971}
   m_Enabled: 1
+  serializedVersion: 3
   m_Mass: 1
   m_ParentAnchorPosition: {x: 4.367602e-10, y: 0.0000020000286, z: 0.000000004423784}
   m_ParentAnchorRotation: {x: 0.50000006, y: -0.49999988, z: 0.4999999, w: 0.4999999}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
-  m_ComputeParentAnchor: 1
+  m_MatchAnchors: 1
   m_ArticulationJointType: 0
   m_LinearX: 2
   m_LinearY: 2
@@ -1650,6 +1647,7 @@ ArticulationBody:
   m_JointFriction: 0.05
   m_Immovable: 0
   m_UseGravity: 1
+  m_CollisionDetectionMode: 0
 --- !u!114 &3884292886860277242
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1691,6 +1689,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: -3.5527137e-15, w: 1}
   m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1.0000001, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3962830348483068899}
   m_RootOrder: 4
@@ -1714,6 +1713,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -1757,6 +1757,7 @@ GameObject:
   - component: {fileID: 3962830348481298893}
   - component: {fileID: 3884292885640377135}
   - component: {fileID: 3884292886794564648}
+  - component: {fileID: 2859165947186639518}
   m_Layer: 0
   m_Name: Right Gripper
   m_TagString: Untagged
@@ -1774,8 +1775,8 @@ Transform:
   m_LocalRotation: {x: 0.7071068, y: 0.0000000053561418, z: 0.00000007893753, w: 0.7071067}
   m_LocalPosition: {x: 0.0003700001, y: 1.15335866e-10, z: -0.000399999}
   m_LocalScale: {x: 0.99999976, y: 0.99999964, z: 0.99999976}
+  m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 3884292884778804783}
   - {fileID: 3884292886710396213}
   m_Father: {fileID: 3962830348483068927}
   m_RootOrder: 1
@@ -1799,6 +1800,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -1852,12 +1854,13 @@ ArticulationBody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3962830348483501975}
   m_Enabled: 1
+  serializedVersion: 3
   m_Mass: 0.08
   m_ParentAnchorPosition: {x: 0.00036999982, y: -4.540266e-10, z: -0.00039999897}
   m_ParentAnchorRotation: {x: 0.49999997, y: 0.5, z: 0.49999997, w: 0.49999982}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
-  m_ComputeParentAnchor: 1
+  m_MatchAnchors: 1
   m_ArticulationJointType: 2
   m_LinearX: 2
   m_LinearY: 2
@@ -1894,6 +1897,20 @@ ArticulationBody:
   m_JointFriction: 0.05
   m_Immovable: 0
   m_UseGravity: 1
+  m_CollisionDetectionMode: 0
+--- !u!65 &2859165947186639518
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3962830348483501975}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.00018180575, y: 0.0002055874, z: 0.0005190911}
+  m_Center: {x: 0.00012058057, y: -0.00032370706, z: -0.0000039090314}
 --- !u!1 &3962830348483501977
 GameObject:
   m_ObjectHideFlags: 0
@@ -1925,6 +1942,7 @@ Transform:
   m_LocalRotation: {x: -0.000000005356177, y: -0.7071067, z: -0.000000005356176, w: 0.7071068}
   m_LocalPosition: {x: 0.00066000014, y: 9.004306e-11, z: 1.0880497e-17}
   m_LocalScale: {x: 0.9999999, y: 0.99999976, z: 0.9999998}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3962830348483068907}
   m_Father: {fileID: 3962830348483068923}
@@ -1949,6 +1967,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -2014,12 +2033,13 @@ ArticulationBody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3962830348483501977}
   m_Enabled: 1
+  serializedVersion: 3
   m_Mass: 0.16
   m_ParentAnchorPosition: {x: 0.00066, y: 1.1641535e-10, z: -1.6987324e-10}
   m_ParentAnchorRotation: {x: -0.49999997, y: 0.4999999, z: 0.5, w: -0.5}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0, z: 0.70710677, w: -0.70710677}
-  m_ComputeParentAnchor: 1
+  m_MatchAnchors: 1
   m_ArticulationJointType: 2
   m_LinearX: 2
   m_LinearY: 2
@@ -2056,6 +2076,7 @@ ArticulationBody:
   m_JointFriction: 0.05
   m_Immovable: 0
   m_UseGravity: 1
+  m_CollisionDetectionMode: 0
 --- !u!1 &3962830348483501979
 GameObject:
   m_ObjectHideFlags: 0
@@ -2086,6 +2107,7 @@ Transform:
   m_LocalRotation: {x: 0.7071068, y: -0.7071067, z: -0.00000005338508, w: 0.000000053385076}
   m_LocalPosition: {x: 5.4202108e-11, y: -0.0012399999, z: -7.8370695e-19}
   m_LocalScale: {x: 0.99999994, y: 0.9999998, z: 0.9999999}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3962830348483068921}
   m_Father: {fileID: 3962830348483068901}
@@ -2110,6 +2132,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -2163,12 +2186,13 @@ ArticulationBody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3962830348483501979}
   m_Enabled: 1
+  serializedVersion: 3
   m_Mass: 0.08
   m_ParentAnchorPosition: {x: 0.00124, y: 0, z: -7.450579e-11}
   m_ParentAnchorRotation: {x: -0.00000003090862, y: -0.7071067, z: 0.7071068, w: -0.00000005849835}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
-  m_ComputeParentAnchor: 1
+  m_MatchAnchors: 1
   m_ArticulationJointType: 2
   m_LinearX: 2
   m_LinearY: 2
@@ -2205,6 +2229,7 @@ ArticulationBody:
   m_JointFriction: 0.05
   m_Immovable: 0
   m_UseGravity: 1
+  m_CollisionDetectionMode: 0
 --- !u!1 &3962830348483501981
 GameObject:
   m_ObjectHideFlags: 0
@@ -2235,6 +2260,7 @@ Transform:
   m_LocalRotation: {x: -7.105428e-15, y: -1.7763558e-15, z: 2.6645355e-15, w: 1}
   m_LocalPosition: {x: 5.32907e-16, y: 3.605026e-10, z: -0.0017100006}
   m_LocalScale: {x: 1, y: 0.99999994, z: 0.99999994}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3962830348483068927}
   m_Father: {fileID: 3962830348483068913}
@@ -2259,6 +2285,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -2313,12 +2340,13 @@ ArticulationBody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3962830348483501981}
   m_Enabled: 1
+  serializedVersion: 3
   m_Mass: 0.05
   m_ParentAnchorPosition: {x: 4.370856e-10, y: 4.389473e-10, z: -0.0017100002}
   m_ParentAnchorRotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
-  m_ComputeParentAnchor: 1
+  m_MatchAnchors: 1
   m_ArticulationJointType: 2
   m_LinearX: 2
   m_LinearY: 2
@@ -2355,6 +2383,7 @@ ArticulationBody:
   m_JointFriction: 0.05
   m_Immovable: 0
   m_UseGravity: 1
+  m_CollisionDetectionMode: 0
 --- !u!1 &3962830348483501983
 GameObject:
   m_ObjectHideFlags: 0
@@ -2386,6 +2415,7 @@ Transform:
   m_LocalRotation: {x: -2.1316289e-14, y: 0.00000007549788, z: -0.000000036136527, w: 1}
   m_LocalPosition: {x: -2.1316282e-16, y: 7.218752e-11, z: -0.0003250003}
   m_LocalScale: {x: 1.0000002, y: 0.9999998, z: 0.9999997}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3962830348483068915}
   - {fileID: 3962830348483068919}
@@ -2411,6 +2441,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -2477,12 +2508,13 @@ ArticulationBody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3962830348483501983}
   m_Enabled: 1
+  serializedVersion: 3
   m_Mass: 0.1
   m_ParentAnchorPosition: {x: 4.3644025e-10, y: 8.3368326e-11, z: -0.0003249996}
   m_ParentAnchorRotation: {x: 0, y: 0, z: 0.70710677, w: -0.70710677}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0, z: 0.70710677, w: -0.70710677}
-  m_ComputeParentAnchor: 1
+  m_MatchAnchors: 1
   m_ArticulationJointType: 2
   m_LinearX: 2
   m_LinearY: 2
@@ -2519,6 +2551,7 @@ ArticulationBody:
   m_JointFriction: 0.05
   m_Immovable: 0
   m_UseGravity: 1
+  m_CollisionDetectionMode: 0
 --- !u!1 &3962830348483502049
 GameObject:
   m_ObjectHideFlags: 0
@@ -2549,6 +2582,7 @@ Transform:
   m_LocalRotation: {x: 0.08715578, y: 0, z: 0, w: 0.9961947}
   m_LocalPosition: {x: 2.015383e-11, y: -0.00014999998, z: 0.0009499997}
   m_LocalScale: {x: 1, y: 0.9999998, z: 0.9999998}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3962830348483068871}
   - {fileID: 3962830348483068877}
@@ -2576,6 +2610,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -2628,12 +2663,13 @@ ArticulationBody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3962830348483502049}
   m_Enabled: 1
+  serializedVersion: 3
   m_Mass: 1
   m_ParentAnchorPosition: {x: 0, y: -0.00014999986, z: 0.00094999967}
   m_ParentAnchorRotation: {x: 0.06162845, y: -0.06162845, z: 0.70441604, w: 0.70441604}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
-  m_ComputeParentAnchor: 1
+  m_MatchAnchors: 1
   m_ArticulationJointType: 3
   m_LinearX: 2
   m_LinearY: 2
@@ -2670,6 +2706,7 @@ ArticulationBody:
   m_JointFriction: 0.05
   m_Immovable: 0
   m_UseGravity: 1
+  m_CollisionDetectionMode: 0
 --- !u!1 &3962830348483502053
 GameObject:
   m_ObjectHideFlags: 0
@@ -2698,6 +2735,7 @@ Transform:
   m_LocalRotation: {x: 1.9514407e-16, y: 1.9514404e-16, z: 1, w: -0.0000000754979}
   m_LocalPosition: {x: -4.4408924e-18, y: -5.9667324e-25, z: -1.654361e-26}
   m_LocalScale: {x: 1, y: 0.99999994, z: 0.99999994}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3962830348483068891}
   m_Father: {fileID: 3962830348483068899}
@@ -2722,6 +2760,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -2785,6 +2824,7 @@ Transform:
   m_LocalRotation: {x: -0.47197685, y: 0.18446629, z: 0.82874227, w: 0.23747906}
   m_LocalPosition: {x: -0.00057151617, y: 0.0005244833, z: 0.00086715445}
   m_LocalScale: {x: 1.0000005, y: 1.0000002, z: 1.0000001}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3962830348483068865}
   m_RootOrder: 0
@@ -2808,6 +2848,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -2859,12 +2900,13 @@ ArticulationBody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3962830348483502055}
   m_Enabled: 1
+  serializedVersion: 3
   m_Mass: 0.025
   m_ParentAnchorPosition: {x: -0.0005715161, y: 0.00052448374, z: 0.0008671544}
   m_ParentAnchorRotation: {x: -0.3893553, y: -0.6238531, z: -0.67686594, w: -0.032589942}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: -0.49999997, y: 0.49999997, z: -0.49999997, w: -0.49999997}
-  m_ComputeParentAnchor: 1
+  m_MatchAnchors: 1
   m_ArticulationJointType: 2
   m_LinearX: 2
   m_LinearY: 2
@@ -2901,6 +2943,7 @@ ArticulationBody:
   m_JointFriction: 0.05
   m_Immovable: 0
   m_UseGravity: 1
+  m_CollisionDetectionMode: 0
 --- !u!1 &3962830348483502057
 GameObject:
   m_ObjectHideFlags: 0
@@ -2928,6 +2971,7 @@ Transform:
   m_LocalRotation: {x: 0.0000008046627, y: 0.70710576, z: -0.7071078, w: 0.0000005662441}
   m_LocalPosition: {x: 0.000000021159648, y: 0.00002899371, z: 0.00000003984198}
   m_LocalScale: {x: 0.9999994, y: 0.9999988, z: 0.9999999}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3962830348483068877}
   m_RootOrder: 0
@@ -3006,6 +3050,7 @@ Transform:
   m_LocalRotation: {x: 0.0000000842937, y: -3.590498e-15, z: -8.881783e-15, w: 1}
   m_LocalPosition: {x: 1.9909826e-19, y: -2.114561e-11, z: -0.00075599964}
   m_LocalScale: {x: 1.0000001, y: 1.0000001, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3962830348483068879}
   m_Father: {fileID: 3962830348483068889}
@@ -3030,6 +3075,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -3096,12 +3142,13 @@ ArticulationBody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3962830348483502059}
   m_Enabled: 1
+  serializedVersion: 3
   m_Mass: 0.4
   m_ParentAnchorPosition: {x: 1.4020028e-11, y: -4.2708097e-11, z: -0.00075599976}
   m_ParentAnchorRotation: {x: -0.000000073756986, y: 0.70710677, z: 0.000000052683554, w: -0.70710677}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
-  m_ComputeParentAnchor: 1
+  m_MatchAnchors: 1
   m_ArticulationJointType: 2
   m_LinearX: 2
   m_LinearY: 2
@@ -3138,6 +3185,7 @@ ArticulationBody:
   m_JointFriction: 0.05
   m_Immovable: 0
   m_UseGravity: 1
+  m_CollisionDetectionMode: 0
 --- !u!1 &3962830348483502061
 GameObject:
   m_ObjectHideFlags: 0
@@ -3166,6 +3214,7 @@ Transform:
   m_LocalRotation: {x: 0.000000116344566, y: 1, z: -0.0000015906976, w: -0.0000010291724}
   m_LocalPosition: {x: -0.00036250002, y: -0.0003595937, z: 0.0006100003}
   m_LocalScale: {x: 1.0000004, y: 1.0000006, z: 1.0000011}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3962830348483068873}
   m_Father: {fileID: 3962830348483068865}
@@ -3190,6 +3239,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -3253,6 +3303,7 @@ Transform:
   m_LocalRotation: {x: 0.7071068, y: 0.00000008964987, z: -0.000000036790674, w: 0.7071067}
   m_LocalPosition: {x: -6.6502166e-18, y: -5.7171688e-11, z: -0.002044001}
   m_LocalScale: {x: 1.0000002, y: 1.0000002, z: 1.0000002}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3962830348483068881}
   m_Father: {fileID: 3962830348483068875}
@@ -3277,6 +3328,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -3331,12 +3383,13 @@ ArticulationBody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3962830348483502063}
   m_Enabled: 1
+  serializedVersion: 3
   m_Mass: 0.3
   m_ParentAnchorPosition: {x: 1.54637e-10, y: 2.9974436e-11, z: -0.0020440007}
   m_ParentAnchorRotation: {x: 7.0151174e-10, y: -0.7071068, z: 0.7071068, w: -0.000000002914117}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0, z: 1, w: -0.00000004371139}
-  m_ComputeParentAnchor: 1
+  m_MatchAnchors: 1
   m_ArticulationJointType: 2
   m_LinearX: 2
   m_LinearY: 2
@@ -3373,6 +3426,7 @@ ArticulationBody:
   m_JointFriction: 0.05
   m_Immovable: 0
   m_UseGravity: 1
+  m_CollisionDetectionMode: 0
 --- !u!1 &3962830348483502065
 GameObject:
   m_ObjectHideFlags: 0
@@ -3404,6 +3458,7 @@ Transform:
   m_LocalRotation: {x: -0.7071067, y: -0.000000027832641, z: 0.00000003679066, w: 0.7071068}
   m_LocalPosition: {x: 1.41263e-10, y: -0.00078999996, z: 4.7072603e-11}
   m_LocalScale: {x: 0.9999997, y: 0.9999997, z: 0.99999976}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3962830348483068895}
   m_Father: {fileID: 3962830348483068879}
@@ -3428,6 +3483,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -3493,12 +3549,13 @@ ArticulationBody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3962830348483502065}
   m_Enabled: 1
+  serializedVersion: 3
   m_Mass: 0.3
   m_ParentAnchorPosition: {x: 2.8275707e-10, y: -0.00079000066, z: 1.7462294e-10}
   m_ParentAnchorRotation: {x: 0.49999994, y: 0.49999997, z: -0.49999994, w: -0.50000006}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
-  m_ComputeParentAnchor: 1
+  m_MatchAnchors: 1
   m_ArticulationJointType: 2
   m_LinearX: 2
   m_LinearY: 2
@@ -3535,6 +3592,7 @@ ArticulationBody:
   m_JointFriction: 0.05
   m_Immovable: 0
   m_UseGravity: 1
+  m_CollisionDetectionMode: 0
 --- !u!1 &3962830348483502067
 GameObject:
   m_ObjectHideFlags: 0
@@ -3566,6 +3624,7 @@ Transform:
   m_LocalRotation: {x: -2.842171e-14, y: 1.0658143e-14, z: -3.5527086e-15, w: 1}
   m_LocalPosition: {x: 1.4210854e-16, y: 5.9604643e-10, z: -0.0000019999998}
   m_LocalScale: {x: 0.99999994, y: 1, z: 0.99999994}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3884292886811676467}
   m_Father: {fileID: 3962830348483068893}
@@ -3590,6 +3649,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -3644,12 +3704,13 @@ ArticulationBody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3962830348483502067}
   m_Enabled: 1
+  serializedVersion: 3
   m_Mass: 0.05
   m_ParentAnchorPosition: {x: -5.1833654e-10, y: 0.000000001775561, z: -0.000002000242}
   m_ParentAnchorRotation: {x: 0, y: 0, z: 0.70710695, w: 0.70710695}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
-  m_ComputeParentAnchor: 1
+  m_MatchAnchors: 1
   m_ArticulationJointType: 0
   m_LinearX: 2
   m_LinearY: 2
@@ -3686,6 +3747,7 @@ ArticulationBody:
   m_JointFriction: 0.05
   m_Immovable: 0
   m_UseGravity: 1
+  m_CollisionDetectionMode: 0
 --- !u!114 &3884292885313813236
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3727,6 +3789,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: -3.5527137e-15, w: 1}
   m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1.0000001, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3962830348483068899}
   m_RootOrder: 2
@@ -3750,6 +3813,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -3793,6 +3857,7 @@ GameObject:
   - component: {fileID: 3962830348481298737}
   - component: {fileID: 3884292886711582220}
   - component: {fileID: 3884292886794564656}
+  - component: {fileID: 8140642979169657313}
   m_Layer: 0
   m_Name: Left Gripper
   m_TagString: Untagged
@@ -3810,8 +3875,8 @@ Transform:
   m_LocalRotation: {x: -1.4210856e-14, y: 1.0658143e-14, z: -0.00000015147315, w: 1}
   m_LocalPosition: {x: 0.00036999994, y: -0.0003999996, z: 8.668621e-14}
   m_LocalScale: {x: 0.9999999, y: 0.99999994, z: 0.9999999}
+  m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 3884292886547547935}
   - {fileID: 3884292885660708752}
   m_Father: {fileID: 3962830348483068893}
   m_RootOrder: 1
@@ -3835,6 +3900,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -3888,12 +3954,13 @@ ArticulationBody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3962830348483502071}
   m_Enabled: 1
+  serializedVersion: 3
   m_Mass: 0.08
   m_ParentAnchorPosition: {x: 0.00037000034, y: -0.00039999853, z: 2.910383e-10}
   m_ParentAnchorRotation: {x: 0.00000008940698, y: 0.7071068, z: 0.00000008940697, w: -0.7071068}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
-  m_ComputeParentAnchor: 1
+  m_MatchAnchors: 1
   m_ArticulationJointType: 2
   m_LinearX: 2
   m_LinearY: 2
@@ -3930,6 +3997,20 @@ ArticulationBody:
   m_JointFriction: 0.05
   m_Immovable: 0
   m_UseGravity: 1
+  m_CollisionDetectionMode: 0
+--- !u!65 &8140642979169657313
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3962830348483502071}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.00021546542, y: 0.00014681098, z: 0.00051909126}
+  m_Center: {x: 0.00010375285, y: -0.00030585364, z: -0.000003908985}
 --- !u!1 &3962830348483502073
 GameObject:
   m_ObjectHideFlags: 0
@@ -3961,6 +4042,7 @@ Transform:
   m_LocalRotation: {x: 0.7071068, y: -0.000000053385076, z: -0.70710677, w: -0.00000005338508}
   m_LocalPosition: {x: 0.0006600001, y: 1.1102219e-10, z: 9.489077e-18}
   m_LocalScale: {x: 0.9999998, y: 0.9999998, z: 0.99999994}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3962830348483068875}
   m_Father: {fileID: 3962830348483068891}
@@ -3985,6 +4067,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -4050,12 +4133,13 @@ ArticulationBody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3962830348483502073}
   m_Enabled: 1
+  serializedVersion: 3
   m_Mass: 0.16
   m_ParentAnchorPosition: {x: 0.00066, y: 1.573563e-10, z: 3.1610162e-11}
   m_ParentAnchorRotation: {x: -0.50000006, y: -0.4999999, z: 0.49999994, w: 0.5}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0, z: 0.70710677, w: -0.70710677}
-  m_ComputeParentAnchor: 1
+  m_MatchAnchors: 1
   m_ArticulationJointType: 2
   m_LinearX: 2
   m_LinearY: 2
@@ -4092,6 +4176,7 @@ ArticulationBody:
   m_JointFriction: 0.05
   m_Immovable: 0
   m_UseGravity: 1
+  m_CollisionDetectionMode: 0
 --- !u!1 &3962830348483502075
 GameObject:
   m_ObjectHideFlags: 0
@@ -4122,6 +4207,7 @@ Transform:
   m_LocalRotation: {x: 0.7071068, y: 0.000000036790656, z: -0.00000013179675, w: 0.7071067}
   m_LocalPosition: {x: 0.00124, y: -1.6660498e-10, z: -4.839572e-19}
   m_LocalScale: {x: 1, y: 0.99999994, z: 1.0000001}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3962830348483068889}
   m_Father: {fileID: 3962830348483068869}
@@ -4146,6 +4232,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -4199,12 +4286,13 @@ ArticulationBody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3962830348483502075}
   m_Enabled: 1
+  serializedVersion: 3
   m_Mass: 0.08
   m_ParentAnchorPosition: {x: -0.00124, y: 0, z: 0}
   m_ParentAnchorRotation: {x: -0.7071067, y: 0.000000043597186, z: -0.00000012031558, w: -0.7071068}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
-  m_ComputeParentAnchor: 1
+  m_MatchAnchors: 1
   m_ArticulationJointType: 2
   m_LinearX: 2
   m_LinearY: 2
@@ -4241,6 +4329,7 @@ ArticulationBody:
   m_JointFriction: 0.05
   m_Immovable: 0
   m_UseGravity: 1
+  m_CollisionDetectionMode: 0
 --- !u!1 &3962830348483502077
 GameObject:
   m_ObjectHideFlags: 0
@@ -4272,6 +4361,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0.7071068, w: 0}
   m_LocalPosition: {x: -5.32907e-16, y: -3.521393e-11, z: -0.0003250003}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3962830348483068883}
   - {fileID: 3962830348483068887}
@@ -4297,6 +4387,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -4363,12 +4454,13 @@ ArticulationBody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3962830348483502077}
   m_Enabled: 1
+  serializedVersion: 3
   m_Mass: 0.1
   m_ParentAnchorPosition: {x: 5.1837323e-10, y: 2.051633e-10, z: -0.0003249999}
   m_ParentAnchorRotation: {x: -0.49999997, y: 0.5, z: 0.5, w: -0.49999994}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
-  m_ComputeParentAnchor: 1
+  m_MatchAnchors: 1
   m_ArticulationJointType: 2
   m_LinearX: 2
   m_LinearY: 2
@@ -4405,6 +4497,7 @@ ArticulationBody:
   m_JointFriction: 0.05
   m_Immovable: 0
   m_UseGravity: 1
+  m_CollisionDetectionMode: 0
 --- !u!1 &3962830348483502079
 GameObject:
   m_ObjectHideFlags: 0
@@ -4435,6 +4528,7 @@ Transform:
   m_LocalRotation: {x: -2.6574e-38, y: 1.3636407e-15, z: 3.5527145e-15, w: 1}
   m_LocalPosition: {x: 5.684342e-16, y: -2.0516325e-10, z: -0.00171}
   m_LocalScale: {x: 0.9999998, y: 0.9999998, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3962830348483068893}
   m_Father: {fileID: 3962830348483068881}
@@ -4459,6 +4553,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -4513,12 +4608,13 @@ ArticulationBody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3962830348483502079}
   m_Enabled: 1
+  serializedVersion: 3
   m_Mass: 0.05
   m_ParentAnchorPosition: {x: 4.9536847e-10, y: -3.4924608e-10, z: -0.0017099996}
   m_ParentAnchorRotation: {x: 0, y: 0.99999976, z: 0, w: -0.000000043711378}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
-  m_ComputeParentAnchor: 1
+  m_MatchAnchors: 1
   m_ArticulationJointType: 2
   m_LinearX: 2
   m_LinearY: 2
@@ -4555,3 +4651,4 @@ ArticulationBody:
   m_JointFriction: 0.05
   m_Immovable: 0
   m_UseGravity: 1
+  m_CollisionDetectionMode: 0
