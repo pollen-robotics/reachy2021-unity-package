@@ -30,6 +30,6 @@ public class DownloadTask
 
     private static async Task _Unzip()
     {
-        await Task.Run(() => ZipFile.ExtractToDirectory(savePath, @"Packages/ReachySimulator/"));
+        await Task.Run(() => ZipFile.ExtractToDirectory(savePath, @"Assets/"));
     }
 }

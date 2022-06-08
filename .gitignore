@@ -75,6 +75,6 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
-Packages/ReachySimulator/Plugins/Google*
-Packages/ReachySimulator/Plugins/Grpc*
-Packages/ReachySimulator/Plugins/System*
+Assets/Plugins/Google*
+Assets/Plugins/Grpc*
+Assets/Plugins/System*

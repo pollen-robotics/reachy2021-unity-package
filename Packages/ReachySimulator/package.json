@@ -2,7 +2,7 @@
   "name": "com.pollenrobotics.reachysimulator",
   "version": "1.0.1",
   "displayName": "Reachy Simulator",
-  "description": "Reachy Simulator for Unity",
+  "description": "Reachy Simulator for Unity.\n This package requires Grpc that you can easy install from the menu Reachy/Install GRPC, or download from https://packages.grpc.io/",
   "unity": "2020.3",
   "documentationUrl": "https://github.com/pollen-robotics/reachy2021-unity-package",
   "keywords": [
