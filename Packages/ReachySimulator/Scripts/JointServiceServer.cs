@@ -9,6 +9,7 @@ using Grpc.Core.Utils;
 using Reachy.Sdk.Joint;
 using Reachy.Sdk.Fan;
 using Reachy.Sdk.Kinematics;
+using Reachy.Sdk.Mobility;
 using System.Collections;
 using System.Collections.Generic;
 using System;
@@ -67,6 +68,7 @@ class JointServiceServer : MonoBehaviour
                 SensorService.BindService(new SensorServiceImpl()),
                 FanControllerService.BindService(new FanControllerServiceImpl()), 
                 ArmKinematics.BindService(new ArmKinematicsImpl()),
+                MobileBasePresenceService.BindService(new MobileBasePresenceServiceImpl()),
                 },
             Ports = { new ServerPort("0.0.0.0", PortJoint, ServerCredentials.Insecure) },
         };
@@ -681,6 +683,18 @@ class JointServiceServer : MonoBehaviour
             {
                 return Task.FromResult(new FansCommandAck { Success = false });
             }
+        }
+    }
+
+    public class MobileBasePresenceServiceImpl : MobileBasePresenceService.MobileBasePresenceServiceBase
+    {
+        public override Task<MobileBasePresence> GetMobileBasePresence(Google.Protobuf.WellKnownTypes.Empty empty, ServerCallContext context)
+        {
+            MobileBasePresence mobility = new MobileBasePresence {
+                Presence = false,
+            };
+
+            return Task.FromResult(mobility);
         }
     }
 }

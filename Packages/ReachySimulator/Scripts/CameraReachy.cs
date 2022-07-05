@@ -24,44 +24,60 @@ namespace Reachy.Sdk.Camera {
     static CameraReachyReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "ChNjYW1lcmFfcmVhY2h5LnByb3RvEhFyZWFjaHkuc2RrLmNhbWVyYSIVCgVJ",
-            "bWFnZRIMCgRkYXRhGAEgASgMIjEKBkNhbWVyYRInCgJpZBgBIAEoDjIbLnJl",
-            "YWNoeS5zZGsuY2FtZXJhLkNhbWVyYUlkIjkKDEltYWdlUmVxdWVzdBIpCgZj",
-            "YW1lcmEYASABKAsyGS5yZWFjaHkuc2RrLmNhbWVyYS5DYW1lcmEiRgoSU3Ry",
-            "ZWFtSW1hZ2VSZXF1ZXN0EjAKB3JlcXVlc3QYASABKAsyHy5yZWFjaHkuc2Rr",
-            "LmNhbWVyYS5JbWFnZVJlcXVlc3QiGgoJWm9vbVNwZWVkEg0KBXNwZWVkGAEg",
-            "ASgNIgwKClpvb21Ib21pbmciRQoJWm9vbUxldmVsEjgKBWxldmVsGAEgASgO",
-            "MikucmVhY2h5LnNkay5jYW1lcmEuWm9vbUxldmVsUG9zc2liaWxpdGllcyIh",
-            "Cg5ab29tQ29tbWFuZEFjaxIPCgdzdWNjZXNzGAEgASgIIuoBCgtab29tQ29t",
-            "bWFuZBIpCgZjYW1lcmEYASABKAsyGS5yZWFjaHkuc2RrLmNhbWVyYS5DYW1l",
-            "cmESNwoOaG9taW5nX2NvbW1hbmQYAiABKAsyHS5yZWFjaHkuc2RrLmNhbWVy",
-            "YS5ab29tSG9taW5nSAASNQoNc3BlZWRfY29tbWFuZBgDIAEoCzIcLnJlYWNo",
-            "eS5zZGsuY2FtZXJhLlpvb21TcGVlZEgAEjUKDWxldmVsX2NvbW1hbmQYBCAB",
-            "KAsyHC5yZWFjaHkuc2RrLmNhbWVyYS5ab29tTGV2ZWxIAEIJCgdjb21tYW5k",
-            "Kh8KCENhbWVyYUlkEggKBExFRlQQABIJCgVSSUdIVBABKj4KFlpvb21MZXZl",
-            "bFBvc3NpYmlsaXRpZXMSCAoEWkVSTxAAEgYKAklOEAESCQoFSU5URVIQAhIH",
-            "CgNPVVQQAzKQAwoNQ2FtZXJhU2VydmljZRJFCghHZXRJbWFnZRIfLnJlYWNo",
-            "eS5zZGsuY2FtZXJhLkltYWdlUmVxdWVzdBoYLnJlYWNoeS5zZGsuY2FtZXJh",
-            "LkltYWdlElAKC1N0cmVhbUltYWdlEiUucmVhY2h5LnNkay5jYW1lcmEuU3Ry",
-            "ZWFtSW1hZ2VSZXF1ZXN0GhgucmVhY2h5LnNkay5jYW1lcmEuSW1hZ2UwARJH",
-            "CgxHZXRab29tTGV2ZWwSGS5yZWFjaHkuc2RrLmNhbWVyYS5DYW1lcmEaHC5y",
-            "ZWFjaHkuc2RrLmNhbWVyYS5ab29tTGV2ZWwSRwoMR2V0Wm9vbVNwZWVkEhku",
-            "cmVhY2h5LnNkay5jYW1lcmEuQ2FtZXJhGhwucmVhY2h5LnNkay5jYW1lcmEu",
-            "Wm9vbVNwZWVkElQKD1NlbmRab29tQ29tbWFuZBIeLnJlYWNoeS5zZGsuY2Ft",
-            "ZXJhLlpvb21Db21tYW5kGiEucmVhY2h5LnNkay5jYW1lcmEuWm9vbUNvbW1h",
-            "bmRBY2tiBnByb3RvMw=="));
+            "ChNjYW1lcmFfcmVhY2h5LnByb3RvEhFyZWFjaHkuc2RrLmNhbWVyYRoeZ29v",
+            "Z2xlL3Byb3RvYnVmL3dyYXBwZXJzLnByb3RvGhtnb29nbGUvcHJvdG9idWYv",
+            "ZW1wdHkucHJvdG8iFQoFSW1hZ2USDAoEZGF0YRgBIAEoDCIxCgZDYW1lcmES",
+            "JwoCaWQYASABKA4yGy5yZWFjaHkuc2RrLmNhbWVyYS5DYW1lcmFJZCIzCgdD",
+            "YW1lcmFzEigKA2lkcxgBIAMoDjIbLnJlYWNoeS5zZGsuY2FtZXJhLkNhbWVy",
+            "YUlkIjkKDEltYWdlUmVxdWVzdBIpCgZjYW1lcmEYASABKAsyGS5yZWFjaHku",
+            "c2RrLmNhbWVyYS5DYW1lcmEiRgoSU3RyZWFtSW1hZ2VSZXF1ZXN0EjAKB3Jl",
+            "cXVlc3QYASABKAsyHy5yZWFjaHkuc2RrLmNhbWVyYS5JbWFnZVJlcXVlc3Qi",
+            "GgoJWm9vbVNwZWVkEg0KBXNwZWVkGAEgASgNIgwKClpvb21Ib21pbmciRQoJ",
+            "Wm9vbUxldmVsEjgKBWxldmVsGAEgASgOMikucmVhY2h5LnNkay5jYW1lcmEu",
+            "Wm9vbUxldmVsUG9zc2liaWxpdGllcyIhCg5ab29tQ29tbWFuZEFjaxIPCgdz",
+            "dWNjZXNzGAEgASgIIuoBCgtab29tQ29tbWFuZBIpCgZjYW1lcmEYASABKAsy",
+            "GS5yZWFjaHkuc2RrLmNhbWVyYS5DYW1lcmESNwoOaG9taW5nX2NvbW1hbmQY",
+            "AiABKAsyHS5yZWFjaHkuc2RrLmNhbWVyYS5ab29tSG9taW5nSAASNQoNc3Bl",
+            "ZWRfY29tbWFuZBgDIAEoCzIcLnJlYWNoeS5zZGsuY2FtZXJhLlpvb21TcGVl",
+            "ZEgAEjUKDWxldmVsX2NvbW1hbmQYBCABKAsyHC5yZWFjaHkuc2RrLmNhbWVy",
+            "YS5ab29tTGV2ZWxIAEIJCgdjb21tYW5kItoBChBab29tRm9jdXNNZXNzYWdl",
+            "EjAKCmxlZnRfZm9jdXMYASABKAsyHC5nb29nbGUucHJvdG9idWYuVUludDMy",
+            "VmFsdWUSLwoJbGVmdF96b29tGAIgASgLMhwuZ29vZ2xlLnByb3RvYnVmLlVJ",
+            "bnQzMlZhbHVlEjEKC3JpZ2h0X2ZvY3VzGAMgASgLMhwuZ29vZ2xlLnByb3Rv",
+            "YnVmLlVJbnQzMlZhbHVlEjAKCnJpZ2h0X3pvb20YBCABKAsyHC5nb29nbGUu",
+            "cHJvdG9idWYuVUludDMyVmFsdWUqHwoIQ2FtZXJhSWQSCAoETEVGVBAAEgkK",
+            "BVJJR0hUEAEqPgoWWm9vbUxldmVsUG9zc2liaWxpdGllcxIICgRaRVJPEAAS",
+            "BgoCSU4QARIJCgVJTlRFUhACEgcKA09VVBADMtQFCg1DYW1lcmFTZXJ2aWNl",
+            "EkUKCEdldEltYWdlEh8ucmVhY2h5LnNkay5jYW1lcmEuSW1hZ2VSZXF1ZXN0",
+            "GhgucmVhY2h5LnNkay5jYW1lcmEuSW1hZ2USUAoLU3RyZWFtSW1hZ2USJS5y",
+            "ZWFjaHkuc2RrLmNhbWVyYS5TdHJlYW1JbWFnZVJlcXVlc3QaGC5yZWFjaHku",
+            "c2RrLmNhbWVyYS5JbWFnZTABEkcKDEdldFpvb21MZXZlbBIZLnJlYWNoeS5z",
+            "ZGsuY2FtZXJhLkNhbWVyYRocLnJlYWNoeS5zZGsuY2FtZXJhLlpvb21MZXZl",
+            "bBJHCgxHZXRab29tU3BlZWQSGS5yZWFjaHkuc2RrLmNhbWVyYS5DYW1lcmEa",
+            "HC5yZWFjaHkuc2RrLmNhbWVyYS5ab29tU3BlZWQSVAoPU2VuZFpvb21Db21t",
+            "YW5kEh4ucmVhY2h5LnNkay5jYW1lcmEuWm9vbUNvbW1hbmQaIS5yZWFjaHku",
+            "c2RrLmNhbWVyYS5ab29tQ29tbWFuZEFjaxJLCgxHZXRab29tRm9jdXMSFi5n",
+            "b29nbGUucHJvdG9idWYuRW1wdHkaIy5yZWFjaHkuc2RrLmNhbWVyYS5ab29t",
+            "Rm9jdXNNZXNzYWdlElYKDFNldFpvb21Gb2N1cxIjLnJlYWNoeS5zZGsuY2Ft",
+            "ZXJhLlpvb21Gb2N1c01lc3NhZ2UaIS5yZWFjaHkuc2RrLmNhbWVyYS5ab29t",
+            "Q29tbWFuZEFjaxJOCg5TdGFydEF1dG9mb2N1cxIZLnJlYWNoeS5zZGsuY2Ft",
+            "ZXJhLkNhbWVyYRohLnJlYWNoeS5zZGsuY2FtZXJhLlpvb21Db21tYW5kQWNr",
+            "Ek0KDVN0b3BBdXRvZm9jdXMSGS5yZWFjaHkuc2RrLmNhbWVyYS5DYW1lcmEa",
+            "IS5yZWFjaHkuc2RrLmNhbWVyYS5ab29tQ29tbWFuZEFja2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { },
+          new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.WrappersReflection.Descriptor, global::Google.Protobuf.WellKnownTypes.EmptyReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Reachy.Sdk.Camera.CameraId), typeof(global::Reachy.Sdk.Camera.ZoomLevelPossibilities), }, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Reachy.Sdk.Camera.Image), global::Reachy.Sdk.Camera.Image.Parser, new[]{ "Data" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Reachy.Sdk.Camera.Camera), global::Reachy.Sdk.Camera.Camera.Parser, new[]{ "Id" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Reachy.Sdk.Camera.Cameras), global::Reachy.Sdk.Camera.Cameras.Parser, new[]{ "Ids" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Reachy.Sdk.Camera.ImageRequest), global::Reachy.Sdk.Camera.ImageRequest.Parser, new[]{ "Camera" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Reachy.Sdk.Camera.StreamImageRequest), global::Reachy.Sdk.Camera.StreamImageRequest.Parser, new[]{ "Request" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Reachy.Sdk.Camera.ZoomSpeed), global::Reachy.Sdk.Camera.ZoomSpeed.Parser, new[]{ "Speed" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Reachy.Sdk.Camera.ZoomHoming), global::Reachy.Sdk.Camera.ZoomHoming.Parser, null, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Reachy.Sdk.Camera.ZoomLevel), global::Reachy.Sdk.Camera.ZoomLevel.Parser, new[]{ "Level" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Reachy.Sdk.Camera.ZoomCommandAck), global::Reachy.Sdk.Camera.ZoomCommandAck.Parser, new[]{ "Success" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Reachy.Sdk.Camera.ZoomCommand), global::Reachy.Sdk.Camera.ZoomCommand.Parser, new[]{ "Camera", "HomingCommand", "SpeedCommand", "LevelCommand" }, new[]{ "Command" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Reachy.Sdk.Camera.ZoomCommand), global::Reachy.Sdk.Camera.ZoomCommand.Parser, new[]{ "Camera", "HomingCommand", "SpeedCommand", "LevelCommand" }, new[]{ "Command" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Reachy.Sdk.Camera.ZoomFocusMessage), global::Reachy.Sdk.Camera.ZoomFocusMessage.Parser, new[]{ "LeftFocus", "LeftZoom", "RightFocus", "RightZoom" }, null, null, null, null)
           }));
     }
     #endregion
@@ -427,6 +443,169 @@ namespace Reachy.Sdk.Camera {
 
   }
 
+  public sealed partial class Cameras : pb::IMessage<Cameras>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<Cameras> _parser = new pb::MessageParser<Cameras>(() => new Cameras());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<Cameras> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Reachy.Sdk.Camera.CameraReachyReflection.Descriptor.MessageTypes[2]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public Cameras() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public Cameras(Cameras other) : this() {
+      ids_ = other.ids_.Clone();
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public Cameras Clone() {
+      return new Cameras(this);
+    }
+
+    /// <summary>Field number for the "ids" field.</summary>
+    public const int IdsFieldNumber = 1;
+    private static readonly pb::FieldCodec<global::Reachy.Sdk.Camera.CameraId> _repeated_ids_codec
+        = pb::FieldCodec.ForEnum(10, x => (int) x, x => (global::Reachy.Sdk.Camera.CameraId) x);
+    private readonly pbc::RepeatedField<global::Reachy.Sdk.Camera.CameraId> ids_ = new pbc::RepeatedField<global::Reachy.Sdk.Camera.CameraId>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<global::Reachy.Sdk.Camera.CameraId> Ids {
+      get { return ids_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as Cameras);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(Cameras other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if(!ids_.Equals(other.ids_)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      hash ^= ids_.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      ids_.WriteTo(output, _repeated_ids_codec);
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      ids_.WriteTo(ref output, _repeated_ids_codec);
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      size += ids_.CalculateSize(_repeated_ids_codec);
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(Cameras other) {
+      if (other == null) {
+        return;
+      }
+      ids_.Add(other.ids_);
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10:
+          case 8: {
+            ids_.AddEntriesFrom(input, _repeated_ids_codec);
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10:
+          case 8: {
+            ids_.AddEntriesFrom(ref input, _repeated_ids_codec);
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
   public sealed partial class ImageRequest : pb::IMessage<ImageRequest>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
@@ -439,7 +618,7 @@ namespace Reachy.Sdk.Camera {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Reachy.Sdk.Camera.CameraReachyReflection.Descriptor.MessageTypes[2]; }
+      get { return global::Reachy.Sdk.Camera.CameraReachyReflection.Descriptor.MessageTypes[3]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -620,7 +799,7 @@ namespace Reachy.Sdk.Camera {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Reachy.Sdk.Camera.CameraReachyReflection.Descriptor.MessageTypes[3]; }
+      get { return global::Reachy.Sdk.Camera.CameraReachyReflection.Descriptor.MessageTypes[4]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -801,7 +980,7 @@ namespace Reachy.Sdk.Camera {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Reachy.Sdk.Camera.CameraReachyReflection.Descriptor.MessageTypes[4]; }
+      get { return global::Reachy.Sdk.Camera.CameraReachyReflection.Descriptor.MessageTypes[5]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -973,7 +1152,7 @@ namespace Reachy.Sdk.Camera {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Reachy.Sdk.Camera.CameraReachyReflection.Descriptor.MessageTypes[5]; }
+      get { return global::Reachy.Sdk.Camera.CameraReachyReflection.Descriptor.MessageTypes[6]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1109,7 +1288,7 @@ namespace Reachy.Sdk.Camera {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Reachy.Sdk.Camera.CameraReachyReflection.Descriptor.MessageTypes[6]; }
+      get { return global::Reachy.Sdk.Camera.CameraReachyReflection.Descriptor.MessageTypes[7]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1281,7 +1460,7 @@ namespace Reachy.Sdk.Camera {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Reachy.Sdk.Camera.CameraReachyReflection.Descriptor.MessageTypes[7]; }
+      get { return global::Reachy.Sdk.Camera.CameraReachyReflection.Descriptor.MessageTypes[8]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1453,7 +1632,7 @@ namespace Reachy.Sdk.Camera {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Reachy.Sdk.Camera.CameraReachyReflection.Descriptor.MessageTypes[8]; }
+      get { return global::Reachy.Sdk.Camera.CameraReachyReflection.Descriptor.MessageTypes[9]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1794,6 +1973,318 @@ namespace Reachy.Sdk.Camera {
             }
             input.ReadMessage(subBuilder);
             LevelCommand = subBuilder;
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  public sealed partial class ZoomFocusMessage : pb::IMessage<ZoomFocusMessage>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ZoomFocusMessage> _parser = new pb::MessageParser<ZoomFocusMessage>(() => new ZoomFocusMessage());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<ZoomFocusMessage> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Reachy.Sdk.Camera.CameraReachyReflection.Descriptor.MessageTypes[10]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public ZoomFocusMessage() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public ZoomFocusMessage(ZoomFocusMessage other) : this() {
+      LeftFocus = other.LeftFocus;
+      LeftZoom = other.LeftZoom;
+      RightFocus = other.RightFocus;
+      RightZoom = other.RightZoom;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public ZoomFocusMessage Clone() {
+      return new ZoomFocusMessage(this);
+    }
+
+    /// <summary>Field number for the "left_focus" field.</summary>
+    public const int LeftFocusFieldNumber = 1;
+    private static readonly pb::FieldCodec<uint?> _single_leftFocus_codec = pb::FieldCodec.ForStructWrapper<uint>(10);
+    private uint? leftFocus_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public uint? LeftFocus {
+      get { return leftFocus_; }
+      set {
+        leftFocus_ = value;
+      }
+    }
+
+
+    /// <summary>Field number for the "left_zoom" field.</summary>
+    public const int LeftZoomFieldNumber = 2;
+    private static readonly pb::FieldCodec<uint?> _single_leftZoom_codec = pb::FieldCodec.ForStructWrapper<uint>(18);
+    private uint? leftZoom_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public uint? LeftZoom {
+      get { return leftZoom_; }
+      set {
+        leftZoom_ = value;
+      }
+    }
+
+
+    /// <summary>Field number for the "right_focus" field.</summary>
+    public const int RightFocusFieldNumber = 3;
+    private static readonly pb::FieldCodec<uint?> _single_rightFocus_codec = pb::FieldCodec.ForStructWrapper<uint>(26);
+    private uint? rightFocus_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public uint? RightFocus {
+      get { return rightFocus_; }
+      set {
+        rightFocus_ = value;
+      }
+    }
+
+
+    /// <summary>Field number for the "right_zoom" field.</summary>
+    public const int RightZoomFieldNumber = 4;
+    private static readonly pb::FieldCodec<uint?> _single_rightZoom_codec = pb::FieldCodec.ForStructWrapper<uint>(34);
+    private uint? rightZoom_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public uint? RightZoom {
+      get { return rightZoom_; }
+      set {
+        rightZoom_ = value;
+      }
+    }
+
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as ZoomFocusMessage);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(ZoomFocusMessage other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (LeftFocus != other.LeftFocus) return false;
+      if (LeftZoom != other.LeftZoom) return false;
+      if (RightFocus != other.RightFocus) return false;
+      if (RightZoom != other.RightZoom) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (leftFocus_ != null) hash ^= LeftFocus.GetHashCode();
+      if (leftZoom_ != null) hash ^= LeftZoom.GetHashCode();
+      if (rightFocus_ != null) hash ^= RightFocus.GetHashCode();
+      if (rightZoom_ != null) hash ^= RightZoom.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (leftFocus_ != null) {
+        _single_leftFocus_codec.WriteTagAndValue(output, LeftFocus);
+      }
+      if (leftZoom_ != null) {
+        _single_leftZoom_codec.WriteTagAndValue(output, LeftZoom);
+      }
+      if (rightFocus_ != null) {
+        _single_rightFocus_codec.WriteTagAndValue(output, RightFocus);
+      }
+      if (rightZoom_ != null) {
+        _single_rightZoom_codec.WriteTagAndValue(output, RightZoom);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (leftFocus_ != null) {
+        _single_leftFocus_codec.WriteTagAndValue(ref output, LeftFocus);
+      }
+      if (leftZoom_ != null) {
+        _single_leftZoom_codec.WriteTagAndValue(ref output, LeftZoom);
+      }
+      if (rightFocus_ != null) {
+        _single_rightFocus_codec.WriteTagAndValue(ref output, RightFocus);
+      }
+      if (rightZoom_ != null) {
+        _single_rightZoom_codec.WriteTagAndValue(ref output, RightZoom);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (leftFocus_ != null) {
+        size += _single_leftFocus_codec.CalculateSizeWithTag(LeftFocus);
+      }
+      if (leftZoom_ != null) {
+        size += _single_leftZoom_codec.CalculateSizeWithTag(LeftZoom);
+      }
+      if (rightFocus_ != null) {
+        size += _single_rightFocus_codec.CalculateSizeWithTag(RightFocus);
+      }
+      if (rightZoom_ != null) {
+        size += _single_rightZoom_codec.CalculateSizeWithTag(RightZoom);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(ZoomFocusMessage other) {
+      if (other == null) {
+        return;
+      }
+      if (other.leftFocus_ != null) {
+        if (leftFocus_ == null || other.LeftFocus != 0) {
+          LeftFocus = other.LeftFocus;
+        }
+      }
+      if (other.leftZoom_ != null) {
+        if (leftZoom_ == null || other.LeftZoom != 0) {
+          LeftZoom = other.LeftZoom;
+        }
+      }
+      if (other.rightFocus_ != null) {
+        if (rightFocus_ == null || other.RightFocus != 0) {
+          RightFocus = other.RightFocus;
+        }
+      }
+      if (other.rightZoom_ != null) {
+        if (rightZoom_ == null || other.RightZoom != 0) {
+          RightZoom = other.RightZoom;
+        }
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            uint? value = _single_leftFocus_codec.Read(input);
+            if (leftFocus_ == null || value != 0) {
+              LeftFocus = value;
+            }
+            break;
+          }
+          case 18: {
+            uint? value = _single_leftZoom_codec.Read(input);
+            if (leftZoom_ == null || value != 0) {
+              LeftZoom = value;
+            }
+            break;
+          }
+          case 26: {
+            uint? value = _single_rightFocus_codec.Read(input);
+            if (rightFocus_ == null || value != 0) {
+              RightFocus = value;
+            }
+            break;
+          }
+          case 34: {
+            uint? value = _single_rightZoom_codec.Read(input);
+            if (rightZoom_ == null || value != 0) {
+              RightZoom = value;
+            }
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            uint? value = _single_leftFocus_codec.Read(ref input);
+            if (leftFocus_ == null || value != 0) {
+              LeftFocus = value;
+            }
+            break;
+          }
+          case 18: {
+            uint? value = _single_leftZoom_codec.Read(ref input);
+            if (leftZoom_ == null || value != 0) {
+              LeftZoom = value;
+            }
+            break;
+          }
+          case 26: {
+            uint? value = _single_rightFocus_codec.Read(ref input);
+            if (rightFocus_ == null || value != 0) {
+              RightFocus = value;
+            }
+            break;
+          }
+          case 34: {
+            uint? value = _single_rightZoom_codec.Read(ref input);
+            if (rightZoom_ == null || value != 0) {
+              RightZoom = value;
+            }
             break;
           }
         }
