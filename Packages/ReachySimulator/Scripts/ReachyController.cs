@@ -162,6 +162,7 @@ namespace Reachy
                 {
                     JointController joint = m.gameObject.GetComponent<JointController>();
                     joint.RotateTo(m.targetPosition);
+                    joint.IsCompliant(m.isCompliant);
 
                     m.presentPosition = joint.GetPresentPosition();
                 }
