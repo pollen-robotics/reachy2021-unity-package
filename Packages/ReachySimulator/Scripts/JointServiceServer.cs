@@ -20,31 +20,31 @@ class JointServiceServer : MonoBehaviour
     public static ReachyController reachy;
     static Server server;
 
-    #if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
     [DllImport("Arm_kinematics.dll", CallingConvention = CallingConvention.Cdecl)]
-    #elif UNITY_STANDALONE_LINUX || UNITY_EDITOR_LINUX
+#elif UNITY_STANDALONE_LINUX || UNITY_EDITOR_LINUX
     [DllImport("libArm_kinematics.so", CallingConvention = CallingConvention.Cdecl)]
-    #elif UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX
+#elif UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX
     [DllImport("libArm_kinematics.dylib", CallingConvention = CallingConvention.Cdecl)]
-    #endif
+#endif
     private static extern void setup();
 
-    #if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
     [DllImport("Arm_kinematics.dll", CallingConvention = CallingConvention.Cdecl)]
-    #elif UNITY_STANDALONE_LINUX || UNITY_EDITOR_LINUX
+#elif UNITY_STANDALONE_LINUX || UNITY_EDITOR_LINUX
     [DllImport("libArm_kinematics.so", CallingConvention = CallingConvention.Cdecl)]
-    #elif UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX
+#elif UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX
     [DllImport("libArm_kinematics.dylib", CallingConvention = CallingConvention.Cdecl)]
-    #endif
+#endif
     private static extern void forward(ArmSide side, double[] q, int n, double[] M);
 
-    #if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
     [DllImport("Arm_kinematics.dll", CallingConvention = CallingConvention.Cdecl)]
-    #elif UNITY_STANDALONE_LINUX || UNITY_EDITOR_LINUX
+#elif UNITY_STANDALONE_LINUX || UNITY_EDITOR_LINUX
     [DllImport("libArm_kinematics.so", CallingConvention = CallingConvention.Cdecl)]
-    #elif UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX
+#elif UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX
     [DllImport("libArm_kinematics.dylib", CallingConvention = CallingConvention.Cdecl)]
-    #endif
+#endif
     private static extern void inverse(ArmSide side, double[] M, double[] q);
 
     private static CancellationTokenSource askForCancellation = new CancellationTokenSource();
@@ -62,11 +62,11 @@ class JointServiceServer : MonoBehaviour
         const int PortJoint = 50055;
         server = new Server
         {
-            Services = { 
-                JointService.BindService(new JointServiceImpl()), 
+            Services = {
+                JointService.BindService(new JointServiceImpl()),
                 FullBodyCartesianCommandService.BindService(new FullBodyCartesianCommandServiceImpl()),
                 SensorService.BindService(new SensorServiceImpl()),
-                FanControllerService.BindService(new FanControllerServiceImpl()), 
+                FanControllerService.BindService(new FanControllerServiceImpl()),
                 ArmKinematics.BindService(new ArmKinematicsImpl()),
                 MobileBasePresenceService.BindService(new MobileBasePresenceServiceImpl()),
                 },
@@ -85,7 +85,7 @@ class JointServiceServer : MonoBehaviour
         askForCancellation.Cancel();
         askForCancellation.Dispose();
     }
-    
+
     public class JointServiceImpl : JointService.JointServiceBase
     {
         public override Task<JointsCommandAck> SendJointsCommands(JointsCommand jointsCommand, ServerCallContext context)
@@ -94,19 +94,19 @@ class JointServiceServer : MonoBehaviour
             {
                 Dictionary<JointId, float> commands = new Dictionary<JointId, float>();
                 Dictionary<JointId, bool> compliancy = new Dictionary<JointId, bool>();
-                for(int i=0; i<jointsCommand.Commands.Count; i++)
+                for (int i = 0; i < jointsCommand.Commands.Count; i++)
                 {
-                    if(jointsCommand.Commands[i].GoalPosition != null)
+                    if (jointsCommand.Commands[i].GoalPosition != null)
                     {
                         float command = Mathf.Rad2Deg * (float)jointsCommand.Commands[i].GoalPosition;
                         commands.Add(jointsCommand.Commands[i].Id, command);
                     }
 
-                    if(jointsCommand.Commands[i].Compliant != null)
+                    if (jointsCommand.Commands[i].Compliant != null)
                     {
                         bool isCompliant = (bool)jointsCommand.Commands[i].Compliant;
                         compliancy.Add(jointsCommand.Commands[i].Id, isCompliant);
-                    }                    
+                    }
                 }
                 reachy.HandleCommand(commands);
                 reachy.HandleCompliancy(compliancy);
@@ -121,7 +121,7 @@ class JointServiceServer : MonoBehaviour
         public override async Task<JointsCommandAck> StreamJointsCommands(IAsyncStreamReader<JointsCommand> requestStream, ServerCallContext context)
         {
             CancellationToken cancellationToken = askForCancellation.Token;
-            try 
+            try
             {
                 while (await requestStream.MoveNext(cancellationToken))
                 {
@@ -142,12 +142,12 @@ class JointServiceServer : MonoBehaviour
         {
             Dictionary<JointId, JointField> request = new Dictionary<JointId, JointField>();
 
-            for(int i=0; i<jointRequest.Ids.Count; i++)
+            for (int i = 0; i < jointRequest.Ids.Count; i++)
             {
                 request.Add(jointRequest.Ids[i], JointField.PresentPosition);
             }
             var motors = reachy.GetCurrentMotorsState(request);
-            
+
             List<JointState> listJointStates = new List<JointState>();
             List<JointId> listJointIds = new List<JointId>();
             foreach (var item in motors)
@@ -155,43 +155,43 @@ class JointServiceServer : MonoBehaviour
                 var jointState = new JointState();
                 jointState.Name = item.name;
                 jointState.Uid = (uint?)item.uid;
-                if(jointRequest.RequestedFields.Contains(JointField.PresentPosition))
+                if (jointRequest.RequestedFields.Contains(JointField.PresentPosition))
                 {
                     jointState.PresentPosition = item.present_position;
                 }
-                if(jointRequest.RequestedFields.Contains(JointField.PresentSpeed))
+                if (jointRequest.RequestedFields.Contains(JointField.PresentSpeed))
                 {
                     jointState.PresentSpeed = 0;
                 }
-                if(jointRequest.RequestedFields.Contains(JointField.PresentLoad))
+                if (jointRequest.RequestedFields.Contains(JointField.PresentLoad))
                 {
                     jointState.PresentLoad = 0;
                 }
-                if(jointRequest.RequestedFields.Contains(JointField.Temperature))
+                if (jointRequest.RequestedFields.Contains(JointField.Temperature))
                 {
                     jointState.Temperature = 0;
                 }
-                if(jointRequest.RequestedFields.Contains(JointField.Compliant))
+                if (jointRequest.RequestedFields.Contains(JointField.Compliant))
                 {
                     jointState.Compliant = item.isCompliant;
                 }
-                if(jointRequest.RequestedFields.Contains(JointField.GoalPosition))
+                if (jointRequest.RequestedFields.Contains(JointField.GoalPosition))
                 {
                     jointState.GoalPosition = item.goal_position;
                 }
-                if(jointRequest.RequestedFields.Contains(JointField.SpeedLimit))
+                if (jointRequest.RequestedFields.Contains(JointField.SpeedLimit))
                 {
                     jointState.SpeedLimit = 0;
                 }
-                if(jointRequest.RequestedFields.Contains(JointField.TorqueLimit))
+                if (jointRequest.RequestedFields.Contains(JointField.TorqueLimit))
                 {
                     jointState.TorqueLimit = 100;
                 }
-                if(jointRequest.RequestedFields.Contains(JointField.Pid))
+                if (jointRequest.RequestedFields.Contains(JointField.Pid))
                 {
-                    jointState.Pid = new PIDValue { Pid = new PIDGains { P = 0, I = 0, D = 0 }};
+                    jointState.Pid = new PIDValue { Pid = new PIDGains { P = 0, I = 0, D = 0 } };
                 }
-                if(jointRequest.RequestedFields.Contains(JointField.All))
+                if (jointRequest.RequestedFields.Contains(JointField.All))
                 {
                     jointState.PresentPosition = item.present_position;
                     jointState.PresentSpeed = 0;
@@ -201,14 +201,15 @@ class JointServiceServer : MonoBehaviour
                     jointState.GoalPosition = item.goal_position;
                     jointState.SpeedLimit = 0;
                     jointState.TorqueLimit = 100;
-                    jointState.Pid = new PIDValue { Pid = new PIDGains { P = 0, I = 0, D = 0 }};
+                    jointState.Pid = new PIDValue { Pid = new PIDGains { P = 0, I = 0, D = 0 } };
                 }
 
                 listJointStates.Add(jointState);
                 listJointIds.Add(new JointId { Name = item.name });
             };
 
-            JointsState state = new JointsState {
+            JointsState state = new JointsState
+            {
                 Ids = { listJointIds },
                 States = { listJointStates },
             };
@@ -223,7 +224,7 @@ class JointServiceServer : MonoBehaviour
             try
             {
                 Dictionary<JointId, JointField> request = new Dictionary<JointId, JointField>();
-                for(int i=0; i<jointRequest.Request.Ids.Count; i++)
+                for (int i = 0; i < jointRequest.Request.Ids.Count; i++)
                 {
                     request.Add(jointRequest.Request.Ids[i], JointField.PresentPosition);
                 }
@@ -231,7 +232,7 @@ class JointServiceServer : MonoBehaviour
                 while (!context.CancellationToken.IsCancellationRequested)
                 {
                     var motors = reachy.GetCurrentMotorsState(request);
-                
+
                     List<JointState> listJointStates = new List<JointState>();
                     List<JointId> listJointIds = new List<JointId>();
 
@@ -240,43 +241,43 @@ class JointServiceServer : MonoBehaviour
                         var jointState = new JointState();
                         jointState.Name = item.name;
                         jointState.Uid = (uint?)item.uid;
-                        if(jointRequest.Request.RequestedFields.Contains(JointField.PresentPosition))
+                        if (jointRequest.Request.RequestedFields.Contains(JointField.PresentPosition))
                         {
                             jointState.PresentPosition = item.present_position;
                         }
-                        if(jointRequest.Request.RequestedFields.Contains(JointField.PresentSpeed))
+                        if (jointRequest.Request.RequestedFields.Contains(JointField.PresentSpeed))
                         {
                             jointState.PresentSpeed = 0;
                         }
-                        if(jointRequest.Request.RequestedFields.Contains(JointField.PresentLoad))
+                        if (jointRequest.Request.RequestedFields.Contains(JointField.PresentLoad))
                         {
                             jointState.PresentLoad = 0;
                         }
-                        if(jointRequest.Request.RequestedFields.Contains(JointField.Temperature))
+                        if (jointRequest.Request.RequestedFields.Contains(JointField.Temperature))
                         {
                             jointState.Temperature = 0;
                         }
-                        if(jointRequest.Request.RequestedFields.Contains(JointField.Compliant))
+                        if (jointRequest.Request.RequestedFields.Contains(JointField.Compliant))
                         {
                             jointState.Compliant = false;
                         }
-                        if(jointRequest.Request.RequestedFields.Contains(JointField.GoalPosition))
+                        if (jointRequest.Request.RequestedFields.Contains(JointField.GoalPosition))
                         {
                             jointState.GoalPosition = item.goal_position;
                         }
-                        if(jointRequest.Request.RequestedFields.Contains(JointField.SpeedLimit))
+                        if (jointRequest.Request.RequestedFields.Contains(JointField.SpeedLimit))
                         {
                             jointState.SpeedLimit = 0;
                         }
-                        if(jointRequest.Request.RequestedFields.Contains(JointField.TorqueLimit))
+                        if (jointRequest.Request.RequestedFields.Contains(JointField.TorqueLimit))
                         {
                             jointState.TorqueLimit = 0;
                         }
-                        if(jointRequest.Request.RequestedFields.Contains(JointField.Pid))
+                        if (jointRequest.Request.RequestedFields.Contains(JointField.Pid))
                         {
-                            jointState.Pid = new PIDValue { Pid = new PIDGains { P = 0, I = 0, D = 0 }};
+                            jointState.Pid = new PIDValue { Pid = new PIDGains { P = 0, I = 0, D = 0 } };
                         }
-                        if(jointRequest.Request.RequestedFields.Contains(JointField.All))
+                        if (jointRequest.Request.RequestedFields.Contains(JointField.All))
                         {
                             jointState.PresentPosition = item.present_position;
                             jointState.PresentSpeed = 0;
@@ -286,19 +287,20 @@ class JointServiceServer : MonoBehaviour
                             jointState.GoalPosition = item.goal_position;
                             jointState.SpeedLimit = 0;
                             jointState.TorqueLimit = 0;
-                            jointState.Pid = new PIDValue { Pid = new PIDGains { P = 0, I = 0, D = 0 }};
+                            jointState.Pid = new PIDValue { Pid = new PIDGains { P = 0, I = 0, D = 0 } };
                         }
 
                         listJointStates.Add(jointState);
                         listJointIds.Add(new JointId { Name = item.name });
                     };
 
-                    JointsState state = new JointsState {
+                    JointsState state = new JointsState
+                    {
                         Ids = { listJointIds },
                         States = { listJointStates },
                     };
                     await responseStream.WriteAsync(state);
-                    await Task.Delay(TimeSpan.FromSeconds(1/jointRequest.PublishFrequency), cancellationToken);
+                    await Task.Delay(TimeSpan.FromSeconds(1 / jointRequest.PublishFrequency), cancellationToken);
                     cancellationToken.ThrowIfCancellationRequested();
                 }
             }
@@ -313,13 +315,14 @@ class JointServiceServer : MonoBehaviour
             List<uint> ids = new List<uint>();
             List<string> names = new List<string>();
 
-            for(int i = 0; i< reachy.motors.Length; i++)
+            for (int i = 0; i < reachy.motors.Length; i++)
             {
                 ids.Add((uint)i);
                 names.Add(reachy.motors[i].name);
             }
 
-            JointsId allIds = new JointsId {
+            JointsId allIds = new JointsId
+            {
                 Names = { names },
                 Uids = { ids },
             };
@@ -339,30 +342,32 @@ class JointServiceServer : MonoBehaviour
                 JointServiceImpl jointService = new JointServiceImpl();
                 List<JointCommand> jointCommandList = new List<JointCommand>();
 
-                if(fullBodyCartesianCommand.LeftArm != null)
+                if (fullBodyCartesianCommand.LeftArm != null)
                 {
                     Task<ArmIKSolution> leftArmTask = armKinematics.ComputeArmIK(fullBodyCartesianCommand.LeftArm, context);
                     ArmIKSolution leftArmSolution = leftArmTask.Result;
 
                     int iter = 0;
-                    foreach(var l_id in leftArmSolution.ArmPosition.Positions.Ids)
+                    foreach (var l_id in leftArmSolution.ArmPosition.Positions.Ids)
                     {
-                        jointCommandList.Add(new JointCommand {
+                        jointCommandList.Add(new JointCommand
+                        {
                             Id = l_id,
                             GoalPosition = (float?)leftArmSolution.ArmPosition.Positions.Positions[iter],
                         });
                         iter += 1;
                     }
                 }
-                if(fullBodyCartesianCommand.RightArm != null)
+                if (fullBodyCartesianCommand.RightArm != null)
                 {
                     Task<ArmIKSolution> rightArmTask = armKinematics.ComputeArmIK(fullBodyCartesianCommand.RightArm, context);
                     ArmIKSolution rightArmSolution = rightArmTask.Result;
 
                     int iter = 0;
-                    foreach(var l_id in rightArmSolution.ArmPosition.Positions.Ids)
+                    foreach (var l_id in rightArmSolution.ArmPosition.Positions.Ids)
                     {
-                        jointCommandList.Add(new JointCommand {
+                        jointCommandList.Add(new JointCommand
+                        {
                             Id = l_id,
                             GoalPosition = (float?)rightArmSolution.ArmPosition.Positions.Positions[iter],
                         });
@@ -370,32 +375,36 @@ class JointServiceServer : MonoBehaviour
                     }
                 }
 
-                if(fullBodyCartesianCommand.Neck != null)
+                if (fullBodyCartesianCommand.Neck != null)
                 {
-                    UnityEngine.Quaternion headRotation= new UnityEngine.Quaternion((float)fullBodyCartesianCommand.Neck.Q.X, 
-                    (float)fullBodyCartesianCommand.Neck.Q.Y, 
-                    -(float)fullBodyCartesianCommand.Neck.Q.Z, 
-                    (float)fullBodyCartesianCommand.Neck.Q.W);
+                    UnityEngine.Quaternion headRotation = new UnityEngine.Quaternion((float)fullBodyCartesianCommand.Neck.Q.Y,
+                        -(float)fullBodyCartesianCommand.Neck.Q.Z,
+                        -(float)fullBodyCartesianCommand.Neck.Q.X,
+                        (float)fullBodyCartesianCommand.Neck.Q.W);
 
                     Vector3 neck_commands = Mathf.Deg2Rad * headRotation.eulerAngles;
-                    jointCommandList.Add(new JointCommand {
+                    jointCommandList.Add(new JointCommand
+                    {
                         Id = new JointId { Name = "neck_roll" },
+                        GoalPosition = (float?)neck_commands[2],
+                    });
+                    jointCommandList.Add(new JointCommand
+                    {
+                        Id = new JointId { Name = "neck_pitch" },
                         GoalPosition = (float?)neck_commands[0],
                     });
-                    jointCommandList.Add(new JointCommand {
-                        Id = new JointId { Name = "neck_pitch" },
-                        GoalPosition = (float?)neck_commands[1],
-                    });
-                    jointCommandList.Add(new JointCommand {
+                    jointCommandList.Add(new JointCommand
+                    {
                         Id = new JointId { Name = "neck_yaw" },
-                        GoalPosition = -(float?)neck_commands[2],
+                        GoalPosition = (float?)neck_commands[1],
                     });
                 }
 
                 JointsCommand jointsCommand = new JointsCommand { Commands = { jointCommandList } };
                 jointService.SendJointsCommands(jointsCommand, context);
 
-                return Task.FromResult(new FullBodyCartesianCommandAck { 
+                return Task.FromResult(new FullBodyCartesianCommandAck
+                {
                     LeftArmCommandSuccess = false,
                     RightArmCommandSuccess = false,
                     NeckCommandSuccess = false
@@ -403,7 +412,8 @@ class JointServiceServer : MonoBehaviour
             }
             catch
             {
-                return Task.FromResult(new FullBodyCartesianCommandAck { 
+                return Task.FromResult(new FullBodyCartesianCommandAck
+                {
                     LeftArmCommandSuccess = false,
                     RightArmCommandSuccess = false,
                     NeckCommandSuccess = false
@@ -425,16 +435,17 @@ class JointServiceServer : MonoBehaviour
                     cancellationToken.ThrowIfCancellationRequested();
                 }
             }
-            catch(OperationCanceledException e)
+            catch (OperationCanceledException e)
             {
 
             }
 
-            return (new FullBodyCartesianCommandAck { 
-                    LeftArmCommandSuccess = true,
-                    RightArmCommandSuccess = true,
-                    NeckCommandSuccess = true
-                });
+            return (new FullBodyCartesianCommandAck
+            {
+                LeftArmCommandSuccess = true,
+                RightArmCommandSuccess = true,
+                NeckCommandSuccess = true
+            });
         }
     }
 
@@ -443,20 +454,22 @@ class JointServiceServer : MonoBehaviour
         public override Task<ArmFKSolution> ComputeArmFK(ArmFKRequest fkRequest, ServerCallContext context)
         {
             ArmFKSolution sol;
-            if(fkRequest.ArmPosition.Positions.Positions.Count != 7)
+            if (fkRequest.ArmPosition.Positions.Positions.Count != 7)
             {
-                sol = new ArmFKSolution {
-                Success = false,
-                EndEffector = new ArmEndEffector { 
-                    Side = fkRequest.ArmPosition.Side,
-                    Pose = new Reachy.Sdk.Kinematics.Matrix4x4 { Data = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0} },
+                sol = new ArmFKSolution
+                {
+                    Success = false,
+                    EndEffector = new ArmEndEffector
+                    {
+                        Side = fkRequest.ArmPosition.Side,
+                        Pose = new Reachy.Sdk.Kinematics.Matrix4x4 { Data = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } },
                     },
                 };
                 return Task.FromResult(sol);
             }
 
             double[] q = new double[7];
-            for(int i = 0; i < 7; i++)
+            for (int i = 0; i < 7; i++)
             {
                 q[i] = fkRequest.ArmPosition.Positions.Positions[i];
             }
@@ -466,9 +479,11 @@ class JointServiceServer : MonoBehaviour
 
             List<double> listM = new List<double>(M);
 
-            sol = new ArmFKSolution {
+            sol = new ArmFKSolution
+            {
                 Success = true,
-                EndEffector = new ArmEndEffector { 
+                EndEffector = new ArmEndEffector
+                {
                     Side = fkRequest.ArmPosition.Side,
                     Pose = new Reachy.Sdk.Kinematics.Matrix4x4 { Data = { listM } },
                 },
@@ -482,15 +497,18 @@ class JointServiceServer : MonoBehaviour
             ArmIKSolution sol;
 
             double[] M = new double[16];
-            if(ikRequest.Target.Pose.Data.Count != 16)
+            if (ikRequest.Target.Pose.Data.Count != 16)
             {
-                sol = new ArmIKSolution {
+                sol = new ArmIKSolution
+                {
                     Success = false,
-                    ArmPosition = new ArmJointPosition { 
+                    ArmPosition = new ArmJointPosition
+                    {
                         Side = ikRequest.Target.Side,
-                        Positions = new JointPosition { 
-                            Ids = { new Reachy.Sdk.Joint.JointId {} },
-                            Positions = {},
+                        Positions = new JointPosition
+                        {
+                            Ids = { new Reachy.Sdk.Joint.JointId { } },
+                            Positions = { },
                         },
                     },
                 };
@@ -508,7 +526,7 @@ class JointServiceServer : MonoBehaviour
             List<double> listq = new List<double>(q);
 
             List<JointId> listJointIds = new List<JointId>();
-            if(ikRequest.Target.Side == ArmSide.Right)
+            if (ikRequest.Target.Side == ArmSide.Right)
             {
                 listJointIds.Add(new JointId { Name = "r_shoulder_pitch" });
                 listJointIds.Add(new JointId { Name = "r_shoulder_roll" });
@@ -518,7 +536,7 @@ class JointServiceServer : MonoBehaviour
                 listJointIds.Add(new JointId { Name = "r_wrist_pitch" });
                 listJointIds.Add(new JointId { Name = "r_wrist_roll" });
             }
-            else 
+            else
             {
                 listJointIds.Add(new JointId { Name = "l_shoulder_pitch" });
                 listJointIds.Add(new JointId { Name = "l_shoulder_roll" });
@@ -529,11 +547,14 @@ class JointServiceServer : MonoBehaviour
                 listJointIds.Add(new JointId { Name = "l_wrist_roll" });
             }
 
-            sol = new ArmIKSolution {
+            sol = new ArmIKSolution
+            {
                 Success = true,
-                ArmPosition = new ArmJointPosition { 
+                ArmPosition = new ArmJointPosition
+                {
                     Side = ikRequest.Target.Side,
-                    Positions = new JointPosition { 
+                    Positions = new JointPosition
+                    {
                         Ids = { listJointIds },
                         Positions = { listq },
                     },
@@ -551,13 +572,14 @@ class JointServiceServer : MonoBehaviour
             List<uint> ids = new List<uint>();
             List<string> names = new List<string>();
 
-            for(int i = 0; i< reachy.sensors.Length; i++)
+            for (int i = 0; i < reachy.sensors.Length; i++)
             {
                 ids.Add((uint)i);
                 names.Add(reachy.sensors[i].name);
             }
 
-            SensorsId allIds = new SensorsId {
+            SensorsId allIds = new SensorsId
+            {
                 Names = { names },
                 Uids = { ids },
             };
@@ -568,18 +590,19 @@ class JointServiceServer : MonoBehaviour
         public override Task<SensorsState> GetSensorsState(SensorsStateRequest stateRequest, ServerCallContext context)
         {
             var sensors = reachy.GetCurrentSensorsState(stateRequest.Ids);
-            
+
             List<SensorState> listSensorStates = new List<SensorState>();
             List<SensorId> listSensorIds = new List<SensorId>();
             foreach (var item in sensors)
             {
                 var sensorState = new SensorState();
-                sensorState.ForceSensorState = new ForceSensorState{ Force = item.sensor_state };
+                sensorState.ForceSensorState = new ForceSensorState { Force = item.sensor_state };
                 listSensorStates.Add(sensorState);
                 listSensorIds.Add(new SensorId { Name = item.name });
             };
 
-            SensorsState state = new SensorsState {
+            SensorsState state = new SensorsState
+            {
                 Ids = { listSensorIds },
                 States = { listSensorStates },
             };
@@ -596,28 +619,29 @@ class JointServiceServer : MonoBehaviour
                 while (!context.CancellationToken.IsCancellationRequested)
                 {
                     var sensors = reachy.GetCurrentSensorsState(stateRequest.Request.Ids);
-                
+
                     List<SensorState> listSensorStates = new List<SensorState>();
                     List<SensorId> listSensorIds = new List<SensorId>();
                     foreach (var item in sensors)
                     {
                         var sensorState = new SensorState();
-                        sensorState.ForceSensorState = new ForceSensorState{ Force = item.sensor_state };
+                        sensorState.ForceSensorState = new ForceSensorState { Force = item.sensor_state };
                         listSensorStates.Add(sensorState);
                         listSensorIds.Add(new SensorId { Name = item.name });
                     };
 
-                    SensorsState state = new SensorsState {
+                    SensorsState state = new SensorsState
+                    {
                         Ids = { listSensorIds },
                         States = { listSensorStates },
                     };
                     await responseStream.WriteAsync(state);
-                    await Task.Delay(TimeSpan.FromSeconds(1/stateRequest.PublishFrequency), cancellationToken);
+                    await Task.Delay(TimeSpan.FromSeconds(1 / stateRequest.PublishFrequency), cancellationToken);
 
                     cancellationToken.ThrowIfCancellationRequested();
                 }
             }
-            catch(OperationCanceledException e)
+            catch (OperationCanceledException e)
             {
 
             }
@@ -631,13 +655,14 @@ class JointServiceServer : MonoBehaviour
             List<uint> ids = new List<uint>();
             List<string> names = new List<string>();
 
-            for(int i = 0; i< reachy.fans.Length; i++)
+            for (int i = 0; i < reachy.fans.Length; i++)
             {
                 ids.Add((uint)i);
                 names.Add(reachy.fans[i].name);
             }
 
-            FansId allIds = new FansId {
+            FansId allIds = new FansId
+            {
                 Names = { names },
                 Uids = { ids },
             };
@@ -648,7 +673,7 @@ class JointServiceServer : MonoBehaviour
         public override Task<FansState> GetFansState(FansStateRequest fanRequest, ServerCallContext context)
         {
             var fans = reachy.GetCurrentFansState(fanRequest.Ids);
-            
+
             List<FanState> listFanStates = new List<FanState>();
             List<FanId> listFanIds = new List<FanId>();
             foreach (var item in fans)
@@ -659,7 +684,8 @@ class JointServiceServer : MonoBehaviour
                 listFanIds.Add(new FanId { Name = item.name });
             };
 
-            FansState state = new FansState {
+            FansState state = new FansState
+            {
                 Ids = { listFanIds },
                 States = { listFanStates },
             };
@@ -672,7 +698,7 @@ class JointServiceServer : MonoBehaviour
             try
             {
                 Dictionary<FanId, bool> commands = new Dictionary<FanId, bool>();
-                for(int i=0; i<fansCommand.Commands.Count; i++)
+                for (int i = 0; i < fansCommand.Commands.Count; i++)
                 {
                     commands.Add(fansCommand.Commands[i].Id, fansCommand.Commands[i].On);
                 }
@@ -690,7 +716,8 @@ class JointServiceServer : MonoBehaviour
     {
         public override Task<MobileBasePresence> GetMobileBasePresence(Google.Protobuf.WellKnownTypes.Empty empty, ServerCallContext context)
         {
-            MobileBasePresence mobility = new MobileBasePresence {
+            MobileBasePresence mobility = new MobileBasePresence
+            {
                 Presence = false,
             };
 

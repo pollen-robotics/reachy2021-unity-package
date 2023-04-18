@@ -274,7 +274,8 @@ namespace Reachy
 
             if (containNeckCommand)
             {
-                UnityEngine.Quaternion euler_request = UnityEngine.Quaternion.Euler(headOrientation[1], headOrientation[0], -headOrientation[2]);
+                // UnityEngine.Quaternion.Euler(); not working properly here. Creating rotation manually
+                UnityEngine.Quaternion euler_request = UnityEngine.Quaternion.Euler(Vector3.forward * headOrientation[2]) * UnityEngine.Quaternion.Euler(Vector3.up * -headOrientation[0]) * UnityEngine.Quaternion.Euler(Vector3.right * headOrientation[1]);
                 HandleHeadOrientation(euler_request);
             }
         }
