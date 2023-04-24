@@ -383,20 +383,21 @@ class JointServiceServer : MonoBehaviour
                         (float)fullBodyCartesianCommand.Neck.Q.W);
 
                     Vector3 neck_commands = Mathf.Deg2Rad * headRotation.eulerAngles;
+
                     jointCommandList.Add(new JointCommand
                     {
                         Id = new JointId { Name = "neck_roll" },
-                        GoalPosition = (float?)neck_commands[2],
+                        GoalPosition = (float?)ChangeAngleRange(neck_commands[2]),
                     });
                     jointCommandList.Add(new JointCommand
                     {
                         Id = new JointId { Name = "neck_pitch" },
-                        GoalPosition = (float?)neck_commands[0],
+                        GoalPosition = (float?)ChangeAngleRange(neck_commands[0]),
                     });
                     jointCommandList.Add(new JointCommand
                     {
                         Id = new JointId { Name = "neck_yaw" },
-                        GoalPosition = (float?)neck_commands[1],
+                        GoalPosition = -(float?)ChangeAngleRange(neck_commands[1]),
                     });
                 }
 
@@ -446,6 +447,13 @@ class JointServiceServer : MonoBehaviour
                 RightArmCommandSuccess = true,
                 NeckCommandSuccess = true
             });
+        }
+
+        private float ChangeAngleRange(float orbita_angle)
+        {
+            float modified_angle = orbita_angle % (Mathf.Deg2Rad*360);
+            modified_angle = modified_angle > (Mathf.Deg2Rad*180) ? modified_angle - (Mathf.Deg2Rad*360) : modified_angle;
+            return modified_angle;
         }
     }
 
