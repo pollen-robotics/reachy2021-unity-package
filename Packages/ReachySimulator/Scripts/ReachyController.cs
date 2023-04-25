@@ -97,8 +97,8 @@ namespace Reachy
         private Dictionary<string, Fan> name2fan;
         private byte[] leftEyeFrame, rightEyeFrame = null;
 
-        const int resWidth = 960;
-        const int resHeight = 720;
+        const int resWidth = 720;
+        const int resHeight = 960;
 
         Texture2D texture;
 
