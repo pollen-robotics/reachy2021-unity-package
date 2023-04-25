@@ -132,7 +132,7 @@ class JointServiceServer : MonoBehaviour
             }
             catch (OperationCanceledException e)
             {
-
+                Debug.LogWarning(e);
             }
             return (new JointsCommandAck { Success = true });
         }
@@ -306,7 +306,7 @@ class JointServiceServer : MonoBehaviour
             }
             catch (OperationCanceledException e)
             {
-
+                Debug.LogWarning(e);
             }
         }
 
@@ -437,7 +437,7 @@ class JointServiceServer : MonoBehaviour
             }
             catch (OperationCanceledException e)
             {
-
+                Debug.LogWarning(e);
             }
 
             return (new FullBodyCartesianCommandAck
@@ -643,7 +643,7 @@ class JointServiceServer : MonoBehaviour
             }
             catch (OperationCanceledException e)
             {
-
+                Debug.LogWarning(e);
             }
         }
     }
