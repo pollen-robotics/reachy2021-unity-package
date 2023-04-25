@@ -161,7 +161,10 @@ namespace Reachy
                 if (!m.name.StartsWith("neck"))
                 {
                     JointController joint = m.gameObject.GetComponent<JointController>();
-                    joint.RotateTo(m.targetPosition);
+                    if (m.isCompliant)
+                        joint.RotateTo(m.presentPosition);
+                    else
+                        joint.RotateTo(m.targetPosition);
                     joint.IsCompliant(m.isCompliant);
 
                     m.presentPosition = joint.GetPresentPosition();
