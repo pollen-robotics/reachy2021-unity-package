@@ -451,8 +451,8 @@ class JointServiceServer : MonoBehaviour
 
         private float ChangeAngleRange(float orbita_angle)
         {
-            float modified_angle = orbita_angle % (Mathf.Deg2Rad*360);
-            modified_angle = modified_angle > (Mathf.Deg2Rad*180) ? modified_angle - (Mathf.Deg2Rad*360) : modified_angle;
+            float modified_angle = orbita_angle % (2.0f * (float)Math.PI);
+            modified_angle = modified_angle > (float)Math.PI ? modified_angle - (2.0f * (float)Math.PI) : modified_angle;
             return modified_angle;
         }
     }
