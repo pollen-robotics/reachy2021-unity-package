@@ -4,6 +4,7 @@ using UnityEditor;
 using System.Net;
 using System.IO.Compression;
 
+#if UNITY_EDITOR
 public class DownloadTask
 {
     private static string savePath;
@@ -33,3 +34,4 @@ public class DownloadTask
         await Task.Run(() => ZipFile.ExtractToDirectory(savePath, @"Assets/"));
     }
 }
+#endif
