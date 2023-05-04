@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.43927172, g: 0.4875726, b: 0.56781876, a: 1}
+  m_IndirectSpecularColor: {r: 0.43927163, g: 0.4875726, b: 0.5678186, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -210,6 +210,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.05148581, y: 0.06916507, z: 0.061853126}
   m_Center: {x: 0, y: -0.008841158, z: 0.030926563}
+--- !u!54 &21395346
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 21395341}
+  serializedVersion: 2
+  m_Mass: 0.5
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &86149490 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8164078558771037576, guid: 73df82133d3277519a05576c4b2ed5bf, type: 3}
@@ -1218,6 +1234,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.001191912, y: 0.0011919008, z: 0.0010165432}
   m_Center: {x: -0.0000010371732, y: 0.0000044442413, z: 0.0005064056}
+--- !u!54 &1055090590
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1055090585}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1090381266
 GameObject:
   m_ObjectHideFlags: 0
@@ -1452,6 +1484,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.0013831564, y: 0.0018840211, z: 0.0024936472}
   m_Center: {x: 0.00004609354, y: 0.00006857338, z: 0.0012468236}
+--- !u!54 &1330740382
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1330740377}
+  serializedVersion: 2
+  m_Mass: 0.5
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1359840893 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3884292885747824737, guid: 38b5d0ddf75e8d042afa5cc2ae1d948b, type: 3}
