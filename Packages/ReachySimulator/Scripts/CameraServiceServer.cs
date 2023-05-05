@@ -109,7 +109,7 @@ class CameraServiceServer : MonoBehaviour
             }
             catch (OperationCanceledException e)
             {
-
+                Debug.LogWarning(e);
             }
         }
 
