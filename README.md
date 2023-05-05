@@ -5,8 +5,14 @@
 | Title  | [Creatives Commons BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode) |
 | Logo  | [![Creative Commons BY-NC-SA 4.0](https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png) ](http://creativecommons.org/licenses/by-nc-sa/4.0/)  |
 
+Reachy simulator based on Unity 2021. It allows to simply play around with our SDK or the teleoperation app.
 
-## Install the simulator
+## Quick start
+
+Download the zip archive from the [release page](https://github.com/pollen-robotics/Simulator_Reachy2021/releases), and unzip it on a Windows computer. Simply run *Simulator.exe*. The simulator is ready [to be used](#use-your-simulator)!
+
+
+## Install the simulator to your Unity project
 
 1. Download the Unity package available on the [release page](https://github.com/pollen-robotics/Simulator_Reachy2021/releases), or add
 ```
@@ -40,3 +46,5 @@ reachy = ReachySDK(host='localhost') # Replace with the actual IP
 
 - VR teleoperation app
 - Any gRPC client you may create, based on [reachy-sdk-api](https://github.com/pollen-robotics/reachy-sdk-api)
+
+Check out our [Medium article](https://medium.com/pollen-robotics/controlling-a-reachy-robot-in-unity-f3d90d550345) to see the python SDK in action!

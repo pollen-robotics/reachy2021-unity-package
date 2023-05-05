@@ -67,8 +67,8 @@ namespace Reachy
     [System.Serializable]
     public struct SerializableView
     {
-        public string left_eye;
-        public string right_eye;
+        public byte[] left_eye;
+        public byte[] right_eye;
     }
 
     [System.Serializable]
@@ -95,12 +95,17 @@ namespace Reachy
         private Dictionary<string, Motor> name2motor;
         private Dictionary<string, Sensor> name2sensor;
         private Dictionary<string, Fan> name2fan;
-        private string leftEyeFrame, rightEyeFrame;
+        private byte[] leftEyeFrame, rightEyeFrame = null;
 
-        const int resWidth = 960;
-        const int resHeight = 720;
+        const int resWidth = 720;
+        const int resHeight = 960;
 
         Texture2D texture;
+
+        private Rect temp_rect = new Rect(0, 0, resWidth, resHeight);
+
+        //right image not  captured by default
+        private bool enable_right_image = false;
 
         UnityEngine.Quaternion baseHeadRot;
         UnityEngine.Quaternion targetHeadRot;
@@ -109,7 +114,7 @@ namespace Reachy
 
         private ZoomLevel zoomLevelLeft;
         private ZoomLevel zoomLevelRight;
-        private float[] zoomArray = new float[]{1.0f, 40.0f, 70.0f, 100.0f};
+        private float[] zoomArray = new float[] { 1.0f, 40.0f, 70.0f, 100.0f };
 
         void Awake()
         {
@@ -140,8 +145,8 @@ namespace Reachy
 
             leftEye.targetTexture = new RenderTexture(resWidth, resHeight, 0);
             rightEye.targetTexture = new RenderTexture(resWidth, resHeight, 0);
-            zoomLevelLeft = new ZoomLevel{ Level = ZoomLevelPossibilities.Out };
-            zoomLevelRight = new ZoomLevel{ Level = ZoomLevelPossibilities.Out };
+            zoomLevelLeft = new ZoomLevel { Level = ZoomLevelPossibilities.Out };
+            zoomLevelRight = new ZoomLevel { Level = ZoomLevelPossibilities.Out };
             texture = new Texture2D(resWidth, resHeight, TextureFormat.RGB24, false);
             headOrientation = new Vector3(0, 0, 0);
             baseHeadRot = head.transform.localRotation;
@@ -153,10 +158,14 @@ namespace Reachy
             {
                 Motor m = motors[i];
 
-                if(!m.name.StartsWith("neck"))
+                if (!m.name.StartsWith("neck"))
                 {
                     JointController joint = m.gameObject.GetComponent<JointController>();
-                    joint.RotateTo(m.targetPosition);
+                    if (m.isCompliant)
+                        joint.RotateTo(m.presentPosition);
+                    else
+                        joint.RotateTo(m.targetPosition);
+                    joint.IsCompliant(m.isCompliant);
 
                     m.presentPosition = joint.GetPresentPosition();
                 }
@@ -174,31 +183,39 @@ namespace Reachy
                 s.currentState = fSensor.currentForce;
             }
 
-           UpdateHeadOrientation();
-           UpdateCameraData();
-           UpdateCameraZoom();
+            UpdateHeadOrientation();
+            UpdateCameraZoom();
         }
 
+
+        void LateUpdate()
+        {
+            UpdateCameraData();
+        }
 
         void UpdateCameraData()
-        {           
+        {
             leftEyeFrame = GetEyeRawTextureData(leftEye);
-            rightEyeFrame = GetEyeRawTextureData(rightEye);
+            if (enable_right_image)
+                rightEyeFrame = GetEyeRawTextureData(rightEye);
         }
 
-        string GetEyeRawTextureData(UnityEngine.Camera camera)
+        public void EnableRightImage()
+        {
+            enable_right_image = true;
+        }
+
+        byte[] GetEyeRawTextureData(UnityEngine.Camera camera)
         {
             RenderTexture.active = camera.targetTexture;
-            texture.ReadPixels(new Rect(0, 0, resWidth, resHeight), 0, 0);
-            texture.Apply();
-
-            return Convert.ToBase64String(texture.EncodeToJPG());
+            texture.ReadPixels(temp_rect, 0, 0);
+            return texture.EncodeToJPG();
         }
 
         void SetMotorTargetPosition(string motorName, float targetPosition)
         {
             targetPosition += name2motor[motorName].offset;
-            if(!name2motor[motorName].isDirect)
+            if (!name2motor[motorName].isDirect)
             {
                 targetPosition *= -1;
             }
@@ -212,7 +229,7 @@ namespace Reachy
 
         void SetFanState(string fanName, bool targetState)
         {
-            if(fanName != "neck_fan")
+            if (fanName != "neck_fan")
             {
                 name2fan[fanName].state = targetState;
             }
@@ -221,10 +238,10 @@ namespace Reachy
         public void HandleCommand(Dictionary<JointId, float> commands)
         {
             bool containNeckCommand = false;
-            foreach(KeyValuePair<JointId, float> kvp in commands )
+            foreach (KeyValuePair<JointId, float> kvp in commands)
             {
                 string motorName;
-                switch(kvp.Key.IdCase)
+                switch (kvp.Key.IdCase)
                 {
                     case JointId.IdOneofCase.Name:
                         motorName = kvp.Key.Name;
@@ -236,42 +253,43 @@ namespace Reachy
                         motorName = kvp.Key.Name;
                         break;
                 }
-                if(!name2motor[motorName].isCompliant) 
+                if (!name2motor[motorName].isCompliant)
                 {
                     SetMotorTargetPosition(motorName, kvp.Value);
                 }
-                
 
-                if(motorName == "neck_roll")
+
+                if (motorName == "neck_roll")
                 {
                     containNeckCommand = true;
                     headOrientation[0] = kvp.Value;
                 }
-                if(motorName == "neck_pitch")
+                if (motorName == "neck_pitch")
                 {
                     containNeckCommand = true;
                     headOrientation[1] = kvp.Value;
                 }
-                if(motorName == "neck_yaw")
+                if (motorName == "neck_yaw")
                 {
                     containNeckCommand = true;
-                    headOrientation[2] = kvp.Value;
+                    headOrientation[2] = -kvp.Value;
                 }
             }
-           
-            if(containNeckCommand) 
+
+            if (containNeckCommand)
             {
-                UnityEngine.Quaternion euler_request = UnityEngine.Quaternion.Euler(headOrientation[1], headOrientation[0], -headOrientation[2]);
+                // UnityEngine.Quaternion.Euler(); not working properly here. Creating rotation manually
+                UnityEngine.Quaternion euler_request = UnityEngine.Quaternion.Euler(Vector3.forward * headOrientation[2]) * UnityEngine.Quaternion.Euler(Vector3.up * -headOrientation[0]) * UnityEngine.Quaternion.Euler(Vector3.right * headOrientation[1]);
                 HandleHeadOrientation(euler_request);
             }
         }
 
         public void HandleCompliancy(Dictionary<JointId, bool> commands)
         {
-            foreach(KeyValuePair<JointId, bool> kvp in commands )
+            foreach (KeyValuePair<JointId, bool> kvp in commands)
             {
                 string motorName;
-                switch(kvp.Key.IdCase)
+                switch (kvp.Key.IdCase)
                 {
                     case JointId.IdOneofCase.Name:
                         motorName = kvp.Key.Name;
@@ -289,10 +307,10 @@ namespace Reachy
 
         public void HandleFanCommand(Dictionary<FanId, bool> commands)
         {
-            foreach(KeyValuePair<FanId, bool> kvp in commands )
+            foreach (KeyValuePair<FanId, bool> kvp in commands)
             {
                 string fanName;
-                switch(kvp.Key.IdCase)
+                switch (kvp.Key.IdCase)
                 {
                     case FanId.IdOneofCase.Name:
                         fanName = kvp.Key.Name;
@@ -311,20 +329,20 @@ namespace Reachy
         public List<SerializableMotor> GetCurrentMotorsState(Dictionary<JointId, JointField> request)
         {
             List<SerializableMotor> motorsList = new List<SerializableMotor>();
-            foreach(KeyValuePair<JointId, JointField> kvp in request )
+            foreach (KeyValuePair<JointId, JointField> kvp in request)
             {
                 Motor m;
                 float position;
                 float target_position;
                 bool compliancy;
-                switch(kvp.Key.IdCase)
+                switch (kvp.Key.IdCase)
                 {
                     case JointId.IdOneofCase.Name:
                         m = name2motor[kvp.Key.Name];
                         position = m.presentPosition;
                         target_position = m.targetPosition;
                         compliancy = m.isCompliant;
-                        if(!name2motor[kvp.Key.Name].isDirect)
+                        if (!name2motor[kvp.Key.Name].isDirect)
                         {
                             position *= -1;
                             target_position *= -1;
@@ -337,7 +355,7 @@ namespace Reachy
                         position = m.presentPosition;
                         target_position = m.targetPosition;
                         compliancy = m.isCompliant;
-                        if(!motors[kvp.Key.Uid].isDirect)
+                        if (!motors[kvp.Key.Uid].isDirect)
                         {
                             position *= -1;
                             target_position *= -1;
@@ -350,7 +368,7 @@ namespace Reachy
                         position = m.presentPosition;
                         target_position = m.targetPosition;
                         compliancy = m.isCompliant;
-                        if(!name2motor[kvp.Key.Name].isDirect)
+                        if (!name2motor[kvp.Key.Name].isDirect)
                         {
                             position *= -1;
                             target_position *= -1;
@@ -359,7 +377,7 @@ namespace Reachy
                         target_position -= name2motor[kvp.Key.Name].offset;
                         break;
                 }
-                motorsList.Add(new SerializableMotor() { name=m.name, uid = m.uid, present_position=Mathf.Deg2Rad*position, goal_position=Mathf.Deg2Rad*target_position, isCompliant = compliancy});
+                motorsList.Add(new SerializableMotor() { name = m.name, uid = m.uid, present_position = Mathf.Deg2Rad * position, goal_position = Mathf.Deg2Rad * target_position, isCompliant = compliancy });
             }
             return motorsList;
         }
@@ -368,9 +386,9 @@ namespace Reachy
         {
             List<Sensor> sensorRequest = new List<Sensor>();
 
-            foreach(var sensor in request)
+            foreach (var sensor in request)
             {
-                switch(sensor.IdCase)
+                switch (sensor.IdCase)
                 {
                     case SensorId.IdOneofCase.Name:
                         sensorRequest.Add(name2sensor[sensor.Name]);
@@ -383,10 +401,10 @@ namespace Reachy
 
             List<SerializableSensor> sensorsList = new List<SerializableSensor>();
 
-            foreach(var sensor in sensorRequest)
+            foreach (var sensor in sensorRequest)
             {
                 float state = sensor.currentState;
-                sensorsList.Add(new SerializableSensor() { name=sensor.name,  sensor_state=state});
+                sensorsList.Add(new SerializableSensor() { name = sensor.name, sensor_state = state });
             }
 
             return sensorsList;
@@ -396,9 +414,9 @@ namespace Reachy
         {
             List<Fan> fanRequest = new List<Fan>();
 
-            foreach(var fan in request)
+            foreach (var fan in request)
             {
-                switch(fan.IdCase)
+                switch (fan.IdCase)
                 {
                     case FanId.IdOneofCase.Name:
                         fanRequest.Add(name2fan[fan.Name]);
@@ -411,10 +429,10 @@ namespace Reachy
 
             List<SerializableFan> fansList = new List<SerializableFan>();
 
-            foreach(var fan in fanRequest)
+            foreach (var fan in fanRequest)
             {
                 bool state = fan.state;
-                fansList.Add(new SerializableFan() { name=fan.name,  fan_state=state});
+                fansList.Add(new SerializableFan() { name = fan.name, fan_state = state });
             }
 
             return fansList;
@@ -422,10 +440,11 @@ namespace Reachy
 
         public SerializableView GetCurrentView()
         {
-            
-            SerializableView currentView = new SerializableView() { 
-                left_eye=leftEyeFrame,
-                right_eye=rightEyeFrame,
+
+            SerializableView currentView = new SerializableView()
+            {
+                left_eye = leftEyeFrame,
+                right_eye = rightEyeFrame,
             };
 
             return currentView;
@@ -443,7 +462,7 @@ namespace Reachy
 
         public void HandleCameraZoom(CameraId id, ZoomLevelPossibilities zoomLevel)
         {
-            if(id == CameraId.Left)
+            if (id == CameraId.Left)
             {
                 zoomLevelLeft.Level = zoomLevel;
             }
@@ -455,7 +474,7 @@ namespace Reachy
 
         public ZoomLevel GetCameraZoom(CameraId id)
         {
-             if(id == CameraId.Left)
+            if (id == CameraId.Left)
             {
                 return zoomLevelLeft;
             }
@@ -467,14 +486,14 @@ namespace Reachy
 
         void UpdateCameraZoom()
         {
-            foreach(UnityEngine.Camera camera in UnityEngine.Camera.allCameras)
+            foreach (UnityEngine.Camera camera in UnityEngine.Camera.allCameras)
             {
-                if(camera.name == "Right Camera")
+                if (camera.name == "Right Camera")
                 {
                     camera.fieldOfView = zoomArray[(int)zoomLevelRight.Level];
                 }
 
-                if(camera.name == "Left Camera")
+                if (camera.name == "Left Camera")
                 {
                     camera.fieldOfView = zoomArray[(int)zoomLevelLeft.Level];
                 }

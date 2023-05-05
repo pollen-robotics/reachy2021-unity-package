@@ -52,22 +52,28 @@ class CameraServiceServer : MonoBehaviour
     public class CameraServiceImpl : CameraService.CameraServiceBase
     {
 
-        private ZoomLevel zoomLevelLeft = new ZoomLevel{ Level = ZoomLevelPossibilities.Out };
-        private ZoomLevel zoomLevelRight = new ZoomLevel{ Level = ZoomLevelPossibilities.Out };
+        private ZoomLevel zoomLevelLeft = new ZoomLevel { Level = ZoomLevelPossibilities.Out };
+        private ZoomLevel zoomLevelRight = new ZoomLevel { Level = ZoomLevelPossibilities.Out };
         public override Task<Image> GetImage(ImageRequest request, ServerCallContext context)
         {
             var state = reachy.GetCurrentView();
-            string image;
-            if(request.Camera.Id == CameraId.Left)
+            byte[] image;
+            if (request.Camera.Id == CameraId.Left)
             {
                 image = state.left_eye;
             }
             else
             {
-                image = state.right_eye;
+                if (state.right_eye == null)
+                {
+                    reachy.EnableRightImage();
+                    image = state.left_eye;
+                }
+                else
+                    image = state.right_eye;
             }
 
-            return Task.FromResult(new Image { Data = Google.Protobuf.ByteString.FromBase64(image) });
+            return Task.FromResult(new Image { Data = Google.Protobuf.ByteString.CopyFrom(image) });
         }
 
         public override async Task StreamImage(StreamImageRequest imageRequest, Grpc.Core.IServerStreamWriter<Image> responseStream, ServerCallContext context)
@@ -79,31 +85,37 @@ class CameraServiceServer : MonoBehaviour
                 while (!context.CancellationToken.IsCancellationRequested)
                 {
                     var state = reachy.GetCurrentView();
-                    string image;
-                    if(imageRequest.Request.Camera.Id == CameraId.Left)
+                    byte[] image;
+                    if (imageRequest.Request.Camera.Id == CameraId.Left)
                     {
                         image = state.left_eye;
                     }
                     else
                     {
-                        image = state.right_eye;
+                        if (state.right_eye == null)
+                        {
+                            reachy.EnableRightImage();
+                            image = state.left_eye;
+                        }
+                        else
+                            image = state.right_eye;
                     }
 
-                    await responseStream.WriteAsync(new Image { Data = Google.Protobuf.ByteString.FromBase64(image) });
+                    await responseStream.WriteAsync(new Image { Data = Google.Protobuf.ByteString.CopyFrom(image) });
                     await Task.Delay(30, context.CancellationToken);
 
                     cancellationToken.ThrowIfCancellationRequested();
                 }
             }
-            catch(OperationCanceledException e)
+            catch (OperationCanceledException e)
             {
-
+                Debug.LogWarning(e);
             }
         }
 
         public override Task<ZoomCommandAck> SendZoomCommand(ZoomCommand zoomCommand, ServerCallContext context)
         {
-            switch(zoomCommand.CommandCase)
+            switch (zoomCommand.CommandCase)
             {
                 case ZoomCommand.CommandOneofCase.None:
                     return Task.FromResult(new ZoomCommandAck { Success = false });

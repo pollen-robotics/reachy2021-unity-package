@@ -8,6 +8,8 @@ public class JointController : MonoBehaviour
     private bool changed;
     private ArticulationBody articulation;
 
+    private bool compliant = false;
+
     void Start()
     {
         articulation = GetComponent<ArticulationBody>();
@@ -19,6 +21,7 @@ public class JointController : MonoBehaviour
         {
             var drive = articulation.xDrive;
             drive.target = targetPosition;
+            drive.stiffness = compliant ? 0 : 1000;
             articulation.xDrive = drive;
 
             changed = false;
@@ -28,6 +31,12 @@ public class JointController : MonoBehaviour
     public void RotateTo(float newTargetPosition)
     {
         targetPosition = newTargetPosition;
+        changed = true;
+    }
+
+    public void IsCompliant(bool comp)
+    {
+        compliant = comp;
         changed = true;
     }
 
