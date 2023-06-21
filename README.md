@@ -43,6 +43,7 @@ from reachy_sdk import ReachySDK
 
 reachy = ReachySDK(host='localhost') # Replace with the actual IP
 ``` 
+**Use the SDK version 0.5.4**. Later versions are for Reachy 2023. ``` pip install reachy-sdk==0.5.4```
 
 - VR teleoperation app
 - Any gRPC client you may create, based on [reachy-sdk-api](https://github.com/pollen-robotics/reachy-sdk-api)
