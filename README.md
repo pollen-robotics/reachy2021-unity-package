@@ -25,9 +25,10 @@ to the Package Manager (add package from git URL).
 
 ## Create your own simulator
 
-1. Create a new 3D Unity project (or open an existing one)
-2. Drag and drop Reachy and the Server from the Prefabs folder into your scene.
-3. Then click Play and start controlling the robot.
+1. Create a new 3D Unity project (or open an existing one).
+2. Follow the previous installation steps to add the package to your project.
+3. Drag and drop Reachy and the Server from the Prefabs folder into your scene.
+4. Then click Play and start controlling the robot.
 
 You can create your own scene and environment for Reachy to evolve in!
 
